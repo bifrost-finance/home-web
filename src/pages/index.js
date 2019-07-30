@@ -98,12 +98,12 @@ export default () => {
 
           <Feature
             icon={featureicon1}
-            title="提供 Stake 流动性"
-            description="无需锁仓获得 Stake 收益，撮合 Stake 与 UnStake 用户自由交易，贴现 UnStake 无需等待，立即完成赎回。"
+            title="Stake 流动性"
+            description="无需锁仓获得 Stake 收益，撮合 Stake 与 UnStake 用户自由交易，实现 UnStake 无需等待，立即赎回。"
           />
           <Feature
             icon={featureicon2}
-            title="降低 Stake 门槛"
+            title="Stake 低门槛"
             description="通过 Stake Token 购买、资产充值跨链等方式完成 Stake，无需学习 Stake 操作及奖惩规则。"
           />
           <Feature
@@ -144,7 +144,7 @@ export default () => {
           <View as={"span"} color={color.black} weight={"bold"}>
             Bifrost 从底层营造 Stake 增益环境
           </View>
-          ，为基于 Bifrost 开发的 Dapp、Dex、DeFi 等项目提供跨链能力的同时，附带
+          ，为基于 Bifrost 开发的 Dapp、DEX、DeFi 等项目提供跨链能力的同时，附带
           Stake 增益属性使生态更具竞争力。
         </View>
       </Flex>
