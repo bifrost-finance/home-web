@@ -11,7 +11,9 @@ import PropTypes from "prop-types"
 import "./clear.css"
 
 const Layout = ({ children }) => {
-  return <main>{children}</main>
+  return (
+    <main style={{ maxWidth: "1440px", margin: "0 auto" }}>{children}</main>
+  )
 }
 
 Layout.propTypes = {

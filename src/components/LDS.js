@@ -21,6 +21,8 @@ export const color = {
   white: "white",
   transparent: "transparent",
 
+  bifrost: "hsl(226, 100%, 38%)",
+  bifrostRed: "hsl(2, 80%, 65%)",
   navy: "hsl(217, 97%, 13%)",
   blue: "hsl(211, 100%, 50%)",
   green: "hsl(135, 58%, 49%)",
