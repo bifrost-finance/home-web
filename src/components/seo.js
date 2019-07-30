@@ -33,6 +33,7 @@ function SEO({ description, lang, meta, title }) {
         lang,
       }}
       title={title}
+      defaultTitle={site.siteMetadata.title}
       titleTemplate={`%s | ${site.siteMetadata.title}`}
       meta={[
         {
@@ -73,7 +74,7 @@ function SEO({ description, lang, meta, title }) {
 }
 
 SEO.defaultProps = {
-  lang: `en`,
+  lang: `zh-CN`,
   meta: [],
   description: ``,
 }
