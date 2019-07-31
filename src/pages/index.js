@@ -162,12 +162,12 @@ export default () => {
             <Flex column gap={[3, 6]}>
               <Feature
                 icon={featureicon1}
-                title="提供 Stake 流动性"
-                description="无需锁仓获得 Stake 收益，撮合 Stake 与 UnStake 用户自由交易，贴现 UnStake 无需等待，立即完成赎回。"
+                title="Stake 流动性"
+                description="无需锁仓获得 Stake 收益，撮合 Stake 与 UnStake 用户自由交易，实现 UnStake 无需等待，立即赎回。"
               />
               <Feature
                 icon={featureicon2}
-                title="降低 Stake 门槛"
+                title="Stake 低门槛"
                 description="通过 Stake Token 购买、资产充值跨链等方式完成 Stake，无需学习 Stake 操作及奖惩规则。"
               />
               <Feature
