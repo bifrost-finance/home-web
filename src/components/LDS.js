@@ -328,7 +328,6 @@ export const View = styled.div`
       svg {
         fill: ${p => p.color && (p.color.hover && p.color.hover)};
       }
-
       border: ${p => p.b && (p.b.hover && "1px solid " + p.b.hover)};
       border-top: ${p => calcBorderOneSideHover(p.bt, p.by)};
       border-right: ${p => calcBorderOneSideHover(p.br, p.bx)};

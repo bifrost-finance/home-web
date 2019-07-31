@@ -43,7 +43,7 @@ export default () => {
           hover: color.bifrost,
         }}
       >
-        <Flex aic gap={1}>
+        <Flex aic gap={0.75}>
           <SVG
             svg={plus}
             fill={partnerTitle === title ? color.white : color.black}
