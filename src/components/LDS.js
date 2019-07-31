@@ -1,4 +1,4 @@
-/* Linci Design System (beta) v2.2 update: 25-07-2019 */
+/* Linci Design System (beta) v2.3.1 update: 31-07-2019 */
 
 import React from "react"
 import PropTypes from "prop-types"
@@ -325,6 +325,9 @@ export const View = styled.div`
       color: ${p => p.color && (p.color.hover && p.color.hover)};
       background: ${p => p.bg && (p.bg.hover && p.bg.hover)};
       box-shadow: ${p => p.s && (p.s.hover && p.s.hover)};
+      svg {
+        fill: ${p => p.color && (p.color.hover && p.color.hover)};
+      }
 
       border: ${p => p.b && (p.b.hover && "1px solid " + p.b.hover)};
       border-top: ${p => calcBorderOneSideHover(p.bt, p.by)};
@@ -498,7 +501,7 @@ const calcNumberOrCustom = (prop, device) =>
     : null
 
 const calc1or2Side = (prop, axis, device) =>
-  prop
+  prop || prop === 0
     ? typeof prop === "object"
       ? prop[device] &&
         (typeof prop[device] === "number" ? prop[device] + "em" : prop[device])
@@ -777,7 +780,7 @@ export const Flex = styled(View)`
       (p.flexWrap &&
         (typeof p.gap === "number"
           ? "-" + p.gap + "em"
-          : "-" + p.gap[0] && p.gap[0] + "em"))};
+          : p.gap[0] && "-" + p.gap[0] + "em"))};
   `}
   ${desktop`
     > * {
@@ -788,7 +791,7 @@ export const Flex = styled(View)`
       (p.flexWrap &&
         (typeof p.gap === "number"
           ? "-" + p.gap + "em"
-          : "-" + p.gap[1] && p.gap[1] + "em"))};
+          : p.gap[1] && "-" + p.gap[1] + "em"))};
   `}
 
   > *:not(:last-child) {

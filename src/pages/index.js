@@ -1,137 +1,201 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
+import styled from "styled-components"
 import { AnimatePresence, motion } from "framer-motion"
 import Layout from "../components/Layout"
 import SEO from "../components/SEO"
-import {
-  View,
-  SVG,
-  color,
-  Flex,
-  shadow,
-  radius,
-  IMG,
-  ModalView,
-} from "../components/LDS"
-import { lighten, darken } from "polished"
+import { View, SVG, color, Flex, shadow, radius } from "../components/LDS"
+import { darken } from "polished"
 
 import cover from "../images/whitepapercover.png"
 import system from "../images/system.png"
 
 export default () => {
+  const [partnerTitle, setpPartnerTitle] = useState()
+  const [partnerExplain, setpPartnerExplain] = useState()
+
+  const PartnerScrollHeightRef = useRef(null)
+
+  const Partner = ({ title, explain }) => (
+    <View>
+      <View
+        pointer
+        scale={1}
+        p={1.25}
+        pr={1.5}
+        onClick={() => {
+          if (partnerTitle === title) {
+            setpPartnerTitle()
+            setpPartnerExplain()
+          } else {
+            setpPartnerTitle(title)
+            setpPartnerExplain(explain)
+            window.scrollTo(0, PartnerScrollHeightRef.current.offsetTop - 182)
+          }
+        }}
+        r={radius.pill}
+        color={{
+          normal: partnerTitle === title ? color.white : null,
+          hover: color.white,
+        }}
+        weight={"bold"}
+        bg={{
+          normal: partnerTitle === title ? color.bifrost : color.gray6,
+          hover: color.bifrost,
+        }}
+      >
+        <Flex aic gap={1}>
+          <SVG
+            svg={plus}
+            fill={partnerTitle === title ? color.white : color.black}
+            style={{
+              transform: partnerTitle === title ? "rotate(45deg)" : "rotate(0)",
+            }}
+          />
+          <span>{title}</span>
+        </Flex>
+      </View>
+    </View>
+  )
+
   return (
     <Layout>
       <SEO title="" />
-      <View p={[2, 4]} h={["75vh", "100vh"]} position={"relative"}>
-        <SVG svg={logo} scale={3} />
-        <View scale={3} weight={"bold"} mt={1.5} paragraph>
-          为 Stake 设计的去中心化跨链网络
-        </View>
 
-        <View position={"absolute"} bottom={[2, 4]}>
-          <View scale={0}>
-            <Flex aic>
-              <SVG svg={more} scale={3} withText />
-              了解更多
-            </Flex>
+      <MaxFrame>
+        <View p={[2, 4]} h={["65vh", "100vh"]} position={"relative"}>
+          <Flex
+            jcsb
+            position={"absolute"}
+            z={-1}
+            top={0}
+            right={0}
+            bottom={0}
+            left={0}
+          >
+            <MotionLine duration={18} />
+            <MotionLine duration={14} />
+            <MotionLine duration={12} highlight={color.bifrostRed} />
+            <MotionLine duration={16} />
+            <MotionLine duration={12} />
+            <MotionLine duration={8} highlight={color.bifrost} />
+            <MotionLine duration={16} />
+            <MotionLine duration={12} />
+            <MotionLine duration={16} />
+            <MotionLine duration={14} />
+          </Flex>
+          <SVG svg={logo} scale={3} />
+          <View scale={3} weight={"bold"} mt={1.5} paragraph>
+            为 Stake 设计的去中心化跨链网络
+          </View>
+
+          <View position={"absolute"} bottom={[2, 4]}>
+            <View scale={0}>
+              <Flex aic>
+                <SVG svg={more} scale={3} withText />
+                了解更多
+              </Flex>
+            </View>
           </View>
         </View>
-      </View>
+      </MaxFrame>
 
-      <Flex childFlex={1} gap={4} responsive>
-        <View p={[1.5, 4]}>
-          <View
-            p={[1, 2]}
-            color={color.white}
-            bg={color.bifrost}
-            r={radius.lg}
-            position={"sticky"}
-            top={4}
-            w={["100%", 30]}
-          >
-            <Flex jcsb gap={1}>
-              <Flex jcsb column p={[0.5, 1]}>
-                <View>
-                  <View scale={2} mb={0.5} weight={"bold"}>
-                    白皮书
+      <MaxFrame>
+        <Flex childFlex={1} gap={[1, 2]} responsive>
+          <View p={[1.5, 4]}>
+            <View
+              p={[1, 2]}
+              color={color.white}
+              bg={color.bifrost}
+              r={radius.lg}
+              position={"sticky"}
+              top={4}
+              w={["100%", 30]}
+            >
+              <Flex jcsb gap={1}>
+                <Flex jcsb column p={[0.5, 1]}>
+                  <View>
+                    <View scale={2} mb={0.5} weight={"bold"}>
+                      白皮书
+                    </View>
+                    <View o={0.5}>v0.2</View>
                   </View>
-                  <View o={0.5}>v0.2</View>
-                </View>
+                  <View
+                    display={"inline"}
+                    flex={"none"}
+                    bg={{
+                      normal: color.white,
+                      hover: darken(0.1, color.white),
+                    }}
+                    style={{ alignSelf: "start" }}
+                    px={1}
+                    py={0.75}
+                    color={color.bifrost}
+                    r={radius.pill}
+                    pointer
+                    weight={"bold"}
+                  >
+                    <Flex aic>
+                      <SVG svg={download} fill={color.bifrost} withText />
+                      <span>下载</span>
+                    </Flex>
+                  </View>
+                </Flex>
+
                 <View
-                  display={"inline"}
-                  flex={"none"}
-                  bg={{
-                    normal: color.white,
-                    hover: darken(0.1, color.white),
-                  }}
-                  style={{ alignSelf: "start" }}
-                  px={1}
-                  py={0.75}
-                  color={color.bifrost}
-                  r={radius.pill}
-                  pointer
-                  weight={"bold"}
+                  r={radius.md}
+                  b={color.gray6}
+                  s={shadow.xl}
+                  overflow={"hidden"}
+                  h={[12, 16]}
                 >
-                  <Flex aic>
-                    <SVG svg={download} fill={color.bifrost} withText />
-                    <span>下载</span>
-                  </Flex>
+                  <img src={cover} height="100%" alt="白皮书" />
                 </View>
               </Flex>
+            </View>
+          </View>
 
-              <View
-                r={radius.md}
-                b={color.gray6}
-                s={shadow.xl}
-                overflow={"hidden"}
-                h={[12, 16]}
-              >
-                <img src={cover} height="100%" />
-              </View>
+          <View p={[2, 4]} my={[null, 6]}>
+            <View scale={3} mb={[1.5, 2]} weight={"bold"}>
+              什么是 Bifrost？
+            </View>
+
+            <Flex column gap={[3, 6]}>
+              <Feature
+                icon={featureicon1}
+                title="提供 Stake 流动性"
+                description="无需锁仓获得 Stake 收益，撮合 Stake 与 UnStake 用户自由交易，贴现 UnStake 无需等待，立即完成赎回。"
+              />
+              <Feature
+                icon={featureicon2}
+                title="降低 Stake 门槛"
+                description="通过 Stake Token 购买、资产充值跨链等方式完成 Stake，无需学习 Stake 操作及奖惩规则。"
+              />
+              <Feature
+                icon={featureicon3}
+                title="跨链资产增益"
+                description="资产跨链给原链资产提供更多能力扩展的同时获得 Stake 收益。"
+              />
+              <Feature
+                icon={featureicon4}
+                title="开发者赋能"
+                description="基于 Bifrost 构建的钱包、矿池、Dapp、DeFi 等多种生态从底层获得 Stake 增益赋能。"
+              />
             </Flex>
           </View>
-        </View>
-
-        <View p={[2, 4]}>
-          <View scale={3} weight={"bold"}>
-            什么是 Bifrost？
-          </View>
-
-          <Feature
-            icon={featureicon1}
-            title="提供 Stake 流动性"
-            description="无需锁仓获得 Stake 收益，撮合 Stake 与 UnStake 用户自由交易，贴现 UnStake 无需等待，立即完成赎回。"
-          />
-          <Feature
-            icon={featureicon2}
-            title="降低 Stake 门槛"
-            description="通过 Stake Token 购买、资产充值跨链等方式完成 Stake，无需学习 Stake 操作及奖惩规则。"
-          />
-          <Feature
-            icon={featureicon3}
-            title="跨链资产增益"
-            description="资产跨链给原链资产提供更多能力扩展的同时获得 Stake 收益。"
-          />
-          <Feature
-            icon={featureicon4}
-            title="开发者赋能"
-            description="基于 Bifrost 构建的钱包、矿池、Dapp、DeFi 等多种生态从底层获得 Stake 增益赋能。"
-          />
-        </View>
-      </Flex>
+        </Flex>
+      </MaxFrame>
 
       <Flex childFlex={1}>
-        <View
-          m={[1.5, 2]}
-          p={[3, 6]}
-          bg={color.gray6}
-          r={radius.lg}
-          align={"center"}
-        >
+        <View p={[4, 8]} bg={color.gray6} align={"center"}>
           <View scale={2} mb={1.5} weight={"bold"}>
             Bifrost 系统架构
           </View>
           <View h={[null, 30]}>
-            <img src={system} style={{ maxWidth: "100%", maxHeight: "100%" }} />
+            <img
+              src={system}
+              style={{ maxWidth: "100%", maxHeight: "100%" }}
+              alt=""
+            />
           </View>
           <View mt={[2, 4]} align={"center"} color={color.gray}>
             （白皮书 第 5 页）
@@ -139,139 +203,222 @@ export default () => {
         </View>
       </Flex>
 
-      <Flex childFlex={1} p={[5, 20]} jcc aic h={"75vh"}>
-        <View color={color.gray} scale={2} paragraph>
+      <MaxFrame>
+        <View color={color.gray} scale={2} m={[4, 8]} paragraph>
           <View as={"span"} color={color.black} weight={"bold"}>
             Bifrost 从底层营造 Stake 增益环境
           </View>
-          ，为基于 Bifrost 开发的 Dapp、Dex、DeFi 等项目提供跨链能力的同时，附带
+          ，为基于 Bifrost 开发的 Dapp、DEX、DeFi 等项目提供跨链能力的同时，附带
           Stake 增益属性使生态更具竞争力。
         </View>
-      </Flex>
+      </MaxFrame>
 
-      <View p={[2, 4]}>
-        <View scale={3} weight={"bold"}>
-          参与方
-        </View>
-
-        <Flex my={4} gap={[1, 1.5]} flexWrap={"wrap"}>
-          <Partner
-            title="跨链用户"
-            description="将 PoS 资产跨链，无需锁仓获得 Stake 收益，随时赎回原资产与 Stake 收益，参与 BNC 挖矿与波卡平行链生态。"
-          />
-          <Partner
-            title="投票用户"
-            description="使用 BNC 参与出块节点、同步节点、Stake 代理节点投票，与资产 Stake 选择跨链目标节点提供决策，获得节点投票奖励同时需承担节点掉线或作恶惩罚。"
-          />
-          <Partner
-            title="出块节点"
-            description="总得票数前 1000 名的节点，负责全链⽤户交易的记账处理和打包出块，获得用户投票收益的 10%。"
-          />
-          <Partner
-            title="同步节点"
-            description="总得票数排名靠后的其余节点，负责搭建同步节点接收交易和⼴播数据，将获得与出块节点相同⽐例的收益。"
-          />
-          <Partner
-            title="Stake 代理节点"
-            description="满足出块节点条件，在多个 Stake 目标链均搭建节点，负责接受托管资产的 Stake 代理，是综合实力较强的多链专业节点。"
-          />
-          <Partner
-            title="Stake DEX"
-            description="给 Stake 资产提供流动性，撮合 Stake 与 UnStake 用户交易，Stake 用户赚取 UnStake 立即赎回用户的贴现收益。"
-          />
-          <Partner
-            title="跨链渠道"
-            description="各类矿池、钱包和社区开发人员帮助用户进行资产跨链、无需锁仓 Stake，渠道方可获得用户 Stake 收益抽成。"
-          />
-          <Partner
-            title="开发社区"
-            description="开发者可以基于 Bifrost 底层，开发矿池、Dapp、DeFi 等应用，满足原业务诉求的同时，获得 Stake 增益。"
-          />
-        </Flex>
-      </View>
-
-      <View p={[2, 4]}>
-        <View scale={3} weight={"bold"}>
-          路线图
-        </View>
-
-        <Quarter
-          title="Bifrost Orlog 奥尔劳格"
-          year="2019"
-          quarter="Q3"
-          content={[
-            "测试网 POC-1 & POC-2",
-            "运行时模块开发 - 链上实时清结算",
-            "转接桥轻节点",
-            "钱包",
-          ]}
-        />
-        <Quarter
-          title="Bifrost Asgard 阿斯加德"
-          year="2019"
-          quarter="Q4"
-          content={[
-            "测试网 POC-3 & POC-4",
-            "支持首条 PoS 资产互操作跨链转接桥",
-            "主网上线",
-            "区块浏览器",
-          ]}
-        />
-        <Quarter
-          title="Bifrost Midgard 米德加尔特"
-          year="2020"
-          quarter="Q1"
-          content={[
-            "上线 DEX",
-            "开发者工具 & SDK",
-            "支持多条 PoS 资产互操作跨链转接桥",
-            "接入 Polkadot 中继网络",
-          ]}
-        />
-        <Quarter
-          title="Bifrost Heimdallr 海姆达尔"
-          year="2020"
-          quarter="Q3"
-          content={["开放的去中心化跨链 Stake 经济系统"]}
-        />
-      </View>
-
-      <Flex p={[2, 4]} aic h={"75vh"}>
-        <View scale={3}>
-          <View color={color.black} weight={"bold"} paragraph>
-            我们很高兴认识新的朋友
+      <MaxFrame>
+        <View p={[2, 4]} my={[2, 4]} mb={0}>
+          <View scale={3} mb={1.5} weight={"bold"}>
+            参与方
           </View>
-          <View color={color.bifrostRed} paragraph>
-            mail@bifrost.codes
+
+          <Flex gap={[1, 1.5]} flexWrap ref={PartnerScrollHeightRef}>
+            <Partner
+              title="跨链用户"
+              explain="将 PoS 资产跨链，无需锁仓获得 Stake 收益，随时赎回原资产与 Stake 收益，参与 BNC 挖矿与波卡平行链生态。"
+            />
+            <Partner
+              title="投票用户"
+              explain="使用 BNC 参与出块节点、同步节点、Stake 代理节点投票，与资产 Stake 选择跨链目标节点提供决策，获得节点投票奖励同时需承担节点掉线或作恶惩罚。"
+            />
+            <Partner
+              title="出块节点"
+              explain="总得票数前 1000 名的节点，负责全链⽤户交易的记账处理和打包出块，获得用户投票收益的 10%。"
+            />
+            <Partner
+              title="同步节点"
+              explain="总得票数排名靠后的其余节点，负责搭建同步节点接收交易和⼴播数据，将获得与出块节点相同⽐例的收益。"
+            />
+            <Partner
+              title="Stake 代理节点"
+              explain="满足出块节点条件，在多个 Stake 目标链均搭建节点，负责接受托管资产的 Stake 代理，是综合实力较强的多链专业节点。"
+            />
+            <Partner
+              title="Stake DEX"
+              explain="给 Stake 资产提供流动性，撮合 Stake 与 UnStake 用户交易，Stake 用户赚取 UnStake 立即赎回用户的贴现收益。"
+            />
+            <Partner
+              title="跨链渠道"
+              explain="各类矿池、钱包和社区开发人员帮助用户进行资产跨链、无需锁仓 Stake，渠道方可获得用户 Stake 收益抽成。"
+            />
+            <Partner
+              title="开发社区"
+              explain="开发者可以基于 Bifrost 底层，开发矿池、Dapp、DeFi 等应用，满足原业务诉求的同时，获得 Stake 增益。"
+            />
+          </Flex>
+        </View>
+      </MaxFrame>
+
+      <AnimatePresence>
+        {partnerExplain && (
+          <View position={"fixed"} left={0} right={0} bottom={0}>
+            <motion.div
+              initial={{ height: 0 }}
+              animate={{ height: "auto" }}
+              exit={{ height: 0 }}
+              style={{ overflow: "hidden" }}
+            >
+              <View
+                p={[2, null]}
+                pt={[4, null]}
+                pb={[6, 4]}
+                mb={[-2, -4]}
+                bg={color.bifrost}
+                color={color.white}
+                onClick={() => {
+                  setpPartnerTitle()
+                  setpPartnerExplain()
+                }}
+              >
+                <MaxFrame>
+                  <View
+                    pointer
+                    p={1}
+                    o={0.5}
+                    position={"absolute"}
+                    top={0}
+                    right={0}
+                  >
+                    点击收起
+                  </View>
+
+                  <View scale={2} px={[null, 8]} py={[null, 4]}>
+                    <View mb={0.75} weight={"bold"}>
+                      {partnerTitle}
+                    </View>
+                    <View scale={1} paragraph>
+                      {partnerExplain}
+                    </View>
+                  </View>
+                </MaxFrame>
+              </View>
+            </motion.div>
+          </View>
+        )}
+      </AnimatePresence>
+
+      <MaxFrame>
+        <View p={[2, 4]} my={[2, 4]}>
+          <View scale={3} mb={2} weight={"bold"}>
+            路线图
+          </View>
+
+          <Flex column gap={[4, 10]}>
+            <View ml={[null, "20%"]}>
+              <Quarter
+                title="Bifrost Orlog 奥尔劳格"
+                year="2019"
+                quarter="Q3"
+                content={[
+                  "测试网 POC-1 & POC-2",
+                  "运行时模块开发 - 链上实时清结算",
+                  "转接桥轻节点",
+                  "钱包",
+                ]}
+              />
+            </View>
+            <View ml={[null, "30%"]}>
+              <Quarter
+                title="Bifrost Asgard 阿斯加德"
+                year="2019"
+                quarter="Q4"
+                content={[
+                  "测试网 POC-3 & POC-4",
+                  "支持首条 PoS 资产互操作跨链转接桥",
+                  "主网上线",
+                  "区块浏览器",
+                ]}
+              />
+            </View>
+            <View>
+              <Quarter
+                title="Bifrost Midgard 米德加尔特"
+                year="2020"
+                quarter="Q1"
+                content={[
+                  "上线 DEX",
+                  "开发者工具 & SDK",
+                  "支持多条 PoS 资产互操作跨链转接桥",
+                  "接入 Polkadot 中继网络",
+                ]}
+              />
+            </View>
+            <View ml={[null, "20%"]}>
+              <Quarter
+                title="Bifrost Heimdallr 海姆达尔"
+                year="2020"
+                quarter="Q3"
+                content={["开放的去中心化跨链 Stake 经济系统"]}
+              />
+            </View>
+          </Flex>
+        </View>
+      </MaxFrame>
+
+      <MaxFrame>
+        <View p={[2, 4]}>
+          <View scale={3} my={4}>
+            <View color={color.black} weight={"bold"} paragraph>
+              我们很高兴认识新的朋友
+            </View>
+            <View color={color.bifrostRed} paragraph>
+              hello@bifrost.codes
+            </View>
           </View>
         </View>
-      </Flex>
 
-      <View p={[2, 4]} color={color.gray3}>
-        Bifrost Network © 2019
-      </View>
+        <View p={[2, 4]} color={color.gray3}>
+          Bifrost Network © 2019
+        </View>
+      </MaxFrame>
     </Layout>
   )
 }
 
-const Quarter = ({ title, year, quarter, content }) => (
-  <Flex>
-    <View align={"right"}>
-      <View>{title}</View>
-      <View scale={3}>
-        {year}{" "}
-        <View as="span" color={color.bifrost} weight={"bold"}>
-          {quarter}
-        </View>
-      </View>
-    </View>
+const MaxFrame = styled.div`
+  max-width: 1440px;
+  margin: 0 auto;
+`
 
-    <View ml="10%">{content}</View>
-  </Flex>
+const MotionLine = ({ duration, highlight }) => (
+  <div>
+    <motion.div
+      animate={{
+        top: ["-20%", "100%"],
+      }}
+      transition={{
+        duration: duration,
+        loop: Infinity,
+      }}
+      style={{ position: "absolute" }}
+    >
+      <svg
+        width="12"
+        height="72"
+        viewBox="0 0 12 72"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          width="12"
+          height="72"
+          rx="6"
+          fill={highlight ? highlight : color.gray6}
+        />
+      </svg>
+    </motion.div>
+  </div>
 )
 
 const Feature = ({ icon, title, description }) => (
-  <Flex my={[3.5, 7]} responsive>
+  <Flex responsive>
     <SVG svg={icon} scale={[3, 2]} />
     <View mt={[1.5, null]} ml={[null, 2.5]}>
       <View scale={2} mb={0.75}>
@@ -284,55 +431,36 @@ const Feature = ({ icon, title, description }) => (
   </Flex>
 )
 
-const Partner = ({ title, description }) => {
-  const [detail, setDetail] = useState(false)
-
-  return (
-    <View>
-      <View
-        pointer
-        scale={1}
-        px={1.75}
-        py={1.25}
-        onClick={() => setDetail(true)}
-        r={radius.pill}
-        color={{ normal: detail ? color.white : null, hover: color.white }}
-        weight={"bold"}
-        bg={{
-          normal: detail ? color.bifrost : color.gray6,
-          hover: color.bifrost,
-        }}
-      >
+const Quarter = ({ title, year, quarter, content }) => (
+  <Flex responsive>
+    <View w={[null, "30%"]} align={[null, "right"]}>
+      <View mb={1} color={color.gray}>
         {title}
       </View>
-
-      <AnimatePresence>
-        {detail && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <ModalView close={() => setDetail(false)}>
-              <View
-                bg={color.white}
-                r={radius.lg}
-                p={[1, 2]}
-                m={[1, 2]}
-                color={color.gray}
-                paragraph
-                w={[null, 30]}
-                scale={1}
-              >
-                {description}
-              </View>
-            </ModalView>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <View scale={3}>
+        {year}
+        <View as="span" ml={0.1} color={color.bifrost} weight={"bold"}>
+          {quarter}
+        </View>
+      </View>
     </View>
-  )
-}
+
+    <Flex
+      w={[null, "30%"]}
+      column
+      gap={1}
+      mt={[2, null]}
+      ml={[null, "10%"]}
+      color={color.gray}
+    >
+      {content.map(target => (
+        <p key={target}>{target}</p>
+      ))}
+    </Flex>
+  </Flex>
+)
+
+/* ↓ svg ↓ */
 
 const logo = () => (
   <svg
@@ -368,7 +496,7 @@ const logo = () => (
       d="M129.176 13.3773L127.96 18.1955H119.308V42.3398H112.804V13.3773H129.176Z"
       fill="black"
     />
-    <g clip-path="url(#clip0)">
+    <g clipPath="url(#clip0)">
       <path
         d="M38.6161 13.377H28.9621L0 42.3392H19.3081L38.6161 13.377Z"
         fill="#002CC3"
@@ -399,7 +527,19 @@ const more = () => (
       d="M23.9961 16.6211C23.5898 16.6211 23.3008 16.9023 23.3008 17.3086V27.5977L23.3633 29.2695L21.0195 26.6992L19.2461 24.9492C19.1211 24.8242 18.9336 24.7617 18.7461 24.7617C18.3633 24.7617 18.0742 25.0586 18.0742 25.4414C18.0742 25.6289 18.1445 25.793 18.293 25.9492L23.4805 31.1445C23.6289 31.3008 23.8086 31.3789 23.9961 31.3789C24.1914 31.3789 24.3711 31.3008 24.5195 31.1445L29.707 25.9492C29.8555 25.793 29.9258 25.6289 29.9258 25.4414C29.9258 25.0586 29.6367 24.7617 29.2461 24.7617C29.0664 24.7617 28.8789 24.8242 28.7539 24.9492L26.9727 26.6992L24.6367 29.2617L24.6992 27.5977V17.3086C24.6992 16.9023 24.4023 16.6211 23.9961 16.6211Z"
       fill="black"
     />
-    <circle cx="24" cy="24" r="23.375" stroke="#E5E5EA" stroke-width="1.25" />
+    <circle cx="24" cy="24" r="23.375" stroke="#E5E5EA" strokeWidth="1.25" />
+  </svg>
+)
+
+const download = () => (
+  <svg
+    width="17"
+    height="17"
+    viewBox="0 0 17 17"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M3.46179 13.3314C2.97742 13.3314 2.62585 13.6908 2.62585 14.183C2.62585 14.6752 2.97742 15.0345 3.46179 15.0345H13.7665C14.2509 15.0345 14.6102 14.6752 14.6102 14.183C14.6102 13.6908 14.2509 13.3314 13.7665 13.3314H8.80554C8.97742 13.2924 9.13367 13.1986 9.26648 13.0658L14.243 8.14392C14.4305 7.95642 14.5243 7.73767 14.5243 7.51111C14.5243 7.01892 14.1649 6.65955 13.6884 6.65955C13.4384 6.65955 13.2196 6.76111 13.0634 6.91736L11.4618 8.49548L9.41492 10.7455L9.49304 9.10486V1.89392C9.49304 1.36267 9.13367 1.01111 8.61804 1.01111C8.10242 1.01111 7.75085 1.36267 7.75085 1.89392V9.10486L7.82898 10.7533L5.77429 8.49548L4.18054 6.91736C4.01648 6.76111 3.80554 6.65955 3.55554 6.65955C3.07117 6.65955 2.7196 7.01892 2.7196 7.51111C2.7196 7.73767 2.81335 7.95642 3.00085 8.14392L7.9696 13.0658C8.10242 13.1986 8.25867 13.2924 8.43835 13.3314H3.46179Z" />
   </svg>
 )
 
@@ -481,14 +621,18 @@ const featureicon4 = () => (
   </svg>
 )
 
-const download = () => (
+const plus = () => (
   <svg
-    width="17"
-    height="17"
-    viewBox="0 0 17 17"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M3.46179 13.3314C2.97742 13.3314 2.62585 13.6908 2.62585 14.183C2.62585 14.6752 2.97742 15.0345 3.46179 15.0345H13.7665C14.2509 15.0345 14.6102 14.6752 14.6102 14.183C14.6102 13.6908 14.2509 13.3314 13.7665 13.3314H8.80554C8.97742 13.2924 9.13367 13.1986 9.26648 13.0658L14.243 8.14392C14.4305 7.95642 14.5243 7.73767 14.5243 7.51111C14.5243 7.01892 14.1649 6.65955 13.6884 6.65955C13.4384 6.65955 13.2196 6.76111 13.0634 6.91736L11.4618 8.49548L9.41492 10.7455L9.49304 9.10486V1.89392C9.49304 1.36267 9.13367 1.01111 8.61804 1.01111C8.10242 1.01111 7.75085 1.36267 7.75085 1.89392V9.10486L7.82898 10.7533L5.77429 8.49548L4.18054 6.91736C4.01648 6.76111 3.80554 6.65955 3.55554 6.65955C3.07117 6.65955 2.7196 7.01892 2.7196 7.51111C2.7196 7.73767 2.81335 7.95642 3.00085 8.14392L7.9696 13.0658C8.10242 13.1986 8.25867 13.2924 8.43835 13.3314H3.46179Z" />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M11.25 11.25V0H12.75V11.25H24V12.75H12.75V24H11.25V12.75H0V11.25H11.25Z"
+    />
   </svg>
 )
