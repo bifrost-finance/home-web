@@ -154,7 +154,7 @@ export default () => {
             </View>
           </View>
 
-          <View p={[2, 4]} my={[null, 6]}>
+          <View p={[2, 4]} my={[2, 6]}>
             <View scale={3} mb={[1.5, 2]} weight={"bold"}>
               什么是 Bifrost？
             </View>
@@ -187,7 +187,7 @@ export default () => {
 
       <Flex childFlex={1}>
         <View p={[4, 8]} bg={color.gray6} align={"center"}>
-          <View scale={2} mb={1.5} weight={"bold"}>
+          <View scale={2} mb={2} weight={"bold"}>
             Bifrost 系统架构
           </View>
           <View h={[null, 30]}>
@@ -384,13 +384,14 @@ export default () => {
 }
 
 const MaxFrame = styled.div`
-  max-width: 1440px;
+  max-width: 1600px;
   margin: 0 auto;
 `
 
 const MotionLine = ({ duration, highlight }) => (
   <div>
     <motion.div
+      initial={{ top: ["-20%"] }}
       animate={{
         top: ["-20%", "100%"],
       }}
