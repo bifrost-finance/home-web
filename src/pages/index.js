@@ -29,7 +29,7 @@ export default () => {
           } else {
             setpPartnerTitle(title)
             setpPartnerExplain(explain)
-            window.scrollTo(0, PartnerScrollHeightRef.current.offsetTop - 182)
+            window.scrollTo(0, PartnerScrollHeightRef.current.offsetTop)
           }
         }}
         r={radius.pill}
@@ -214,12 +214,12 @@ export default () => {
       </MaxFrame>
 
       <MaxFrame>
-        <View p={[2, 4]} my={[2, 4]} mb={0}>
+        <View p={[2, 4]} my={[2, 4]} mb={0} ref={PartnerScrollHeightRef}>
           <View scale={3} mb={1.5} weight={"bold"}>
             参与方
           </View>
 
-          <Flex gap={[1, 1.5]} flexWrap ref={PartnerScrollHeightRef}>
+          <Flex gap={[1, 1.5]} flexWrap>
             <Partner
               title="跨链用户"
               explain="将 PoS 资产跨链，无需锁仓获得 Stake 收益，随时赎回原资产与 Stake 收益，参与 BNC 挖矿与波卡平行链生态。"
@@ -266,6 +266,7 @@ export default () => {
               style={{ overflow: "hidden" }}
             >
               <View
+                pointer
                 p={[2, null]}
                 pt={[4, null]}
                 pb={[6, 4]}
