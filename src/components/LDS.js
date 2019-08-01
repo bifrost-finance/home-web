@@ -1,4 +1,4 @@
-/* Linci Design System (beta) v2.3.1 update: 31-07-2019 */
+/* Linci Design System (beta) v2.3.2 update: 1-08-2019 */
 
 import React from "react"
 import PropTypes from "prop-types"
@@ -569,6 +569,9 @@ View.propTypes = {
   /* 有响应式 */
   display: PropTypes.oneOfType([
     PropTypes.oneOf([
+      "block",
+      "flex",
+      "grid",
       "inline",
       "inline-block",
       "inline-flex",
@@ -577,6 +580,9 @@ View.propTypes = {
     ]),
     PropTypes.arrayOf(
       PropTypes.oneOf([
+        "block",
+        "flex",
+        "grid",
         "inline",
         "inline-block",
         "inline-flex",
@@ -691,6 +697,9 @@ Grid.propTypes = {
   /* 有响应式 */
   display: PropTypes.oneOfType([
     PropTypes.oneOf([
+      "block",
+      "flex",
+      "grid",
       "inline",
       "inline-block",
       "inline-flex",
@@ -699,6 +708,9 @@ Grid.propTypes = {
     ]),
     PropTypes.arrayOf(
       PropTypes.oneOf([
+        "block",
+        "flex",
+        "grid",
         "inline",
         "inline-block",
         "inline-flex",
@@ -889,6 +901,9 @@ Flex.propTypes = {
   /* 有响应式 */
   display: PropTypes.oneOfType([
     PropTypes.oneOf([
+      "block",
+      "flex",
+      "grid",
       "inline",
       "inline-block",
       "inline-flex",
@@ -897,6 +912,9 @@ Flex.propTypes = {
     ]),
     PropTypes.arrayOf(
       PropTypes.oneOf([
+        "block",
+        "flex",
+        "grid",
         "inline",
         "inline-block",
         "inline-flex",

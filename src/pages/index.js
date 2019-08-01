@@ -4,14 +4,15 @@ import { AnimatePresence, motion } from "framer-motion"
 import Layout from "../components/Layout"
 import SEO from "../components/SEO"
 import { View, SVG, color, Flex, shadow, radius } from "../components/LDS"
-import { darken } from "polished"
+import { darken, rgba } from "polished"
 
 import cover from "../images/whitepapercover.png"
 import system from "../images/system.png"
 
 export default () => {
-  const [partnerTitle, setpPartnerTitle] = useState()
-  const [partnerExplain, setpPartnerExplain] = useState()
+  const [partnerTitle, setPartnerTitle] = useState()
+  const [partnerExplain, setPartnerExplain] = useState()
+  const [systemZoom, setSystemZoom] = useState(false)
 
   const PartnerScrollHeightRef = useRef(null)
 
@@ -24,11 +25,11 @@ export default () => {
         pr={1.5}
         onClick={() => {
           if (partnerTitle === title) {
-            setpPartnerTitle()
-            setpPartnerExplain()
+            setPartnerTitle()
+            setPartnerExplain()
           } else {
-            setpPartnerTitle(title)
-            setpPartnerExplain(explain)
+            setPartnerTitle(title)
+            setPartnerExplain(explain)
             window.scrollTo(0, PartnerScrollHeightRef.current.offsetTop)
           }
         }}
@@ -120,26 +121,28 @@ export default () => {
                     </View>
                     <View o={0.5}>v0.2</View>
                   </View>
-                  <View
-                    display={"inline"}
-                    flex={"none"}
-                    bg={{
-                      normal: color.white,
-                      hover: darken(0.1, color.white),
-                    }}
-                    style={{ alignSelf: "start" }}
-                    px={1}
-                    py={0.75}
-                    color={color.bifrost}
-                    r={radius.pill}
-                    pointer
-                    weight={"bold"}
-                  >
-                    <Flex aic>
-                      <SVG svg={download} fill={color.bifrost} withText />
-                      <span>下载</span>
-                    </Flex>
-                  </View>
+
+                  <a href="https://cdn.liebi.com/files/bifrost_whitepaper_cn.pdf">
+                    <View
+                      display={"inline-block"}
+                      flex={"none"}
+                      bg={{
+                        normal: color.white,
+                        hover: darken(0.1, color.white),
+                      }}
+                      style={{ alignSelf: "start" }}
+                      px={1}
+                      py={0.75}
+                      color={color.bifrost}
+                      r={radius.pill}
+                      weight={"bold"}
+                    >
+                      <Flex aic>
+                        <SVG svg={download} fill={color.bifrost} withText />
+                        <span>下载</span>
+                      </Flex>
+                    </View>
+                  </a>
                 </Flex>
 
                 <View
@@ -191,13 +194,53 @@ export default () => {
           <View scale={2} mb={2} weight={"bold"}>
             Bifrost 系统架构
           </View>
-          <View h={[null, 30]}>
-            <img
+
+          <View position={"relative"}>
+            <Flex
+              onClick={() => setSystemZoom(!systemZoom)}
+              position={"absolute"}
+              top={0}
+              right={0}
+              bottom={0}
+              left={0}
+              jcc
+              aic
+              scale={2}
+              display={["none", "flex"]}
+            >
+              <AnimatePresence>
+                {!systemZoom && (
+                  <motion.div
+                    whileHover={{ opacity: 1 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <SVG
+                      svg={zoom}
+                      fill={color.white}
+                      bg={rgba(color.bifrost, 0.75)}
+                      p={0.75}
+                      r={radius.pill}
+                      style={{ backdropFilter: "saturate(180%) blur(20px)" }}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Flex>
+
+            <motion.img
               src={system}
-              style={{ maxWidth: "100%", maxHeight: "100%" }}
+              animate={{ maxHeight: systemZoom ? "60em" : "30em" }}
+              transition={{
+                type: "spring",
+                damping: 100,
+                mass: 0.5,
+              }}
+              style={{ maxWidth: "100%" }}
               alt=""
             />
           </View>
+
           <View mt={[2, 4]} align={"center"} color={color.gray}>
             （白皮书 第 5 页）
           </View>
@@ -275,8 +318,8 @@ export default () => {
                 bg={color.bifrost}
                 color={color.white}
                 onClick={() => {
-                  setpPartnerTitle()
-                  setpPartnerExplain()
+                  setPartnerTitle()
+                  setPartnerExplain()
                 }}
               >
                 <MaxFrame>
@@ -640,6 +683,21 @@ const plus = () => (
       fillRule="evenodd"
       clipRule="evenodd"
       d="M11.25 11.25V0H12.75V11.25H24V12.75H12.75V24H11.25V12.75H0V11.25H11.25Z"
+    />
+  </svg>
+)
+
+const zoom = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 14 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M5.85352 10.1152C6.82617 10.1152 7.73438 9.79883 8.47266 9.27148L11.25 12.0488C11.3789 12.1777 11.5488 12.2422 11.7246 12.2422C12.1055 12.2422 12.3809 11.9492 12.3809 11.5742C12.3809 11.3984 12.3223 11.2344 12.1934 11.1055L9.43359 8.33984C10.0137 7.57812 10.3594 6.63477 10.3594 5.60938C10.3594 3.13086 8.33203 1.10352 5.85352 1.10352C3.36914 1.10352 1.34766 3.13086 1.34766 5.60938C1.34766 8.08789 3.36914 10.1152 5.85352 10.1152ZM5.85352 9.14258C3.91406 9.14258 2.32031 7.54297 2.32031 5.60938C2.32031 3.67578 3.91406 2.07617 5.85352 2.07617C7.78711 2.07617 9.38672 3.67578 9.38672 5.60938C9.38672 7.54297 7.78711 9.14258 5.85352 9.14258ZM6.32812 7.34375V6.04883H7.51172C7.75195 6.04883 7.95703 5.84375 7.95703 5.60938C7.95703 5.375 7.75195 5.16992 7.51172 5.16992H6.32812V3.875C6.32812 3.59375 6.09961 3.42383 5.85352 3.42383C5.60742 3.42383 5.37305 3.59375 5.37305 3.875V5.16992H4.18945C3.94922 5.16992 3.75 5.375 3.75 5.60938C3.75 5.84375 3.94922 6.04883 4.18945 6.04883H5.37305V7.34375C5.37305 7.625 5.60742 7.79492 5.85352 7.79492C6.09961 7.79492 6.32812 7.625 6.32812 7.34375Z"
+      fill="white"
     />
   </svg>
 )
