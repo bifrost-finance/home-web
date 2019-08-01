@@ -63,6 +63,20 @@ export default () => {
 
       <MaxFrame>
         <View p={[2, 4]} h={["65vh", "100vh"]} position={"relative"}>
+          <SVG svg={logo} scale={3} />
+          <View scale={3} weight={"bold"} mt={1.5} paragraph>
+            为 Stake 设计的去中心化跨链网络
+          </View>
+
+          <View position={"absolute"} bottom={[2, 4]}>
+            <View scale={0}>
+              <Flex aic>
+                <SVG svg={more} scale={3} withText />
+                了解更多
+              </Flex>
+            </View>
+          </View>
+
           <Flex
             jcsb
             position={"absolute"}
@@ -83,19 +97,6 @@ export default () => {
             <MotionLine duration={16} />
             <MotionLine duration={14} />
           </Flex>
-          <SVG svg={logo} scale={3} />
-          <View scale={3} weight={"bold"} mt={1.5} paragraph>
-            为 Stake 设计的去中心化跨链网络
-          </View>
-
-          <View position={"absolute"} bottom={[2, 4]}>
-            <View scale={0}>
-              <Flex aic>
-                <SVG svg={more} scale={3} withText />
-                了解更多
-              </Flex>
-            </View>
-          </View>
         </View>
       </MaxFrame>
 
