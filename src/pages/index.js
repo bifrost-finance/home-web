@@ -357,7 +357,11 @@ export default () => {
                 title="Bifrost Heimdallr 海姆达尔"
                 year="2020"
                 quarter="Q3"
-                content={["开放的去中心化跨链 Stake 经济系统"]}
+                content={[
+                  "开放的去中心化跨链 Stake 经济系统",
+                  "承载多种 DeFi 及衍生品",
+                  "普通用户友好的使用方式",
+                ]}
               />
             </View>
           </Flex>
