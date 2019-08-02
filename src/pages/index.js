@@ -168,22 +168,22 @@ export default () => {
               <Feature
                 icon={featureicon1}
                 title="Stake 流动性"
-                description="无需锁仓获得 Stake 收益，撮合 Stake 与 UnStake 用户自由交易，实现 UnStake 无需等待，立即赎回。"
+                description="持有 Stake 凭证即可获得 Stake 收益，Stake 凭证自由交易、使用，并可随时卖回原链资产，无需等待解押。"
               />
               <Feature
                 icon={featureicon2}
                 title="Stake 低门槛"
-                description="通过 Stake Token 购买、资产充值跨链等方式完成 Stake，无需学习 Stake 操作及奖惩规则。"
+                description="多种渠道获得 Stake 凭证，持有 Stake 凭证即为参与原链 Stake，同时保留治理权。"
               />
               <Feature
                 icon={featureicon3}
-                title="跨链资产增益"
-                description="资产跨链给原链资产提供更多能力扩展的同时获得 Stake 收益。"
+                title="自动复利收益"
+                description="实时清算，定时结算，结算物为 Stake 凭证，实现自动复利。"
               />
               <Feature
                 icon={featureicon4}
                 title="开发者赋能"
-                description="基于 Bifrost 构建的钱包、矿池、Dapp、DeFi 等多种生态从底层获得 Stake 增益赋能。"
+                description="基于 Bifrost 构建的钱包、矿池、Dapp、DeFi 等生态将从底层获得 Stake 增益。"
               />
             </Flex>
           </View>
