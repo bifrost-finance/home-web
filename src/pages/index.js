@@ -30,7 +30,7 @@ export default () => {
           } else {
             setPartnerTitle(title)
             setPartnerExplain(explain)
-            window.scrollTo(0, PartnerScrollHeightRef.current.offsetTop)
+            window.scrollTo(0, PartnerScrollHeightRef.current.offsetTop - 60)
           }
         }}
         r={radius.pill}
@@ -86,24 +86,25 @@ export default () => {
             right={0}
             bottom={0}
             left={0}
+            p={[1, null]}
           >
             <MotionLine duration={18} />
-            <MotionLine duration={14} />
+            <MotionLine duration={14} mobileDisplayNone />
             <MotionLine duration={12} highlight={color.bifrostRed} />
             <MotionLine duration={16} />
-            <MotionLine duration={12} />
+            <MotionLine duration={12} mobileDisplayNone />
             <MotionLine duration={8} highlight={color.bifrost} />
             <MotionLine duration={16} />
             <MotionLine duration={12} />
-            <MotionLine duration={16} />
-            <MotionLine duration={14} />
+            <MotionLine duration={16} mobileDisplayNone />
+            <MotionLine duration={14} mobileDisplayNone />
           </Flex>
         </View>
       </MaxFrame>
 
       <MaxFrame>
         <Flex childFlex={1} gap={[1, 2]} responsive>
-          <View p={[1.5, 4]}>
+          <View m={[1.5, 4]}>
             <View
               p={[1, 2]}
               color={color.white}
@@ -158,7 +159,7 @@ export default () => {
             </View>
           </View>
 
-          <View p={[2, 4]} my={[2, 6]}>
+          <View mx={[2, 4]} my={[4, 8]}>
             <View scale={3} mb={[1.5, 2]} weight={"bold"}>
               什么是 Bifrost？
             </View>
@@ -190,14 +191,13 @@ export default () => {
       </MaxFrame>
 
       <Flex childFlex={1}>
-        <View p={[4, 8]} bg={color.gray6} align={"center"}>
+        <View px={[2, null]} py={[4, 8]} bg={color.gray6} align={"center"}>
           <View scale={2} mb={2} weight={"bold"}>
             Bifrost 系统架构
           </View>
 
           <View position={"relative"}>
             <Flex
-              onClick={() => setSystemZoom(!systemZoom)}
               position={"absolute"}
               top={0}
               right={0}
@@ -207,18 +207,19 @@ export default () => {
               aic
               scale={2}
               display={["none", "flex"]}
+              style={{ pointerEvents: "none" }}
             >
               <AnimatePresence>
                 {!systemZoom && (
                   <motion.div
-                    whileHover={{ opacity: 1 }}
+                    initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                   >
                     <SVG
                       svg={zoom}
                       fill={color.white}
-                      bg={rgba(color.bifrost, 0.75)}
+                      bg={rgba(color.bifrost, 0.65)}
                       p={0.75}
                       r={radius.pill}
                       style={{ backdropFilter: "saturate(180%) blur(20px)" }}
@@ -229,6 +230,7 @@ export default () => {
             </Flex>
 
             <motion.img
+              onClick={() => setSystemZoom(!systemZoom)}
               src={system}
               animate={{ maxHeight: systemZoom ? "60em" : "30em" }}
               transition={{
@@ -248,7 +250,7 @@ export default () => {
       </Flex>
 
       <MaxFrame>
-        <View color={color.gray} scale={2} m={[4, 8]} paragraph>
+        <View color={color.gray} scale={2} m={[3, 9]} paragraph>
           <View as={"span"} color={color.black} weight={"bold"}>
             Bifrost 从底层营造 Stake 增益环境
           </View>
@@ -258,7 +260,7 @@ export default () => {
       </MaxFrame>
 
       <MaxFrame>
-        <View p={[2, 4]} my={[2, 4]} mb={0} ref={PartnerScrollHeightRef}>
+        <View mx={[2, 4]} my={[6, 8]} ref={PartnerScrollHeightRef}>
           <View scale={3} mb={1.5} weight={"bold"}>
             参与方
           </View>
@@ -334,7 +336,7 @@ export default () => {
                     点击收起
                   </View>
 
-                  <View scale={2} px={[null, 8]} py={[null, 4]}>
+                  <View scale={2} px={[null, 9]} py={[null, 4]}>
                     <View mb={0.75} weight={"bold"}>
                       {partnerTitle}
                     </View>
@@ -350,8 +352,8 @@ export default () => {
       </AnimatePresence>
 
       <MaxFrame>
-        <View p={[2, 4]} my={[2, 4]}>
-          <View scale={3} mb={2} weight={"bold"}>
+        <View mx={[2, 4]} my={[6, 8]}>
+          <View scale={3} mb={[1.5, 2]} weight={"bold"}>
             路线图
           </View>
 
@@ -436,8 +438,8 @@ const MaxFrame = styled.div`
   margin: 0 auto;
 `
 
-const MotionLine = ({ duration, highlight }) => (
-  <div>
+const MotionLine = ({ duration, highlight, mobileDisplayNone }) => (
+  <View display={[mobileDisplayNone ? "none" : null, null]}>
     <motion.div
       initial={{ top: ["-20%"] }}
       animate={{
@@ -464,7 +466,7 @@ const MotionLine = ({ duration, highlight }) => (
         />
       </svg>
     </motion.div>
-  </div>
+  </View>
 )
 
 const Feature = ({ icon, title, description }) => (
