@@ -123,7 +123,7 @@ export default () => {
                     <View o={0.5}>v0.2</View>
                   </View>
 
-                  <a href="https://cdn.liebi.com/files/bifrost_whitepaper_cn.pdf">
+                  <a href="mailto:hello@bifrost.codes">
                     <View
                       display={"inline-block"}
                       flex={"none"}
@@ -140,7 +140,7 @@ export default () => {
                     >
                       <Flex aic>
                         <SVG svg={download} fill={color.bifrost} withText />
-                        <span>下载</span>
+                        <span>查看</span>
                       </Flex>
                     </View>
                   </a>
