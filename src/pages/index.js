@@ -66,7 +66,7 @@ export default () => {
         <View p={[2, 4]} h={["65vh", "100vh"]} position={"relative"}>
           <SVG svg={logo} scale={3} />
           <View scale={3} weight={"bold"} mt={1.5} paragraph>
-            为 Stake 设计的去中心化跨链网络
+            为 Stake 提供流动性的跨链网络
           </View>
 
           <View position={"absolute"} bottom={[2, 4]}>
@@ -252,9 +252,9 @@ export default () => {
       <MaxFrame>
         <View color={color.gray} scale={2} m={[3, 9]} paragraph>
           <View as={"span"} color={color.black} weight={"bold"}>
-            Bifrost 从底层营造 Stake 增益环境
+            Bifrost 希望为 80% 的 PoS 公链提供 Stake 流动性
           </View>
-          ，为基于 Bifrost 开发的 Dapp、DEX、DeFi 等项目提供跨链能力的同时，附带
+          ，从底层营造 Stake 增益环境，为基于 Bifrost 开发的 Dapp、DEX、DeFi 等项目提供跨链能力的同时，附带
           Stake 增益属性使生态更具竞争力。
         </View>
       </MaxFrame>
