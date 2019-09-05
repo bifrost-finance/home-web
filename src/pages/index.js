@@ -11,6 +11,9 @@ import cover from "../images/whitepapercover.png"
 import system from "../images/system.png"
 
 ReactGA.initialize("UA-143666394-1");
+if(typeof window !== 'undefined') {
+  ReactGA.pageview(window.location.pathname + window.location.search);
+}
 
 export default () => {
   const [partnerTitle, setPartnerTitle] = useState()
