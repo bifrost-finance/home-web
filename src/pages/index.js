@@ -5,9 +5,12 @@ import Layout from "../components/Layout"
 import SEO from "../components/SEO"
 import { View, SVG, color, Flex, shadow, radius } from "../components/LDS"
 import { darken, rgba } from "polished"
+import ReactGA from 'react-ga';
 
 import cover from "../images/whitepapercover.png"
 import system from "../images/system.png"
+
+ReactGA.initialize("UA-143666394-1");
 
 export default () => {
   const [partnerTitle, setPartnerTitle] = useState()
