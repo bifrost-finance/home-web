@@ -1018,6 +1018,34 @@ const StyledSVG = styled(View)`
   }
 `
 
+export const Text = styled(View)`
+  ${mobile`
+    font-size: ${p =>
+  (p.scale || p.scale === 0) &&
+  (typeof p.scale === "number"
+    ? Math.pow(1.1, p.scale) + "rem"
+    : (p.scale[0] || p.scale[0] === 0) &&
+    Math.pow(1.1, p.scale[0]) + "rem")};
+  `}
+
+  ${desktop`
+    font-size: ${p =>
+  (p.scale || p.scale === 0) &&
+  (typeof p.scale === "number"
+    ? Math.pow(1.15, p.scale) + "rem"
+    : (p.scale[1] || p.scale[1] === 0) &&
+    Math.pow(1.15, p.scale[1]) + "rem")};
+  `}
+  
+  font-weight: ${p =>
+  p.bold ? "bold" : p.lighter ? "lighter" : p.normal && "normal"};
+  line-height: ${p => p.paragraph && "1.35"};
+  color: ${p => p.color};
+  text-transform: ${p =>
+  p.uppercase ? "uppercase" : p.lowercase && "uppercase"};;
+  word-break: ${p => p.break && " break-all"};
+`;
+
 export const ModalView = ({ p, children, close }) => (
   <Flex
     z={100}
@@ -1050,6 +1078,31 @@ const clickableColorDark = color.white
 
 export const GlobalStyle = styled.div`
   background: ${p => p.bg};
+  color: ${clickableColor};
+  a,
+  ${ClickView} {
+    cursor: pointer;
+    text-decoration: none;
+
+    color: ${clickableColor};
+    svg {
+      fill: ${clickableColor};
+    }
+    @media (hover: hover) {
+      :hover {
+        color: ${lighten(0.3, clickableColor)};
+        svg {
+          fill: ${lighten(0.3, clickableColor)};
+        }
+      }
+    }
+    :focus {
+      outline: 1px dotted ${color.gray};
+    }
+  }
+`
+
+export const HoverStyle = styled.div`
   color: ${clickableColor};
   a,
   ${ClickView} {
