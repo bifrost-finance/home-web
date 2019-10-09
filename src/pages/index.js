@@ -216,21 +216,21 @@ export default () => {
                 icon={featureicon2}
                 title={t("Staking 低门槛")}
                 description={t(
-                  "可通过 DEX、Dapp、钱包获得 vToken，持有 vToken 即为参与原链 Staking，同时保留治理权。"
+                  "通过 DEX、Dapp、钱包获得 vToken，持有 vToken 即为参与原链 Staking，同时保留治理权。"
                 )}
               />
               <Feature
                 icon={featureicon3}
-                title={t("降低借贷费率")}
+                title={t("原链治理权")}
                 description={t(
-                  "vToken 作为抵押物进行借贷时，其 Staking 收益可抵销部分利息，实现低息借贷。 "
+                  "转接桥资产通过 Stake 代理节点所得票数权重进行原链节点的 Staking，用户可通过 BNC 投票参与原链治理。"
                 )}
               />
               <Feature
                 icon={featureicon4}
                 title={t("开发者 ++")}
                 description={t(
-                  "为开发者赋能，基于 Bifrost 开发的钱包、矿池、Dapp、DeFi 等生态将从底层获得 Staking 增益。"
+                  "为开发者赋能，基于 Bifrost 开发的钱包、矿池、Dapp、DeFi 等生态将从底层获得 Staking 增益，例如：vToken 作为抵押物进行借贷时，其 Staking 收益可抵销部分利息，实现低息借贷。"
                 )}
               />
             </Flex>
