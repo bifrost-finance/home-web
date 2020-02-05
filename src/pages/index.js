@@ -3,6 +3,8 @@ import styled from "styled-components"
 import { AnimatePresence, motion } from "framer-motion"
 import Layout from "../components/Layout"
 import SEO from "../components/SEO"
+import axios from 'axios'
+import Qs from 'qs'
 import {
   View,
   SVG,
@@ -35,6 +37,7 @@ export default () => {
   const [partnerExplain, setPartnerExplain] = useState()
   const [systemZoom, setSystemZoom] = useState(false)
   const [isShowQr, setIsShowQr] = useState(false)
+  const [emailAddress, setEmailAddress] = useState('')
   const { t, i18n } = useTranslation()
 
   const PartnerScrollHeightRef = useRef(null)
@@ -80,20 +83,44 @@ export default () => {
       </View>
     </View>
   )
-  const TitleText = ({text,ResponseEvent}) => (
+  const TitleText = ({ text, ResponseEvent }) => (
     <Flex
-onClick={ResponseEvent}
-    style={{
-     cursor: "pointer",
-   }}
-   >
-     <Text 
-     scale={1.2} mr={1.5}>
-      {text}
-     </Text>
-   </Flex>
+      onClick={ResponseEvent}
+      style={{
+        cursor: "pointer",
+      }}
+    >
+      <Text
+        color={color.black}
+        scale={1.2} mr={1.5}>
+        {t(text)}
+      </Text>
+    </Flex>
 
-  ) 
+  )
+  const SubscribeMail = () => {
+    let url = " https://api.liebi.com/v1/bifrost/subscribe"
+    let data = Qs.stringify({ "email": `${emailAddress}` });
+    axios.post(url, data,
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+      .then(function (res) {
+        if (res.data.code === 0) {
+          i18n.language === "zh" ? alert('订阅成功') : alert('Subscription successful')
+        }
+        else if (res.data.code === 51) {
+          i18n.language === "zh" ? alert('邮箱格式不正确') : alert('E-mail address is incorrect')
+        }
+        else {
+          i18n.language === "zh" ? alert('订阅失败，请联系 hello@bifrost.codes') :
+           alert('Subscription failed, please contact hello@bifrost.codes')
+        }
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    console.log('邮件地址', emailAddress)
+  }
   return (
     <Layout>
       <SEO title="" />
@@ -101,15 +128,15 @@ onClick={ResponseEvent}
       <MaxFrame>
         <View p={[2, 4]} h={["65vh", "100vh"]} position={"relative"}>
           <Flex
-          mb={1}
+            mb={1}
             style={{
               display: "inline-flex",
               float: "right"
             }}
- > 
-           <TitleText text='开发者' ResponseEvent={()=>{window.open("https://docs.bifrost.codes/developer")}}/>
-           <TitleText text='白皮书' ResponseEvent={()=>{window.open("https://docs.bifrost.codes/whitepaper")}}/>
-           <TitleText text='节点监控' ResponseEvent={()=>{window.open(" https://telemetry.polkadot.io/#list/Bifrost%20POC-1%20Testnet")}}/>
+          >
+            <TitleText text='开发者' ResponseEvent={() => { window.open("https://docs.bifrost.codes/developer") }} />
+            <TitleText text='白皮书' ResponseEvent={() => { window.open("https://docs.bifrost.codes/whitepaper") }} />
+            <TitleText text='节点监控' ResponseEvent={() => { window.open(" https://telemetry.polkadot.io/#list/Bifrost%20POC-1%20Testnet") }} />
             <Flex
               onClick={() => {
                 i18n.changeLanguage(i18n.language === "zh" ? "en" : "zh")
@@ -513,6 +540,40 @@ onClick={ResponseEvent}
       <MaxFrame>
         <View p={[2, 4]}>
           <View scale={3} my={4}>
+            <Flex aife>
+              <Flex
+                w={5.55}
+                mr={0.5}
+                bb={color.black}>
+                <input
+                  onChange={(e) => {
+                    setEmailAddress(e.target.value)
+                  }}
+                  placeholder='Email address'
+                  style={{
+                    fontSize: '1rem',
+                    width: '100%',
+                    placeholder: {
+                      color: '#8E8E96'
+                    }
+                  }}
+                ></input>
+              </Flex>
+              <Flex
+                r={radius.xs}
+                aic jcc
+                bg={color.black}
+                w={1.7}
+                h={0.55}
+                style={{
+                  cursor: "pointer"
+                }}
+                onClick={SubscribeMail}
+              ><Text
+                color={color.white}
+                scale={0.5}
+              >{t('订阅')}</Text></Flex>
+            </Flex>
             <View color={color.black} weight={"bold"} paragraph>
               {t("我们很高兴认识新的朋友")}
             </View>

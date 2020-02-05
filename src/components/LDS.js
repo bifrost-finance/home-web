@@ -50,6 +50,7 @@ export const shadow = {
 }
 
 export const radius = {
+  xs:"0.1em",
   sm: "0.25em",
   md: "0.5em",
   lg: "1em",
