@@ -134,7 +134,7 @@ export default () => {
               float: "right"
             }}
           >
-            <TitleText text='开发者' ResponseEvent={() => { window.open("https://docs.bifrost.codes/developer") }} />
+            {/*<TitleText text='开发者' ResponseEvent={() => { window.open("https://docs.bifrost.codes/developer") }} />*/}
             <TitleText text='白皮书' ResponseEvent={() => { window.open("https://docs.bifrost.codes/whitepaper") }} />
             <TitleText text='节点监控' ResponseEvent={() => { window.open(" https://telemetry.polkadot.io/#list/Bifrost%20POC-1%20Testnet") }} />
             <Flex
@@ -540,7 +540,7 @@ export default () => {
       <MaxFrame>
         <View p={[2, 4]}>
           <View scale={3} my={4}>
-            <Flex aife>
+            <Flex mt={0.1} mb={0.1} aife>
               <Flex
                 w={5.55}
                 mr={0.5}
@@ -572,7 +572,8 @@ export default () => {
               ><Text
                 color={color.white}
                 scale={0.5}
-              >{t('订阅')}</Text></Flex>
+              >{t('订阅')}</Text>
+              </Flex>
             </Flex>
             <View color={color.black} weight={"bold"} paragraph>
               {t("我们很高兴认识新的朋友")}
