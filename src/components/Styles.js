@@ -33,9 +33,9 @@ export const color = {
     red: "rgb(255,59,48)",
     orange: "rgb(255,149,0)",
     washedYellow: "#fffceb",
-    yellow: "rgb(255,204,0)",
+    yellow: "#FED01A",
     washedGreen: "#e8fdf5",
-    green: "#65f38c",
+    green: "#79D62C",
     darkGreen: "#009090",
     tealGreen: "hsl(182, 70%, 50%)",
     washedBlue: "#f6fffe",
@@ -426,13 +426,8 @@ margin:1em
 
 `;
 export const ScrollView = styled(View)`
-  ${mobile`
-    overflow: auto;
-    overflow-y: visible;
-    -webkit-overflow-scrolling: touch;
-    ::-webkit-scrollbar {
-      display: none;
-    }
-  `}
+max-height:30em;
+overflow-y: auto;
+scrollbar-width: none
 `;
 

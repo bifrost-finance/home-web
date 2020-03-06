@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useTransition, animated } from "react-spring";
 import { radius, color, Text, SVG, Flex, View, ScrollView } from "./Styles";
 
-import { ReactComponent as IconClose } from "../images/IconClose.svg";
+import { ReactComponent as IconClose } from "../images/close-45.svg";
 
 export default ({ show, close, title, children, em, mw, hem, mem }) => {
   const overlayTransition = useTransition(show, null, {
@@ -40,14 +40,14 @@ export default ({ show, close, title, children, em, mw, hem, mem }) => {
                 r={radius.lg}
                 bg={color.white}
               >
-                <View p={3} pb={1}>
+                <Flex p={3}  bb={color.darkGray} jcsb>
                   <Text scale={1.5} fw={500} ff='Noto Sans SC'>
                     {title}
                   </Text>
                   <CloseButton as="span" p={0.5} jcc aic onClick={close}>
-                    <SVG svg={IconClose} height={1.5} fill={color.lightGray} />
+                    <SVG svg={IconClose} height={1.5}  />
                   </CloseButton>
-                </View>
+                </Flex>
 
                 <ScrollView>
                   <View px={3}>{children}</View>
@@ -89,14 +89,4 @@ const Modal = styled(Flex)`
 
 const CloseButton = styled(Flex)`
   cursor: pointer;
-  position: absolute;
-  top: 1em;
-  right: 1em;
-  @media (hover: hover) {
-    :hover {
-      svg {
-        fill: ${color.gray};
-      }
-    }
-  }
 `;

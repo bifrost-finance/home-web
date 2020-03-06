@@ -7,33 +7,44 @@ import { ReactComponent as tranfer2 } from "../images/tranfer2-31.svg";
 import { ReactComponent as tranfer3 } from "../images/tranfer3-33.svg";
 import { ReactComponent as tranfer4 } from "../images/tranfer4-35.svg";
 import { ReactComponent as tranfer5 } from "../images/tranfer5-37.svg";
+import { ReactComponent as SingleArrowhead } from "../images/SingleArrowhead.svg";
 import Modal from './Modal'
 export default ({ name }) => {
-    const [showModal,setShowModal] =useState(false)
-    const [detailType,setDetailType] = useState('')
-    const DisplayDetails =(e)=>{
+    const [showModal, setShowModal] = useState(false)
+    const [detailType, setDetailType] = useState('')
+    const DisplayDetails = (e) => {
         setShowModal(true)
         setDetailType(e.currentTarget.getAttribute('data-value'))
-}
+    }
     let json = [
-        { key: "exchange", content: "10000000000000000", date: '2020年1月1日', time: '15:30' },
-        { key: "Redeem", content: "10000000", date: '2020年1月1日', time: '15:30' },
-        { key: "Purchase", content: "10", date: '2020年10月10日', time: '15:30' },
-        { key: "SellOut", content: "1000000000000", date: '2020年1月1日', time: '15:30' },
-        { key: "SellOut", content: "10", date: '2020年1月1日', time: '15:30' },
-        { key: "SellOut", content: "10", date: '2020年1月1日', time: '15:30' },
-        { key: "SellOut", content: "10", date: '2020年1月1日', time: '15:30' },
-        { key: "SellOut", content: "10", date: '2020年1月1日', time: '15:30' },
-        { key: "SellOut", content: "10", date: '2020年1月1日', time: '15:30' },
-        { key: "Transfer", content: "10", date: '2020年1月1日', time: '15:30' }
+        { id: '1', key: "exchange", content: "10000000000000000", date: '2020年1月1日', time: '15:30' },
+        { id: '2', key: "Redeem", content: "10000000", date: '2020年1月1日', time: '15:30' },
+        { id: '3', key: "Purchase", content: "10", date: '2020年10月10日', time: '15:30' },
+        { id: '4', key: "SellOut", content: "1000000000000", date: '2020年1月1日', time: '15:30' },
+        { id: '5', key: "SellOut", content: "10", date: '2020年1月1日', time: '15:30' },
+        { id: '6', key: "SellOut", content: "10", date: '2020年1月1日', time: '15:30' },
+        { id: '7', key: "SellOut", content: "10", date: '2020年1月1日', time: '15:30' },
+        { id: '8', key: "SellOut", content: "10", date: '2020年1月1日', time: '15:30' },
+        { id: '9', key: "SellOut", content: "10", date: '2020年1月1日', time: '15:30' },
+        { id: '10', key: "Transfer", content: "10", date: '2020年1月1日', time: '15:30' }
     ]
+    const ContextItem = ({ left, right, maxWidth, bb, svg }) => {
+        return (
+            <Flex w={30} h={5} aic jcsb bb={bb} style={{ position: "relative" }}>
+                <TextTypesetting maxWidth={maxWidth} scale={1.125} mr={0.5}>{left}</TextTypesetting>
+                {svg ? <View style={{ position: "absolute", left: '14em', top: '1.5em' }}>
+                    <SVG svg={SingleArrowhead} height={2} /></View> : null}
+                <TextTypesetting maxWidth={maxWidth} scale={1.125} >{right}</TextTypesetting>
+            </Flex>
+        )
+    }
     const JsonContent = () => {
         return (
             <ScrollPage column>
                 {json.map((u, index) => {
                     return (
-                        <Flex h={5} bb={color.darkGray} aic jcsb style={{cursor:'pointer'}} data-value={u.key}
-                        onClick={DisplayDetails}>
+                        <Flex h={5} bb={color.darkGray} aic jcsb style={{ cursor: 'pointer' }} data-value={u.key}
+                            onClick={DisplayDetails}>
                             <Flex aic>
                                 <SVG svg={u.key === 'exchange' ? tranfer1 : u.key === 'Redeem' ? tranfer2 :
                                     u.key === 'Purchase' ? tranfer3 : u.key === 'SellOut' ? tranfer4 : tranfer5} height={1.5} />
@@ -41,7 +52,7 @@ export default ({ name }) => {
                                     {u.key === 'exchange' ? "兑换" : u.key === 'Redeem' ? "赎回" :
                                         u.key === 'Purchase' ? "买入" : u.key === 'SellOut' ? "卖出" : "转账"} </Text>
                                 <Text mr={0.2} maxWidth={5} fw={500} ff="Noto Sans SC" scale={1.125} paragraph={2.222}
-                                style={{overflow:'hidden',whiteSpace:'nowrap',textOverflow:'ellipsis' }} >{u.content}</Text>
+                                    style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }} >{u.content}</Text>
                                 <Text fw={500} ff="Noto Sans SC" scale={1.125} paragraph={2.222}>{u.key === 'Redeem' ? name === "eos" ? "EOS" : name === "dot" ? "DOT" : "KSM" :
                                     name === "eos" ? "vEOS" : name === "dot" ? "vDOT" : "vKSM"}</Text>
                                 {u.key === 'Redeem' ?
@@ -67,12 +78,34 @@ export default ({ name }) => {
             </Flex>
             <JsonContent />
             <Modal
-             show={showModal}
-             close={() => setShowModal(false)}
-             title={detailType === 'exchange' ? "兑换" :detailType === 'Redeem' ? "赎回" :
-             detailType === 'Purchase' ? "买入" : detailType === 'SellOut' ? "卖出" : "转账"}>
+                show={showModal}
+                close={() => setShowModal(false)}
+                title={detailType === 'exchange' ? "兑换" : detailType === 'Redeem' ? "赎回" :
+                    detailType === 'Purchase' ? "买入" : detailType === 'SellOut' ? "卖出" : "转账"}>
+                <Flex w={30} h={5} aic bb={color.darkGray} >
+                    <Text scale={1.125} mr={0.5}>
+                        {detailType === 'Redeem' || detailType === 'SellOut' ? '-' : '+'}1000
+                    {name === "eos" ? "vEOS" : name === "dot" ? "vDOT" : "vKSM"}
+                    </Text>
+                    {detailType === 'Redeem' ?
+                        <Flex w={5.625} aic jcc style={{ borderRadius: '5px' }} h={1.825} bg={color.yellow}>
+                            <Text scale={0.75} color={color.white}>赎回中</Text>
+                        </Flex> : null}
+                </Flex>
+                <ContextItem svg maxWidth={10} left='account' right='1111111111111111111111111' bb={color.darkGray} />
+                {detailType === 'Transfer' ? null : <ContextItem left={detailType === 'exchange' ? "兑换价" :
+                    detailType === 'Redeem' ? "赎回价" : detailType === 'Purchase' ? "买入价" : '卖出价'} right='0.030' bb={color.darkGray} />}
+                {detailType === 'Transfer' ? null : <ContextItem left={detailType === 'exchange' ? "兑换数量" :
+                    detailType === 'Redeem' ? "赎回数量" : detailType === 'Purchase' ? "买入数量" : '卖出数量'} right='12' bb={color.darkGray} />}
+                {detailType === 'Transfer' ? <ContextItem left='交易类型' right='转账' bb={color.darkGray} /> : null}
+                {detailType === 'Redeem' ?
+                    <ContextItem left='赎回到账时间' right='2020年1月1日 15：30' bb={color.darkGray} /> : null}
+                <ContextItem left='交易时间' right='2020年1月1日 15：30' bb={color.darkGray} />
+                <ContextItem left='交易ID' right='bbbjihhhhhhhjhhojooii' bb={color.darkGray} />
+                <ContextItem left='备注' right='备注' />
 
             </Modal>
+
         </CardFlex>
     )
 }
