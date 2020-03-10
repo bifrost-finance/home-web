@@ -270,9 +270,9 @@ export const CoinIcon = props => (
         <Flex w={props.w2} h={props.h2} aic jcc r={radius.rounded} bg={props.bg} >
             <SVG height={props.h}
                 svg={
-                    props.abbr === "eos"
+                    props.abbr === "EOS"
                         ? IconEos
-                        : props.abbr === "dot"
+                        : props.abbr === "DOT"
                             ? IconDot
                             : IconKsm
 
@@ -429,5 +429,9 @@ export const ScrollView = styled(View)`
 max-height:30em;
 overflow-y: auto;
 scrollbar-width: none
+`;
+export const DetailText = styled(Text)`
+font-weight:500;
+font-family:Noto Sans SC;
 `;
 

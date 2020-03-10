@@ -44,7 +44,8 @@ class ChartConfig extends Component {
             series : [
                 {type:'line',
                 smooth:true,
-                symbol:'none',
+                showSymbol: false,
+                symbolSize: 8,
                     data:[1.1,1.2,1.3,1.4,1.5,2.1,2.2,2.6,1.1,1.2,1.3,1.4,1.5,2.1,2.2,2.6,],
                     areaStyle: {
                         normal:{
@@ -53,7 +54,7 @@ class ChartConfig extends Component {
                     },
                     itemStyle:{
                         normal:{
-                            color:'#fff',
+                            color:'#002DC2',
                             lineStyle:{ 
 
                                 color:'rgba(0, 45, 194, 0.25)' //改变折线颜色

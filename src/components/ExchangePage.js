@@ -4,7 +4,7 @@ import { ReactComponent as Switch } from "../images/switch-25.svg";
 import { ReactComponent as Ico } from "../images/ico-23.svg";
 import { ReactComponent as Info } from "../images/info-27.svg";
 import InputBox from './InputBox'
-export default ({ name, type }) => {
+export default ({ abbr, type }) => {
     // 交易状态切换
     const [tradeSwitch, setTradeSwitch] = useState(true)
     return (
@@ -16,13 +16,11 @@ export default ({ name, type }) => {
             <Flex mx={3} w={30} aic jcsb mt={3}>
                 <Flex w={15} h={3} jcsb aic>
                     <Text bold scale={1.5} paragraph={2} ls={0.06}>
-                        {tradeSwitch ? name === "eos" ? "EOS" : name === "dot" ? "DOT" : "KSM" :
-                            name === "eos" ? "vEOS" : name === "dot" ? "vDOT" : "vKSM"}
+                        {tradeSwitch ?abbr:`v${abbr}`}
                     </Text>
                     <SVG svg={Ico} height={3} />
                     <Text bold scale={1.5} paragraph={2} ls={0.06}>
-                        {tradeSwitch ? name === "eos" ? "vEOS" : name === "dot" ? "vDOT" : "vKSM" :
-                            name === "eos" ? "EOS" : name === "dot" ? "DOT" : "KSM"}
+                    {tradeSwitch ?`v${abbr}`:abbr}
                     </Text>
                     <Text scale={1.125} paragraph={2.5} color={color.gray}>
                         {tradeSwitch ? '即时' : '等待7天'}
@@ -32,7 +30,7 @@ export default ({ name, type }) => {
                 </View>
             </Flex>
 
-            <InputBox type={type} name={name} tradeSwitch={tradeSwitch} />
+            <InputBox type={type} abbr={abbr} tradeSwitch={tradeSwitch} />
             <Flex h={5} w={36} aic jcsb px={3} style={{ boxSizing: 'border-box' }} >
                 <Text ff="Noto Sans SC" scale={1.125} paragraph={2.222} color={color.gray}>
                     {type === 'Exchange' ? "赎回中" : "交易池"}

@@ -8,7 +8,7 @@ import TokenLogo from "../components/TokenLogo"
 export default ({ abbr, type }) => {
     let history = useHistory();
     const JumpRouting = () => {
-        history.push("/Details" + abbr);
+        history.push("/v" + abbr);
     }
     return (
         <Flex h={7.5} jcsb aic w={75} px={4.25} style={{ boxSizing: 'border-box', cursor: "pointer" }}

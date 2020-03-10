@@ -3,7 +3,7 @@ import { Flex, Content, color, Text, CardFlex, View, SVG, radius, CoinIcon, Inpu
 import { ReactComponent as IconV } from "../images/V-39.svg";
 import { ReactComponent as SingleArrowhead } from "../images/SingleArrowhead.svg";
 import Modal from "./Modal"
-export default ({ type, name, tradeSwitch }) => {
+export default ({ type, abbr, tradeSwitch }) => {
     // 输入框切换
     const [inputSwitching, setInputSwitching] = useState(true)
     //  输入框值
@@ -43,21 +43,19 @@ export default ({ type, name, tradeSwitch }) => {
                 <Text scale={0.75} ff="Noto Sans SC" paragraph={1.333334} ls={0.06} mr={0.5}>
                     输入</Text>
                 <Text scale={0.75} ff="Noto Sans SC" paragraph={1.333334} ls={0.06} color={color.gray}>
-                    {name === "eos" ? "价格：1 EOS = 4623178895 vEOS" : name === "dot" ?
-                        "价格：1 DOT = 4623178895 vDOT" : "价格：1 KSM = 4623178895 vKSM"}</Text></Flex>
+                    { `价格：1${abbr}  = 4623178895 v${abbr}`}</Text></Flex>
             <Text scale={0.75} ff="Noto Sans SC" paragraph={1.333334} ls={0.06}>
-                {name === "eos" ? "余额：122，123 EOS" : name === "dot" ?
-                    "余额：122，123 DOT" : "余额：122，123 KSM"}</Text>
+                {`余额：122，123${abbr}` }</Text>
         </Flex>
         <Flex onClick={inputSwitching ? null : InputSwitching} aic jcsb my={0.5}
             w={inputSwitching ? 30 : 26.9375} mx={inputSwitching ? 3 : 4.5} h={inputSwitching ? 5 : 3}
             style={inputSwitching ? { boxSizing: 'border-box' } : { cursor: 'pointer' }} pl={inputSwitching ? 1.25 : null} pr={inputSwitching ? 1.5 : null}
             b={inputSwitching ? color.fontGray : null} bg={inputSwitching ? color.washedGray : null} r={inputSwitching ? radius.xsm : null}>
-            {tradeSwitch ? <CoinIcon abbr={name} bg={color.white}
+            {tradeSwitch ? <CoinIcon abbr={abbr} bg={color.white}
                 w1={2.5} h1={2.5} w2={2} h2={2} h={2} /> :
                 <Flex w={2} h={2} aic jcc >
                     <Flex aic jcc w={1.6669} h={1.6669} style={{ position: "relative" }}>
-                        <CoinIcon h={1.3331} h2={1.3331} w2={1.3331} abbr={name} bg={color.lightGray} />
+                        <CoinIcon h={1.3331} h2={1.3331} w2={1.3331} abbr={abbr} bg={color.lightGray} />
                         <Flex h={0.5} w={0.5} style={{ position: "absolute", bottom: '0', right: '0' }}>
                             <SVG height={0.5} svg={IconV} /></Flex>
                     </Flex></Flex>}
@@ -67,15 +65,13 @@ export default ({ type, name, tradeSwitch }) => {
                     {transformation}
                 </TextTypesetting>}
             <Text bold paragraph={1.5} ls={0.06}>
-                {tradeSwitch ? name === "eos" ? "EOS" : name === "dot" ? "DOT" : "KSM" :
-                    name === "eos" ? "vEOS" : name === "dot" ? "vDOT" : "vKSM"}
+                {tradeSwitch ?abbr:`v${abbr}`}
             </Text>
         </Flex>
         <Flex mx={4.5} jcsb my={0.5}>
             <Text scale={0.75} ff="Noto Sans SC" paragraph={1.333334} ls={0.06}> 输出(预计)</Text>
             <Text scale={0.75} ff="Noto Sans SC" paragraph={1.333334} ls={0.06}>
-                {name === "eos" ? "余额：122，123 " : name === "dot" ?
-                    "余额：122，123 " : "余额：122，123 "}</Text>
+                { "余额：122，123 "}</Text>
         </Flex>
         <Flex aic jcsb onClick={inputSwitching ? InputSwitching : null}
             w={inputSwitching ? 26.9375 : 30} mx={inputSwitching ? 4.5 : 3} h={inputSwitching ? 3 : 5}
@@ -83,11 +79,11 @@ export default ({ type, name, tradeSwitch }) => {
             b={inputSwitching ? null : color.fontGray} bg={inputSwitching ? null : color.washedGray} r={inputSwitching ? null : radius.xsm}>
             {tradeSwitch ? <Flex w={2} h={2} aic jcc mr={1.375}>
                 <Flex aic jcc w={1.6669} h={1.6669} style={{ position: "relative" }}>
-                    <CoinIcon h={1.3331} h2={1.3331} w2={1.3331} abbr={name} bg={color.lightGray} />
+                    <CoinIcon h={1.3331} h2={1.3331} w2={1.3331} abbr={abbr} bg={color.lightGray} />
                     <Flex h={0.5} w={0.5} style={{ position: "absolute", bottom: '0', right: '0' }}>
                         <SVG height={0.5} svg={IconV} /></Flex>
                 </Flex>
-            </Flex> : <CoinIcon abbr={name} bg={color.white}
+            </Flex> : <CoinIcon abbr={abbr} bg={color.white}
                 w1={2.5} h1={2.5} w2={2} h2={2} h={2} />}
 
             {inputSwitching ? <TextTypesetting w={13.8333} bold scale={1.5} paragraph={2} ls={0.0416} >
@@ -95,8 +91,7 @@ export default ({ type, name, tradeSwitch }) => {
             </TextTypesetting> :
                 <Input onChange={FocusEvents} />}
             <Text bold paragraph={1.5} ls={0.06}>
-                {tradeSwitch ? name === "eos" ? "vEOS" : name === "dot" ? "vDOT" : "vKSM" :
-                    name === "eos" ? "EOS" : name === "dot" ? "DOT" : "KSM"}
+                {tradeSwitch ? `v${abbr}`:abbr}
             </Text>
         </Flex>
         <Flex mt={2.5} mb={1} mx={3} reverse aic>

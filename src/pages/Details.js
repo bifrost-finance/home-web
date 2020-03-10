@@ -14,13 +14,13 @@ export default ({ abbr }) => {
         <Content mt={3} mb={4.875}>
             <Flex jcsb w={75}>
                 <Flex column>
-                    <CurvePage name={abbr}/>
-                    <DetailPage name={abbr} />
+                    <CurvePage abbr={abbr}/>
+                    <DetailPage abbr={abbr} />
                     
                 </Flex>
                 <Flex column>
-                    <ExchangePage name={abbr} type="Exchange" />
-                    <ExchangePage name={abbr} type="Trade" />
+                    <ExchangePage abbr={abbr} type="Exchange" />
+                    <ExchangePage abbr={abbr} type="Trade" />
                     
                     
                 </Flex>
