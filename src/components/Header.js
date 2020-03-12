@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from 'react-router-dom'
 import { StateContext } from '../App'
 import * as logo from "../images/13-5.png"
-export default (({ ToggleUnitValue, state, unitState,SwitchingUnit }) => {
+export default (({ account,polkadotAccount,ToggleUnitValue, state, unitState,SwitchingUnit }) => {
     const { t, i18n } = useTranslation();
       // 当前路由
   const [path, setPath] = useState("")
@@ -22,7 +22,7 @@ export default (({ ToggleUnitValue, state, unitState,SwitchingUnit }) => {
     const AddressLogin = () => {
         return (
             <Flex aic> <Text>
-                {path === '/Detailseos' ? 'EOS地址：' : path === '/Detailsdot' ? 'DOT地址：' : "KSM地址："}</Text>
+                {path === '/veos' ? 'EOS地址：' : path === '/vdot' ? 'DOT地址：' : "KSM地址："}</Text>
                 <Text style={{ cursor: 'pointer' }} ml={1.1875} color={color.blue} ff="Noto Sans SC" fw={500} paragraph={1.5} ls={0.1}>登录</Text>
             </Flex>
         )
@@ -59,7 +59,7 @@ export default (({ ToggleUnitValue, state, unitState,SwitchingUnit }) => {
         )
     }
     const LoginText = () => {
-        let Login = `${12345678910}`
+        let Login = `${account}`
         let shortLogin1 = Login.substring(0, 4);
         let LogLength = Login.length;
         let shortLogin2 = Login.substring(LogLength - 4, LogLength);
