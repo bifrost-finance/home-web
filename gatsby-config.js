@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `Bifrost - For Staking Liquidity`,
-    description: `A Parachain Designed For Staking Liquidity`,
+    description: `A parachain designed for staking's liquidity`,
     author: `@Bifrost`,
   },
   plugins: [
