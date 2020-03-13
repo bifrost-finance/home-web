@@ -1,7 +1,37 @@
 import React, { lazy, Suspense, useState, useEffect } from "react";
 import { Text, Content, CardFlex, View, Flex, color } from "../components/Styles"
 import MenuItem from './MenuItem'
-export default ({ state, type, accountAssets }) => {
+import MappingFile from '../pages/MappingFile'
+export default ({ state, type, accountAssets, vTokenBalance ,exchangeRate,vTokens,totalAssets,
+  vTokeninVariant}) => {
+  // const [assetID, setaSsetID] = useState('')
+  const Vtoken = () => {
+    return (<>
+      {accountAssets.map((i, index) => {
+          if(vTokenBalance !== ''){
+
+            console.log('bv',vTokenBalance[accountAssets.indexOf(i)].toString() / 1000000000000)
+          }
+        return (<MenuItem abbr={MappingFile[i]} key={index} type={type}
+          vTokenBalance={vTokenBalance === '' ? 0 : vTokenBalance[accountAssets.indexOf(i)].toString() / 1000000000000} 
+          exchangeRate={exchangeRate === '' ? 0 : exchangeRate[accountAssets.indexOf(i)].toJSON()[0][1]}  
+          />)
+      })}
+    </>)
+  }
+  const Market = () => {
+    return (<>
+      {totalAssets.map((i, index) => {
+    //     if(vTokens !== '' && vTokens.length!==0 )
+    // console.log('测试',)
+       return (<MenuItem abbr={MappingFile[i]} key={index} type={type} 
+          vTokens={vTokens === ''|| vTokens.length===0 ? 0 :vTokens[i].vtoken.totalSupply.toString()/1000000000000} 
+          vTokeninVariant={vTokeninVariant === ''|| vTokeninVariant.length===0 ? 0 :vTokeninVariant[i].toJSON()[1]/1000000000000} 
+          
+          />)
+      })}
+    </>)
+  }
   const MenuText = ({ context, Mw }) => {
     return (
       <Text bold w={Mw} color="#8E8E95" ff="Noto Sans SC" bpld scale={1}
@@ -32,10 +62,10 @@ export default ({ state, type, accountAssets }) => {
             <Text scale={2.25} bold paragraph={3} ff="Product Sans"  >{type}</Text>
           </Flex>
           <Menu />
-          {type === 'Market' ? <><MenuItem abbr="KSM" type={type} />
-            <MenuItem abbr="EOS" type={type} />
-            <MenuItem abbr="DOT" type={type} /></> :
-            <><MenuItem abbr="EOS" type={type} accountAssets={accountAssets}/></>}
+          {type === 'Market' ?
+          <Market /> :
+            <Vtoken />
+          }
 
 
         </CardFlex>
