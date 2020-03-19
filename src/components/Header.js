@@ -4,21 +4,22 @@ import { Flex, Content, color, Text, CardFlex, View, Arrow } from "./Styles"
 import { useTranslation } from "react-i18next";
 import { useLocation } from 'react-router-dom'
 import { StateContext } from '../App'
+import Format from './Format'
 import * as logo from "../images/13-5.png"
-export default (({ account,polkadotAccount,ToggleUnitValue, state, unitState,SwitchingUnit }) => {
+export default (({ account, polkadotAccount, ToggleUnitValue, state, unitState, SwitchingUnit, exchangeRate, vTokenBalance }) => {
     const { t, i18n } = useTranslation();
-      // 当前路由
-  const [path, setPath] = useState("")
-      // 获取当前路由
-  const location = useLocation()
-  let link = location.pathname
-  useEffect(() => {
-    setPath(link)
-    console.log(path)
-    window.scrollTo(0, 0)
-  }, [link])
-    
-
+    // 当前路由
+    const [path, setPath] = useState("")
+    // 获取当前路由
+    const location = useLocation()
+    let link = location.pathname
+    useEffect(() => {
+        setPath(link)
+        window.scrollTo(0, 0)
+    }, [link])
+    useEffect(() => {
+        console.log('路由', path)
+    }, [path])
     const AddressLogin = () => {
         return (
             <Flex aic> <Text>
@@ -27,11 +28,42 @@ export default (({ account,polkadotAccount,ToggleUnitValue, state, unitState,Swi
             </Flex>
         )
     }
+    const Profit = () => {
+        let ProfitValue = []
+        vTokenBalance.map((v, index) => {
+            ProfitValue.push(
+                Format.Profit(v.toJSON().cost, v.toJSON().income, v.toJSON().balance, exchangeRate[index].toJSON()[0]))
+        })
+        // console.log('ziyuan ', ProfitValue)
+        // console.log('数组1', vTokenBalance[0].toJSON())
+        // console.log('数组2', exchangeRate[0].toJSON()[0])
+        // ProfitValue.map(())
+        return (<>
+            {Format.$format(ProfitValue.reduce((n, m) => n + m))}
+        </>)
+    }
+    const Asset = () => {
+        let AssetValue = []
+        vTokenBalance.map((v, index) => {
+            AssetValue.push(
+                Format.except(v.toJSON().balance))
+        })
+        return (<>
+            {Format.$format(AssetValue.reduce((n, m) => n + m))}
+        </>)
+    }
     const Card = ({ text, value, numberColor }) => {
         return (
             <CardFlex column jcsb w={23.5} h={10} pt={2} px={2.5} >
                 <Text ff="Noto Sans SC" paragraph={1.5} fw={500} ls={0.06}>{text}</Text>
-                <Text bold paragraph={3} scale={2} color={numberColor}>$123456789</Text>
+                <Text bold paragraph={3} scale={2} color={numberColor}>
+                    {value === 'assets' ?
+                        vTokenBalance === '' || vTokenBalance.length === 0 ? 0 :
+                        <Asset />
+                        : vTokenBalance === '' || vTokenBalance.length === 0 || exchangeRate === '' || exchangeRate.length === 0 ? 0 :
+                            <Profit />
+                    }
+                </Text>
             </CardFlex>
         )
     }

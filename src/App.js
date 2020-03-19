@@ -6,25 +6,33 @@ import { TypeRegistry } from '@polkadot/types';
 import { encodeAddress, setSS58Format } from '@polkadot/util-crypto';
 import {
   BrowserRouter as Router,
-  Route, withRouter
+  Route, withRouter, Switch
 } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import NP from 'number-precision'
 import parameter from './components/parameter'
 import Header from "./components/Header"
-import HomePage from "./pages/HomePage"
+// import HomePage from "./pages/HomePage"
 import Details from "./pages/Details"
+// const Details = lazy(() => import('./pages/Details'))
+const HomePage = lazy(() => import('./pages/HomePage'))
+const Loading = lazy(() => import('./components/Loading'))
 export default () => {
   // 资产交易池
-  const [vTokeninVariant,setVTokeninVariant] =useState('')
+  const [TokeninVariant, setTokeninVariant] = useState('')
   // 用户资产余额
   const [vTokenBalance, setvTokenBalance] = useState('')
+  const [TokenBalance, setTokenBalance] = useState('')
+  // const [allBalance, setAllBalance] = useState('')
   // 资产汇率
   const [exchangeRate, setExchangeRate] = useState('')
+  // 所有资产汇率
+  const [exAllChangeRate, setAllExchangeRate] = useState('')
   // 资产总发行
   const [vTokens, setVtokens] = useState('')
   // 下一个要创建的资产类型
   const [nextAssetId, setNextAssetId] = useState('')
-  const [totalAssets,setTotalAssets] = useState([])
+  const [totalAssets, setTotalAssets] = useState([])
   // 创建的资产
   const [accountAssets, setAccountAssets] = useState([])
   // 连接后端api
@@ -47,13 +55,20 @@ export default () => {
   const [accountStatus, setAccountStatus] = useState(true)
   // 准备api
   async function main() {
-    const wsProvider = new WsProvider('wss://testnet.liebi.com/');
-    const polkadotApi = await ApiPromise.create({ provider: wsProvider,types:parameter})
+    const wsProvider = new WsProvider('ws://129.204.206.165:19944/');
+    const polkadotApi = await ApiPromise.create({ provider: wsProvider, types: parameter })
     setApi(polkadotApi)
   }
+  let timer
   useEffect(() => {
     if (api === null) {
-      main()
+      timer = setTimeout(() => {
+        main()
+      }, 100)
+    }
+    return () => {
+      clearTimeout(timer)
+      console.log('卸载')
     }
   }, [api])
   // 查询用户asset id 和下一个要创建的资产
@@ -63,45 +78,52 @@ export default () => {
     }
   }, [polkadotAccount, api])
   async function QueryAssets() {
-    console.log('正在查询')
+    console.log('正在查询', polkadotAccount)
     try {
-      await api.query.assets.accountAssets(polkadotAccount,(res)=>{
-        console.log(res)
-      })
-      // const [accountAssets, res] = await Promise.all([
-      //   api.query.assets.accountAssets(polkadotAccount),
-      //   api.query.assets.nextAssetId()
-      // ])
-      // setAccountAssets(accountAssets.toJSON())
-      // setNextAssetId(res.toString())
-      // console.log(accountAssets.toJSON())
+      const [accountAssets, res] = await Promise.all([
+        api.query.assets.accountAssetIds(polkadotAccount),
+        api.query.assets.nextAssetId()
+      ])
+      setAccountAssets(accountAssets.toJSON())
+      setNextAssetId(res.toString())
+      // console.log('总资产', accountAssets.toJSON())
       // console.log('下一个要创建的asset id', res.toString())
     }
     catch (error) { console.log('错误', error) }
   }
   // 查询用户相关资产
   async function FindVToken() {
+    let balance = []
     let exchangeRateParameter = []
+    let vbalancesParameter = []
     let balancesParameter = []
     accountAssets.map((v) => {
       exchangeRateParameter.push([v])
-      balancesParameter.push([v, 'vToken', polkadotAccount])
+      vbalancesParameter.push([v, 'vToken', polkadotAccount])
+      balancesParameter.push([v, 'Token', polkadotAccount])
     })
-    console.log('数组', exchangeRateParameter, balancesParameter)
-
     try {
       await Promise.all([
-        // api.query.assets.balances.multi(balancesParameter, (res) => {
-        //   res.map((v) => { console.log('assetID', v.toString() / 1000000000000) })
-        //   console.log('余额', res)
-        //   setvTokenBalance(res)
+        api.query.assets.accountAssets.multi(vbalancesParameter, (res) => {
+          // res.map((v) => { console.log('余额SassetID', balance.push(v.balance.toString())) })
+          // console.log('余额', res)
+          // console.log('余额和', balance)
+          // setAllBalance(balance)
+          setvTokenBalance(res)
 
-        // }),
-        // api.query.exchange.exchangeRate.multi(exchangeRateParameter, (res) => {
-        //   res.map((v) => { console.log('assetID', v.toJSON()) })
-        //   console.log('汇率', res)
-        //   setExchangeRate(res)
-        // })
+        }),
+        api.query.assets.accountAssets.multi(balancesParameter, (res) => {
+          // res.map((v) => { console.log('余额SassetID', balance.push(v.balance.toString())) })
+          // console.log('余额', res)
+          // console.log('余额和', balance
+          setTokenBalance(res)
+
+        }),
+        api.query.exchange.exchangeRate.multi(exchangeRateParameter, (res) => {
+          // res.map((v) => { console.log('汇率assetID', v.toJSON()[0]) })
+          // console.log('汇率数组', res)
+          setExchangeRate(res)
+        })
       ])
 
     }
@@ -110,50 +132,55 @@ export default () => {
     }
   }
   useEffect(() => {
-    if (api !== null && accountAssets.length !== 0 && polkadotAccount !== '') {
+    if (api !== null && polkadotAccount !== '') {
       FindVToken()
     }
   }, [api, polkadotAccount, accountAssets])
-  useEffect(()=>{
-    if(nextAssetId!==''){
+  useEffect(() => {
+    if (nextAssetId !== '') {
       let AssetsID = Array.from({ length: nextAssetId }, (v, k) => k);
       setTotalAssets(AssetsID)
     }
-  },[nextAssetId])
-// 查找公共信息
-async function FindMarket() {
-  let tokens = []
-  let inVariant=[]
-  // let balancesParameter = []
-  totalAssets.map((v) => {
-    tokens.push([v])
-    inVariant.push([v,v])
-    // balancesParameter.push([v, 'vToken', polkadotAccount])
-  })
- try {
-    await Promise.all([
-    //   api.query.assets.tokens.multi(tokens, (res) => {
-    //     res.map((i) => { console.log('assetID', i.vtoken.totalSupply.toString()/1000000000000) })
-    //     console.log('总发行', res)
-    //     setVtokens(res)
-    // }),
-      // api.query.swap.inVariant.multi(tokens, (res) => {
-      //   res.map((v) => { console.log('assetID交易池', v.toJSON()[1]/1000000000000) })
-      //   console.log('交易池', res)
-      //   setVTokeninVariant(res)
-      // })
-    ])
+  }, [nextAssetId])
+  // 查找公共信息
+  async function FindMarket() {
+    let tokens = []
+    let inVariant = []
+    // let balancesParameter = []
+    totalAssets.map((v) => {
+      tokens.push([v])
+      inVariant.push(v)
+      // balancesParameter.push([v, 'vToken', polkadotAccount])
+    })
+    try {
+      await Promise.all([
+        api.query.assets.tokens.multi(tokens, (res) => {
+          // res.map((i) => { console.log('assetID', i.vtoken.totalSupply.toString()) })
+          // console.log('总发行', res)
+          setVtokens(res)
+        }),
+        api.query.swap.inVariant.multi(inVariant, (res) => {
+          // res.map((v) => { console.log('assetID交易池', v.toJSON()[0]) })
+          // console.log('交易池', res)
+          setTokeninVariant(res)
+        }),
+        api.query.exchange.exchangeRate.multi(tokens, (res) => {
+          res.map((v) => { console.log('所有资产汇率assetID', v.toJSON()[0]) })
+          console.log('所有汇率数组', res)
+          setAllExchangeRate(res)
+        })
+      ])
 
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
-  catch (error) {
-    console.log(error);
-  }
-}
-useEffect(() => {
-  if (api !== null  && nextAssetId !== ''&&totalAssets!=='') {
-    FindMarket()
-  }
-}, [api, nextAssetId,totalAssets])
+  useEffect(() => {
+    if (api !== null && nextAssetId !== '' && totalAssets !== '') {
+      FindMarket()
+    }
+  }, [api, nextAssetId, totalAssets])
   useEffect(() => {
     if (!purseStatus || !accountStatus) {
       setPolkadotAccount('5GjJNWYS6f2UQ9aiLexuB8qgjG8fRs2Ax4nHin1z1engpnNt')
@@ -180,7 +207,7 @@ useEffect(() => {
       })
       if (AddressArr.length !== 0) {
         console.log('有登陆账号', AddressArr)
-        setPolkadotAccount(`${AddressArr[3].address}`)
+        setPolkadotAccount(`${AddressArr[2].address}`)
       }
       if (noPolkadotAddtess.length === allAccounts.length) {
         setAccountStatus(false)
@@ -213,11 +240,8 @@ useEffect(() => {
     catch (error) { console.log('转码地址错误', error) }
 
   }
-
   useEffect(() => { if (polkadotAccount !== '') { AddressTranscoding() } }, [polkadotAccount])
-
-  useEffect(() => { console.log('assets长度', accountAssets.length) }, [accountAssets])
-
+  // useEffect(() => { console.log('assets长度', accountAssets.length) }, [accountAssets])
   // 改变单位,关闭下拉框
   const ToggleUnitValue = () => {
     setState(!state)
@@ -230,36 +254,69 @@ useEffect(() => {
   }
   const Link = () => {
     return (
-      <>
+      <><Switch>
         <Route exact
           path="/"
+          key="1"
           render={() => (
-            <HomePage state={state} api={api}
-              polkadotAccount={polkadotAccount}
-              account={account}
-              accountAssets={accountAssets}
-              vTokenBalance={vTokenBalance}
-              exchangeRate={exchangeRate}
-              vTokens={vTokens}
-              totalAssets={totalAssets}
-              vTokeninVariant={vTokeninVariant}
-              />
-          )} />
-        <Route
-          path="/veos"
-          render={() => (
-            <Details abbr="EOS" api={api} />
+            api !== null && polkadotAccount !== '' ?
+              <HomePage state={state} api={api}
+                polkadotAccount={polkadotAccount}
+                account={account}
+                accountAssets={accountAssets}
+                vTokenBalance={vTokenBalance}
+                exchangeRate={exchangeRate}
+                vTokens={vTokens}
+                totalAssets={totalAssets}
+                TokeninVariant={TokeninVariant}
+                exAllChangeRate={exAllChangeRate} /> : <Loading />
           )} />
         <Route
           path="/vdot"
+          key="dot"
           render={() => (
-            <Details abbr="DOT" api={api} />
+            api === null || polkadotAccount === '' ?
+              <Loading />
+              : <Details abbr="DOT" api={api}
+                polkadotAccount={polkadotAccount}
+                exAllChangeRate={exAllChangeRate}
+                TokeninVariant={TokeninVariant}
+                TokenBalance={TokenBalance}
+                vTokenBalance={vTokenBalance}
+                accountAssets={accountAssets}
+              />
           )} />
         <Route
           path="/vksm"
+          key="kms"
           render={() => (
-            <Details abbr="KSM" api={api} />
-          )} />       </>
+            api === null || polkadotAccount === '' ?
+              <Loading />
+              : <Details abbr="KSM" api={api}
+                polkadotAccount={polkadotAccount}
+                exAllChangeRate={exAllChangeRate}
+                TokeninVariant={TokeninVariant} 
+                TokenBalance={TokenBalance}
+                vTokenBalance={vTokenBalance}
+                accountAssets={accountAssets}/>
+          )} />
+        <Route
+          path="/veos"
+          key="eos"
+          render={() => (
+            api === null || polkadotAccount === '' ?
+              <Loading />
+              : <Details abbr="EOS" api={api}
+                polkadotAccount={polkadotAccount}
+                exAllChangeRate={exAllChangeRate}
+                TokeninVariant={TokeninVariant}
+                vTokenBalance={vTokenBalance} 
+                TokenBalance={TokenBalance}
+                accountAssets={accountAssets}
+                />
+          )} />
+      </Switch>
+      </>
     )
   }
   useEffect(() => {
@@ -274,14 +331,19 @@ useEffect(() => {
 
   return (
     <Router>
+
       <Suspense fallback="">
         <Header
+          vTokenBalance={vTokenBalance}
+          exchangeRate={exchangeRate}
+          // allBalance={allBalance}
           polkadotAccount={polkadotAccount}
           account={account}
           ToggleUnitValue={ToggleUnitValue} state={state}
           unitState={unitState} SwitchingUnit={SwitchingUnit} />
         <Link />
       </Suspense>
+
     </Router>
 
   )

@@ -1,20 +1,22 @@
 import React, { lazy, Suspense, useState, useEffect } from "react";
 import { Text, Content, CardFlex, View, Flex, color } from "../components/Styles"
 import MenuItem from './MenuItem'
-import MappingFile from '../pages/MappingFile'
-export default ({ state, type, accountAssets, vTokenBalance ,exchangeRate,vTokens,totalAssets,
-  vTokeninVariant}) => {
+import MappingFile from '../pages/MappingFile.json'
+export default ({ state, type, accountAssets, vTokenBalance ,exchangeRate,vTokens,totalAssets,exAllChangeRate,
+  TokeninVariant}) => {
   // const [assetID, setaSsetID] = useState('')
   const Vtoken = () => {
     return (<>
       {accountAssets.map((i, index) => {
-          if(vTokenBalance !== ''){
-
-            console.log('bv',vTokenBalance[accountAssets.indexOf(i)].toString() / 1000000000000)
-          }
-        return (<MenuItem abbr={MappingFile[i]} key={index} type={type}
-          vTokenBalance={vTokenBalance === '' ? 0 : vTokenBalance[accountAssets.indexOf(i)].toString() / 1000000000000} 
-          exchangeRate={exchangeRate === '' ? 0 : exchangeRate[accountAssets.indexOf(i)].toJSON()[0][1]}  
+        return (<MenuItem abbr={MappingFile.ID[i]} key={index} type={type} assetID={i}
+          vTokenBalance={vTokenBalance === ''|| vTokenBalance.length===0 ? 0 :
+           vTokenBalance[accountAssets.indexOf(i)].balance.toString()} 
+          cost={vTokenBalance === ''|| vTokenBalance.length===0 ? 0 :
+           vTokenBalance[accountAssets.indexOf(i)].cost.toString()} 
+          income={vTokenBalance === ''|| vTokenBalance.length===0 ? 0 :
+           vTokenBalance[accountAssets.indexOf(i)].income.toString()} 
+          exchangeRate={exchangeRate === ''||exchangeRate.length===0 ? 0 :
+           exchangeRate[accountAssets.indexOf(i)].toJSON()[0]}  
           />)
       })}
     </>)
@@ -24,10 +26,10 @@ export default ({ state, type, accountAssets, vTokenBalance ,exchangeRate,vToken
       {totalAssets.map((i, index) => {
     //     if(vTokens !== '' && vTokens.length!==0 )
     // console.log('测试',)
-       return (<MenuItem abbr={MappingFile[i]} key={index} type={type} 
-          vTokens={vTokens === ''|| vTokens.length===0 ? 0 :vTokens[i].vtoken.totalSupply.toString()/1000000000000} 
-          vTokeninVariant={vTokeninVariant === ''|| vTokeninVariant.length===0 ? 0 :vTokeninVariant[i].toJSON()[1]/1000000000000} 
-          
+       return (<MenuItem abbr={MappingFile.ID[i]} key={index} type={type} assetID={i} 
+          vTokens={vTokens === ''|| vTokens.length===0 ? 0 :vTokens[i].vtoken.totalSupply.toString()} 
+          TokeninVariant={TokeninVariant === ''|| TokeninVariant.length===0 ? 0 :TokeninVariant[i].toJSON()[0]} 
+          exAllChangeRate={exAllChangeRate === ''||exAllChangeRate.length===0 ? 0 :exAllChangeRate[i].toJSON()[0]} 
           />)
       })}
     </>)
