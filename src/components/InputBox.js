@@ -4,7 +4,8 @@ import { ReactComponent as IconV } from "../images/V-39.svg";
 import Modal from "./Modal"
 import Format from './Format'
 import Children from './Children'
-const InputBox = ({ type, abbr, tradeSwitch, exChangeRate, TokenBalance, vTokenBalance, cRef, api, polkadotAccount }) => {
+const InputBox = ({ type, abbr, tradeSwitch, exChangeRate, TokenBalance, vTokenBalance,
+    cRef, api, polkadotAccount, InVariantPool, TokeninVariant, vTokeninVariant }) => {
     // 输入框切换
     const [inputSwitching, setInputSwitching] = useState(true)
     //  输入框值
@@ -38,7 +39,14 @@ const InputBox = ({ type, abbr, tradeSwitch, exChangeRate, TokenBalance, vTokenB
             setTransformation(Format.ride(inputValue, exChangeRate))
         }
         else if (type === 'Trade') {
-            setTransformation(0)
+            if (TokeninVariant === 0) {
+                setTransformation(0)
+            }
+            else {
+                let new_token_pool = Format.except(TokeninVariant) + inputValue
+                let new_vtoken_pool = InVariantPool / Format.except(new_token_pool)
+                setTransformation(vTokeninVariant - new_vtoken_pool)
+            }
         }
     }
     const TradeAssignment = () => {
@@ -51,7 +59,15 @@ const InputBox = ({ type, abbr, tradeSwitch, exChangeRate, TokenBalance, vTokenB
             }
         }
         else if (type === 'Trade') {
-            setTransformation(0)
+            if (TokeninVariant === 0) {
+                setTransformation(0)
+            }
+            else {
+                let new_vtoken_pool = Format.except(vTokeninVariant) + inputValue
+                let new_token_pool = InVariantPool / Format.except(new_vtoken_pool)
+                setTransformation(vTokeninVariant - new_token_pool)
+            }
+
         }
     }
     // 转换后的值
@@ -98,7 +114,7 @@ const InputBox = ({ type, abbr, tradeSwitch, exChangeRate, TokenBalance, vTokenB
                     输入</Text>
                 <Text scale={0.75} ff="Noto Sans SC" paragraph={1.333334} ls={0.06} color={color.gray}>
 
-                    {type === "Exchange" ? `1 ${abbr} =${Format.decimalTwo(exChangeRate)} v${abbr}` : 0}
+                    {type === "Exchange" ? `1 ${abbr} =${Format.decimalTwo(exChangeRate)} v${abbr}` : null}
                 </Text></Flex>
             <Text scale={0.75} ff="Noto Sans SC" paragraph={1.333334} ls={0.06}>
                 {`余额：${Format.decimalFormattingNumbers(TokenBalance)}${abbr}`}</Text>

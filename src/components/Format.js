@@ -10,7 +10,7 @@ export default class Format {
         return NP.divide(number, Math.pow(10, 12))
     };
     static exceptride(number) {
-        return NP.ride(number, Math.pow(10, 12))
+        return NP.times(number, Math.pow(10, 12))
     };
     // 精度处理并格式化
     static FormattingNumbers(number) {

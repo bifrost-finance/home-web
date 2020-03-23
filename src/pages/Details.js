@@ -35,6 +35,10 @@ const Details = (({ abbr, exAllChangeRate, TokeninVariant, api, polkadotAccount,
                     <ExchangePage abbr={abbr} type="Trade" api={api} polkadotAccount={polkadotAccount}
                         TokeninVariant={TokeninVariant === '' || TokeninVariant.length === 0 ? 0 :
                             TokeninVariant[MappingFile.TOKEN[abbr]].toJSON()[0]}
+                        vTokeninVariant={TokeninVariant === '' || TokeninVariant.length === 0 ? 0 :
+                            TokeninVariant[MappingFile.TOKEN[abbr]].toJSON()[1]}
+                        InVariantPool={TokeninVariant === '' || TokeninVariant.length === 0 ? 0 :
+                            TokeninVariant[MappingFile.TOKEN[abbr]].toJSON()[2]}
                         TokenBalance={accountAssets.length === 0 || TokenBalance === '' || TokenBalance.length === 0
                             ? 0 : TokenBalance[accountAssets.indexOf(parseInt(MappingFile.TOKEN[abbr]))].balance.toString()}
                         vTokenBalance={accountAssets.length === 0 || vTokenBalance === '' || vTokenBalance.length === 0

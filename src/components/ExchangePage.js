@@ -5,7 +5,8 @@ import { ReactComponent as Ico } from "../images/ico-23.svg";
 import { ReactComponent as Info } from "../images/info-27.svg";
 import InputBox from './InputBox'
 import Format from './Format'
-export default ({ abbr, type, exChangeRate, TokeninVariant, TokenBalance, vTokenBalance,api,polkadotAccount }) => {
+export default ({ abbr, type, exChangeRate, TokeninVariant, TokenBalance, vTokenBalance,api,
+    polkadotAccount,InVariantPool,vTokeninVariant }) => {
     // 交易状态切换
     const [tradeSwitch, setTradeSwitch] = useState(true)
     const childRef = useRef()
@@ -37,8 +38,8 @@ export default ({ abbr, type, exChangeRate, TokeninVariant, TokenBalance, vToken
             </Flex>
 
             <InputBox cRef={childRef} type={type} abbr={abbr} tradeSwitch={tradeSwitch} exChangeRate={exChangeRate}
-                TokenBalance={TokenBalance} vTokenBalance={vTokenBalance} 
-                api={api} polkadotAccount={polkadotAccount}/>
+                TokenBalance={TokenBalance} vTokenBalance={vTokenBalance} vTokeninVariant={vTokeninVariant}
+                api={api} polkadotAccount={polkadotAccount} InVariantPool={InVariantPool} TokeninVariant={TokeninVariant}/>
             <Flex h={5} w={36} aic jcsb px={3} style={{ boxSizing: 'border-box' }} >
                 <Text ff="Noto Sans SC" scale={1.125} paragraph={2.222} color={color.gray}>
                     {type === 'Exchange' ? "赎回中" : "交易池"}

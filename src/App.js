@@ -160,7 +160,7 @@ export default () => {
           setVtokens(res)
         }),
         api.query.swap.inVariant.multi(inVariant, (res) => {
-          // res.map((v) => { console.log('assetID交易池', v.toJSON()[0]) })
+          // res.map((v) => { console.log('aTokeninVariantssetID交易池', v.toJSON()[0]) })
           // console.log('交易池', res)
           setTokeninVariant(res)
         }),
@@ -168,6 +168,9 @@ export default () => {
           res.map((v) => { console.log('所有资产汇率assetID', v.toJSON()[0]) })
           console.log('所有汇率数组', res)
           setAllExchangeRate(res)
+        }),
+        api.query.swap.fee.multi(tokens,(res)=>{
+          res.map((v)=>{console.log('手续费',v.toJSON())})
         })
       ])
 

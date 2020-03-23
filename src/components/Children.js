@@ -2,34 +2,150 @@ import React, { useState, useEffect } from "react";
 import { Flex, color, Text, SVG, radius, TextTypesetting, View } from "./Styles"
 import { ReactComponent as SingleArrowhead } from "../images/SingleArrowhead.svg";
 import Format from './Format'
-import { Keyring } from '@polkadot/keyring'
-// const { Keyring } = require();
 import MappingFile from '../pages/MappingFile.json'
 import { web3FromAddress } from '@polkadot/extension-dapp';
 export default ({ type, tradeSwitch, inputValue, transformation, abbr, exChangeRate, redeemDate, api, polkadotAccount }) => {
+// 交易池交易
+    const SubmissionSwap = () => {
+        if (tradeSwitch) {
+            SwapTokanToVToken()
+        }
+        else {
+            SwapVTokanToToken()
+        }
+    }
+    // 兑换交易
     const SubmissionExchange = () => {
         if (tradeSwitch) {
-            ExchangeInterface()
+            ExchangeTokanToVToken()
         }
-        else { }
+        else {
+            ExchangeVTokanToToken()
+        }
     }
-    useEffect(() => { console.log('用户', polkadotAccount) }, [polkadotAccount])
-    async function ExchangeInterface() {
-        console.log('兑换', polkadotAccount)
-        console.log('兑换', api)
+    // 交易池VToken Token
+    async function SwapVTokanToToken() {
+        let token_amount = Format.exceptride(inputValue)
+        let assets_ID = MappingFile.TOKEN[abbr]
+        console.log('input值', token_amount, assets_ID)
         try {
-                const injector = await web3FromAddress(polkadotAccount);
-                api.setSigner(injector.signer)
-                let token_amount=Format.exceptride(inputValue)
-                await api.tx.exchange.exchangeTokenToVtoken(1000000000000,0)
-              .signAndSend(polkadotAccount,({events = [], status})=>{
+            const injector = await web3FromAddress(polkadotAccount);
+            api.setSigner(injector.signer)
+            await api.tx.swap.swapVTokenTotoken(token_amount, assets_ID)
+                // api.tx.exchange.exchangeTokenToVtoken(1000000000000,0)
+                .signAndSend(polkadotAccount, ({ events = [], status }) => {
                     if (status.isFinalized) {
-                        console.log('成功', status.type)}
-                         else {
-                        console.log('状态: ' + status.type);
+                        console.log('以上链')
+                    } else {
+                        console.log('Status of destroy: ' + status.type)
+                    }
+                    events.forEach(({ phase, event: { data, method, section } }) => {
+                        console.log(method)
+                        if (method === 'ExtrinsicSuccess') {
+                            console.log('成功')
+                        }
+                        else if (method === 'ExtrinsicFailed') {
+                            console.log('失败')
+                        }
+                        else { console.log('其他') }
+                    })
+                })
+        }
+        catch (error) {
+
+        }
+    }
+    async function SwapTokanToVToken() {
+        let token_amount = Format.exceptride(inputValue)
+        let assets_ID = MappingFile.TOKEN[abbr]
+        console.log('input值', token_amount, assets_ID)
+        try {
+            const injector = await web3FromAddress(polkadotAccount);
+            api.setSigner(injector.signer)
+            await api.tx.swap.swapTokenToVtoken(token_amount, assets_ID)
+                // api.tx.exchange.exchangeTokenToVtoken(1000000000000,0)
+                .signAndSend(polkadotAccount, ({ events = [], status }) => {
+                    if (status.isFinalized) {
+                        console.log('以上链')
+                    } else {
+                        console.log('Status of destroy: ' + status.type)
+                    }
+                    events.forEach(({ phase, event: { data, method, section } }) => {
+                        console.log(method)
+                        if (method === 'ExtrinsicSuccess') {
+                            console.log('成功')
+                        }
+                        else if (method === 'ExtrinsicFailed') {
+                            console.log('失败')
+                        }
+                        else { console.log('其他') }
+                    })
+                })
+        }
+        catch (error) {
+
+        }
+    }
+    // 0 v100 90 1 80 70 2 60 50
+    useEffect(() => { console.log('用户', polkadotAccount) }, [polkadotAccount])
+    async function ExchangeTokanToVToken() {
+        let token_amount = Format.exceptride(inputValue)
+        let assets_ID = MappingFile.TOKEN[abbr]
+        console.log('input值', token_amount, assets_ID)
+        try {
+            const injector = await web3FromAddress(polkadotAccount);
+            api.setSigner(injector.signer)
+            await api.tx.exchange.exchangeTokenToVtoken(token_amount, assets_ID)
+                // api.tx.exchange.exchangeTokenToVtoken(1000000000000,0)
+                .signAndSend(polkadotAccount, ({ events = [], status }) => {
+                    if (status.isFinalized) {
+                        console.log('以上链')
+                    } else {
+                        console.log('Status of destroy: ' + status.type)
+                    }
+                    events.forEach(({ phase, event: { data, method, section } }) => {
+                        console.log(method)
+                        if (method === 'ExtrinsicSuccess') {
+                            console.log('成功')
+                        }
+                        else if (method === 'ExtrinsicFailed') {
+                            console.log('失败')
+                        }
+                        else { console.log('其他') }
+                    })
+                })
+        }
+        catch (error) {
+
+        }
+    }
+    async function ExchangeVTokanToToken() {
+        let token_amount = Format.exceptride(inputValue)
+        let assets_ID = MappingFile.TOKEN[abbr]
+        console.log('input值', token_amount, assets_ID)
+        try {
+            const injector = await web3FromAddress(polkadotAccount);
+            api.setSigner(injector.signer)
+            await api.tx.exchange.exchangeVtokenToToken(token_amount, assets_ID)
+                // api.tx.exchange.exchangeTokenToVtoken(1000000000000,0)
+                .signAndSend(polkadotAccount, ({ events = [], status }) => {
+                    if (status.isFinalized) {
+                        console.log('Successful destroy of ' + ' vEOS')
+                    } else {
+                        console.log('Status of destroy: ' + status.type)
                     }
 
-                }) 
+                    events.forEach(({ phase, event: { data, method, section } }) => {
+                        console.log(phase.toString() + ' : ' + section + '.' + method + ' ' + data.toString())
+                        if (method === 'ExtrinsicSuccess') {
+                            console.log('成功')
+                        }
+                        else if (method === 'ExtrinsicFailed') {
+                            console.log('失败')
+                        }
+
+                    })
+                })
         }
         catch (error) {
 
@@ -51,7 +167,8 @@ export default ({ type, tradeSwitch, inputValue, transformation, abbr, exChangeR
             right={tradeSwitch ? `${Format.decimalTwo(transformation)} v${abbr}` : `${Format.decimalTwo(transformation)} ${abbr}`} bb={color.darkGray} /> : null}
         {
             type === 'Exchange' ? null : <ContextItem left='方向'
-                right='vDOT -> DOT' bb={color.darkGray} />
+                right={tradeSwitch?`${abbr} -> v${abbr}`:
+            `v${abbr} -> ${abbr}` } bb={color.darkGray} />
         }
         {
             type === 'Exchange' ? null :
@@ -71,9 +188,10 @@ export default ({ type, tradeSwitch, inputValue, transformation, abbr, exChangeR
                 <ContextItem left='差价' right='-0.03' />
         }
         <Flex jcc w={30} mt={3}>
-            <Flex aic jcc bg={color.blue} r={radius.xsm} w={14.0625} h={4} style={{ cursor: 'pointer' }}>
+            <Flex onClick={type === 'Exchange' ? SubmissionExchange : SubmissionSwap}
+                aic jcc bg={color.blue} r={radius.xsm} w={14.0625} h={4} style={{ cursor: 'pointer' }}>
                 <Text ff="Noto Sans SC" scale={1.5} paragraph={2} ls={0.0416} color={color.white}
-                    onClick={type === 'Exchange' ? SubmissionExchange : null}>
+                >
                     {type === 'Exchange' ? tradeSwitch ? "确认兑换" : '确认赎回' : "确认交易"}</Text>
             </Flex>
         </Flex>

@@ -2,7 +2,6 @@
 import React,{Component} from 'react'
 import {Card} from 'antd'
 //按需导入
-import echarts from 'echarts/lib/echarts'
 //导入折线图
 import 'echarts/lib/chart/line'
 // 引入提示框和标题组件
