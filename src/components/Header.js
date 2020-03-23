@@ -1,12 +1,12 @@
 // 头部组件
 import React, { useEffect, useState, useContext } from "react";
-import { Flex, Content, color, Text, CardFlex, View, Arrow } from "./Styles"
+import { Flex, Content, color, Text, CardFlex, TextTypesetting, Arrow } from "./Styles"
 import { useTranslation } from "react-i18next";
 import { useLocation } from 'react-router-dom'
 import { StateContext } from '../App'
 import Format from './Format'
 import * as logo from "../images/13-5.png"
-export default (({ account, polkadotAccount, ToggleUnitValue, state, unitState, SwitchingUnit, exchangeRate, vTokenBalance }) => {
+export default (({ account, polkadotAccount, ToggleUnitValue, state, unitState, SwitchingUnit, exchangeRate, vTokenBalance,screen }) => {
     const { t, i18n } = useTranslation();
     // 当前路由
     const [path, setPath] = useState("")
@@ -34,12 +34,8 @@ export default (({ account, polkadotAccount, ToggleUnitValue, state, unitState, 
             ProfitValue.push(
                 Format.Profit(v.toJSON().cost, v.toJSON().income, v.toJSON().balance, exchangeRate[index].toJSON()[0]))
         })
-        // console.log('ziyuan ', ProfitValue)
-        // console.log('数组1', vTokenBalance[0].toJSON())
-        // console.log('数组2', exchangeRate[0].toJSON()[0])
-        // ProfitValue.map(())
         return (<>
-            {Format.$format(ProfitValue.reduce((n, m) => n + m))}
+            ${Format.format(ProfitValue.reduce((n, m) => n + m))}
         </>)
     }
     const Asset = () => {
@@ -49,21 +45,21 @@ export default (({ account, polkadotAccount, ToggleUnitValue, state, unitState, 
                 Format.except(v.toJSON().balance))
         })
         return (<>
-            {Format.$format(AssetValue.reduce((n, m) => n + m))}
+            ${Format.format(AssetValue.reduce((n, m) => n + m))}
         </>)
     }
     const Card = ({ text, value, numberColor }) => {
         return (
             <CardFlex column jcsb w={23.5} h={10} pt={2} px={2.5} >
                 <Text ff="Noto Sans SC" paragraph={1.5} fw={500} ls={0.06}>{text}</Text>
-                <Text bold paragraph={3} scale={2} color={numberColor}>
+                <TextTypesetting bold paragraph={3} scale={2} color={numberColor} maxWidth={22}>
                     {value === 'assets' ?
                         vTokenBalance === '' || vTokenBalance.length === 0 ? 0 :
                         <Asset />
                         : vTokenBalance === '' || vTokenBalance.length === 0 || exchangeRate === '' || exchangeRate.length === 0 ? 0 :
                             <Profit />
                     }
-                </Text>
+                </TextTypesetting>
             </CardFlex>
         )
     }
@@ -101,7 +97,7 @@ export default (({ account, polkadotAccount, ToggleUnitValue, state, unitState, 
         )
     }
     return (
-        <Content h={10} mt={4.5}>
+        <Content mt={4.5} w={[20.5,75,45]}>
             <Flex h={10} column jcsb >
                 <Flex column h={6.4375} jcsb>
                     <img src={logo} style={{ width: "10.625em", height: "2.5em" }} />

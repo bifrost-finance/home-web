@@ -43,9 +43,12 @@ const InputBox = ({ type, abbr, tradeSwitch, exChangeRate, TokenBalance, vTokenB
                 setTransformation(0)
             }
             else {
-                let new_token_pool = Format.except(TokeninVariant) + inputValue
-                let new_vtoken_pool = InVariantPool / Format.except(new_token_pool)
-                setTransformation(vTokeninVariant - new_vtoken_pool)
+                let new_token_pool =Format.Plus(Format.except(TokeninVariant),inputValue)
+                console.log('新的token交易池',new_token_pool)
+                let new_vtoken_pool =Format.Divide(Format._except(InVariantPool),new_token_pool)
+                console.log('新的vtoken交易池',new_vtoken_pool)
+                console.log('新的vtoken交易池',Format._except(InVariantPool))
+                setTransformation(Format.minus(Format.except(vTokeninVariant),new_vtoken_pool))
             }
         }
     }
@@ -63,9 +66,12 @@ const InputBox = ({ type, abbr, tradeSwitch, exChangeRate, TokenBalance, vTokenB
                 setTransformation(0)
             }
             else {
-                let new_vtoken_pool = Format.except(vTokeninVariant) + inputValue
-                let new_token_pool = InVariantPool / Format.except(new_vtoken_pool)
-                setTransformation(vTokeninVariant - new_token_pool)
+                let new_vtoken_pool =Format.Plus(Format.except(vTokeninVariant),inputValue)
+                console.log('新的vtoken交易池',new_vtoken_pool)
+                let new_token_pool =Format.Divide(Format._except(InVariantPool),new_vtoken_pool)
+                console.log('新的vtoken交易池',new_token_pool)
+                console.log('新的vtoken交易池',Format._except(InVariantPool))
+                setTransformation(Format.minus(Format.except(vTokeninVariant),new_token_pool))
             }
 
         }
@@ -114,7 +120,7 @@ const InputBox = ({ type, abbr, tradeSwitch, exChangeRate, TokenBalance, vTokenB
                     输入</Text>
                 <Text scale={0.75} ff="Noto Sans SC" paragraph={1.333334} ls={0.06} color={color.gray}>
 
-                    {type === "Exchange" ? `1 ${abbr} =${Format.decimalTwo(exChangeRate)} v${abbr}` : null}
+                    {type === "Exchange" ? `1 ${abbr} =${Format.decimalTwo(exChangeRate)} v${abbr}` :'不考虑手续费' }
                 </Text></Flex>
             <Text scale={0.75} ff="Noto Sans SC" paragraph={1.333334} ls={0.06}>
                 {`余额：${Format.decimalFormattingNumbers(TokenBalance)}${abbr}`}</Text>

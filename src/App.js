@@ -160,8 +160,13 @@ export default () => {
           setVtokens(res)
         }),
         api.query.swap.inVariant.multi(inVariant, (res) => {
-          // res.map((v) => { console.log('aTokeninVariantssetID交易池', v.toJSON()[0]) })
-          // console.log('交易池', res)
+          res.map((v) => {
+            console.log('流通交易池', v.toJSON()[2])
+            console.log('token交易池', v.toJSON()[0])
+            console.log('vtoken交易池', v.toJSON()[1])
+
+          })
+          console.log('交易池', res)
           setTokeninVariant(res)
         }),
         api.query.exchange.exchangeRate.multi(tokens, (res) => {
@@ -169,8 +174,8 @@ export default () => {
           console.log('所有汇率数组', res)
           setAllExchangeRate(res)
         }),
-        api.query.swap.fee.multi(tokens,(res)=>{
-          res.map((v)=>{console.log('手续费',v.toJSON())})
+        api.query.swap.fee.multi(tokens, (res) => {
+          res.map((v) => { console.log('手续费', v.toJSON()) })
         })
       ])
 
@@ -287,6 +292,7 @@ export default () => {
                 TokenBalance={TokenBalance}
                 vTokenBalance={vTokenBalance}
                 accountAssets={accountAssets}
+                vTokens={vTokens}
               />
           )} />
         <Route
@@ -298,10 +304,12 @@ export default () => {
               : <Details abbr="KSM" api={api}
                 polkadotAccount={polkadotAccount}
                 exAllChangeRate={exAllChangeRate}
-                TokeninVariant={TokeninVariant} 
+                TokeninVariant={TokeninVariant}
                 TokenBalance={TokenBalance}
                 vTokenBalance={vTokenBalance}
-                accountAssets={accountAssets}/>
+                accountAssets={accountAssets}
+                vTokens={vTokens}
+              />
           )} />
         <Route
           path="/veos"
@@ -313,23 +321,27 @@ export default () => {
                 polkadotAccount={polkadotAccount}
                 exAllChangeRate={exAllChangeRate}
                 TokeninVariant={TokeninVariant}
-                vTokenBalance={vTokenBalance} 
+                vTokenBalance={vTokenBalance}
                 TokenBalance={TokenBalance}
                 accountAssets={accountAssets}
-                />
+                vTokens={vTokens}
+              />
           )} />
       </Switch>
       </>
     )
   }
   useEffect(() => {
-    if (document.documentElement.clientWidth < 720) {
+    if (document.documentElement.clientWidth < 768) {
       setScreen("mobile");
     }
-    else {
+    else if (document.documentElement.clientWidth > 768 || document.documentElement.clientWidth === 768 || document.documentElement.clientWidth < 979) {
+      setScreen("Tablet");
+    }
+    else if (document.documentElement.clientWidth > 979 || document.documentElement.clientWidth === 979) {
       setScreen("laptop");
-
-    } console.log('自适应', screen)
+    }
+    console.log('自适应', screen)
   }, [screen]);
 
   return (
@@ -337,6 +349,7 @@ export default () => {
 
       <Suspense fallback="">
         <Header
+          screen={screen}
           vTokenBalance={vTokenBalance}
           exchangeRate={exchangeRate}
           // allBalance={allBalance}

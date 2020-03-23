@@ -5,7 +5,7 @@ import Format from '../components/Format'
 const CurvePage = lazy(() => import('../components/CurvePage'))
 const ExchangePage = lazy(() => import('../components/ExchangePage'))
 const DetailPage = lazy(() => import('../components/DetailPage'))
-const Details = (({ abbr, exAllChangeRate, TokeninVariant, api, polkadotAccount, TokenBalance, accountAssets, vTokenBalance }) => {
+const Details = (({ abbr, exAllChangeRate, TokeninVariant, api, polkadotAccount, TokenBalance, accountAssets, vTokenBalance,vTokens }) => {
     useEffect(() => {
         if (accountAssets.length !== 0 && TokenBalance !== '' && TokenBalance.length !== 0) {
             console.log('余额', accountAssets.indexOf(parseInt(MappingFile.TOKEN[abbr])))
@@ -19,7 +19,9 @@ const Details = (({ abbr, exAllChangeRate, TokeninVariant, api, polkadotAccount,
                 <Flex column>
                     <CurvePage abbr={abbr} api={api} polkadotAccount={polkadotAccount}
                         exChangeRate={exAllChangeRate === '' || exAllChangeRate.length === 0 ? 10 :
-                            exAllChangeRate[MappingFile.TOKEN[abbr]].toJSON()[0]} />
+                            exAllChangeRate[MappingFile.TOKEN[abbr]].toJSON()[0]}
+                            vTokens={vTokens === ''|| vTokens.length===0 ? 0 :vTokens[MappingFile.TOKEN[abbr]].vtoken.totalSupply.toString()}
+                            />
                     <DetailPage abbr={abbr} />
 
                 </Flex>

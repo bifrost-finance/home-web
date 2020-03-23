@@ -30,9 +30,9 @@ export default ({ abbr, type, vTokenBalance, exchangeRate, vTokens, TokeninVaria
                     </Text>
                 </Flex>
                 <Flex w={10.4} aic>
-                    <TextTypesetting scale={1.125} bold maxWidth={10} paragraph={2.22223} mr={0.1}>
+                    <TextTypesetting scale={1.125} bold maxWidth={10} paragraph={2.22223} ml={0.1}>
                         {/* {type === 'Market' ? 1 :  numeral(NP.times(exchangeRate, vTokenBalance)).format('0,0')} */}
-                        {type === 'Market' ? 1 :
+                        {type === 'Market' ? 2 :
                         exchangeRate===0?0:
                         Format.ride(Format.except(vTokenBalance),Format.Reciprocal(exchangeRate))}
                         {/* <Ride number1={vTokenBalance} number2={exchangeRate}/> */}

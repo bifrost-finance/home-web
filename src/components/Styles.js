@@ -6,16 +6,19 @@ import { lighten, darken, rgba } from "polished";
 import { ReactComponent as IconEos } from "../images/eos-19.svg";
 import { ReactComponent as IconDot } from "../images/dot-15.svg";
 import { ReactComponent as IconKsm } from "../images/ksm-17.svg";
-const breakpoint = 800;
-
 export const mobile = (...args) => css`
-  @media (max-width: ${breakpoint}px) {
+  @media (max-width: 768px) {
+    ${css(...args)}
+  }
+`;
+export const tablet = (...args) => css`
+@media (min-width: 769px) and (max-width: 979px)  {
     ${css(...args)}
   }
 `;
 
 export const desktop = (...args) => css`
-  @media (min-width: ${breakpoint + 1}px) {
+  @media (min-width: 980px) {
     ${css(...args)}
   }
 `;
@@ -247,6 +250,73 @@ export const View = styled.div`
                 : p.pl &&
                 (typeof p.pl === "number" ? p.pl + "em" : p.pl[1] && p.pl[1] + "em")};
   `}
+  ${tablet`
+    width: ${p =>
+            p.w && (typeof p.w === "number" ? p.w + "em" : p.w[2] && p.w[1] + "em")};
+    height:${p =>
+            p.h && (typeof p.h === "number" ? p.h + "em" : p.h[2] && p.h[1] + "em")};
+    margin: ${p =>
+            p.m && (typeof p.m === "number" ? p.m + "em" : p.m[2] && p.m[1] + "em")};
+    margin-top: ${p =>
+            p.my
+                ? typeof p.my === "number"
+                    ? p.my + "em"
+                    : p.my[2] && p.my[2] + "em"
+                : p.mt &&
+                (typeof p.mt === "number" ? p.mt + "em" : p.mt[2] && p.mt[2] + "em")};
+    margin-right: ${p =>
+            p.mx
+                ? typeof p.mx === "number"
+                    ? p.mx + "em"
+                    : p.mx[2] && p.mx[2] + "em"
+                : p.mr &&
+                (typeof p.mr === "number" ? p.mr + "em" : p.mr[2] && p.mr[2] + "em")};
+    margin-bottom: ${p =>
+            p.my
+                ? typeof p.my === "number"
+                    ? p.my + "em"
+                    : p.my[2] && p.my[2] + "em"
+                : p.mb &&
+                (typeof p.mb === "number" ? p.mb + "em" : p.mb[2] && p.mb[2] + "em")};
+    margin-left: ${p =>
+            p.mx
+                ? typeof p.mx === "number"
+                    ? p.mx + "em"
+                    : p.mx[2] && p.mx[2] + "em"
+                : p.ml &&
+                (typeof p.ml === "number" ? p.ml + "em" : p.ml[2] && p.ml[2] + "em")};
+
+    padding: ${p =>
+            p.p && (typeof p.p === "number" ? p.p + "em" : p.p[2] && p.p[2] + "em")};
+    padding-top: ${p =>
+            p.py
+                ? typeof p.py === "number"
+                    ? p.py + "em"
+                    : p.py[2] && p.py[2] + "em"
+                : p.pt &&
+                (typeof p.pt === "number" ? p.pt + "em" : p.pt[2] && p.pt[2] + "em")};
+    padding-right: ${p =>
+            p.px
+                ? typeof p.px === "number"
+                    ? p.px + "em"
+                    : p.px[2] && p.px[2] + "em"
+                : p.pr &&
+                (typeof p.pr === "number" ? p.pr + "em" : p.pr[2] && p.pr[2] + "em")};
+    padding-bottom: ${p =>
+            p.py
+                ? typeof p.py === "number"
+                    ? p.py + "em"
+                    : p.py[2] && p.py[2] + "em"
+                : p.pb &&
+                (typeof p.pb === "number" ? p.pb + "em" : p.pb[2] && p.pb[2] + "em")};
+    padding-left: ${p =>
+            p.px
+                ? typeof p.px === "number"
+                    ? p.px + "em"
+                    : p.px[2] && p.px[2] + "em"
+                : p.pl &&
+                (typeof p.pl === "number" ? p.pl + "em" : p.pl[2] && p.pl[2] + "em")};
+  `}
 `;
 export const SVG = props => (
     <StyledSVG {...props}>
@@ -292,9 +362,20 @@ export const Text = styled(View)`
 
   ${desktop`
     font-size: ${p =>
-            (p.scale ? p.scale + "rem" : "1rem")};
+            (p.scale || p.scale === 0) &&
+            (typeof p.scale === "number"
+                ? Math.pow(1.15, p.scale) + "rem"
+                : (p.scale[1] || p.scale[1] === 0) &&
+                Math.pow(1.15, p.scale[1]) + "rem")};
   `}
-  
+  ${tablet`
+    font-size: ${p =>
+            (p.scale || p.scale === 0) &&
+            (typeof p.scale === "number"
+                ? Math.pow(1.15, p.scale) + "rem"
+                : (p.scale[2] || p.scale[2] === 0) &&
+                Math.pow(1.15, p.scale[2]) + "rem")};
+  `}
   font-weight: ${p =>
         p.fw ? p.fw : p.bold ? "bold" : p.lighter ? "lighter" : p.normal && "normal"};
   font-style:${p => p.fs ? p.fs : 'normal'} ;
@@ -356,6 +437,20 @@ export const Flex = styled(View)`
                     ? p.gap + "em"
                     : p.gap[1] && p.gap[1] + "em"))};
     `}
+    ${tablet`
+      margin-bottom:${p =>
+            p.gap &&
+            p.column &&
+            (typeof p.gap === "number"
+                ? p.gap + "em"
+                : p.gap[2] && p.gap[2] + "em")};
+      margin-right:${p =>
+            p.gap &&
+            (!p.column &&
+                (typeof p.gap === "number"
+                    ? p.gap + "em"
+                    : p.gap[2] && p.gap[2] + "em"))};
+    `}
   }
   ${p =>
         p.responsive &&
@@ -372,10 +467,26 @@ export const Hidden = styled(View)`
   ${desktop`
     display: ${p => p.desktop && "none"};
   `}
+  ${tablet`
+    display: ${p => p.tablet && "none"};
+  `}
 `;
 // 以下是本项目
 export const Content = styled.div`
-width: 75em;
+${mobile`
+    width:${p =>
+            p.w && (typeof p.w === "number" ? p.w + "em" : p.w[0] && p.w[0] + "em")};
+  `}
+
+  ${desktop`
+    width: ${p =>
+            p.w && (typeof p.w === "number" ? p.w + "em" : p.w[1] && p.w[1] + "em")};
+  `}
+  ${tablet`
+    width: ${p =>
+            p.w && (typeof p.w === "number" ? p.w + "em" : p.w[2] && p.w[2] + "em")};
+  `}
+
 height:${p => p.h ? p.h + "em" : ""};
 display: flex;
 flex-direction:${p => p.fd ? p.fd : "row"};
