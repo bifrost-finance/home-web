@@ -5,7 +5,7 @@ import { radius, color, Text, SVG, Flex, View, ScrollView } from "./Styles";
 
 import { ReactComponent as IconClose } from "../images/close-45.svg";
 
-export default ({ show, close, title, children, em, mw, hem, mem }) => {
+export default ({ show, close, title, children}) => {
   const overlayTransition = useTransition(show, null, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
@@ -33,14 +33,14 @@ export default ({ show, close, title, children, em, mw, hem, mem }) => {
           item && (
             <ModalContainer key={key} style={props}>
               <Modal
-                w={36}
+                w={[19,36,36]}
                 pb={3}
                 z={1000}
                 column
                 r={radius.lg}
                 bg={color.white}
               >
-                <Flex p={3}  bb={color.darkGray} jcsb>
+                <Flex p={[2,3,3]}  bb={color.darkGray} jcsb>
                   <Text scale={1.5} fw={500} ff='Noto Sans SC'>
                     {title}
                   </Text>
@@ -49,8 +49,8 @@ export default ({ show, close, title, children, em, mw, hem, mem }) => {
                   </CloseButton>
                 </Flex>
 
-                <ScrollView>
-                  <View px={3}>{children}</View>
+                <ScrollView maxHeight={[25,30,30]}>
+                  <View px={[2,3,3]}>{children}</View>
                 </ScrollView>
               </Modal>
               <ModalContainer onClick={close} />

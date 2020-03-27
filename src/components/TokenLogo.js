@@ -6,7 +6,7 @@ import {
 import { ReactComponent as IconV } from "../images/V-39.svg";
 export default ({ abbr }) => {
     return (
-        <Flex w={3} h={3} mr={1} aic jcc>
+        <Flex w={3} h={3} mr={0.2} aic jcc>
             <Flex w={2.5} h={2.5} style={{ position: "relative" }} aic jcc>
                 <CoinIcon abbr={abbr} bg={color.lightGray} 
                 w1={2.5} h1={2.5} w2={2} h2={2} h={2}/>

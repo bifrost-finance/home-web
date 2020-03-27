@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Flex, color, Text, SVG, radius, TextTypesetting, View } from "./Styles"
+import { Flex, color, Button, SVG, TextTypesetting, View } from "./Styles"
 import { ReactComponent as SingleArrowhead } from "../images/SingleArrowhead.svg";
 import Format from './Format'
 import MappingFile from '../pages/MappingFile.json'
 import { web3FromAddress } from '@polkadot/extension-dapp';
-export default ({ type, tradeSwitch, inputValue, transformation, abbr, exChangeRate, redeemDate, api, polkadotAccount }) => {
-// 交易池交易
+export default ({ type, tradeSwitch, inputValue, transformation, abbr, exChangeRate, redeemDate, api, polkadotAccount, screen }) => {
+    // 交易池交易
     const SubmissionSwap = () => {
         if (tradeSwitch) {
             SwapTokanToVToken()
@@ -25,7 +25,11 @@ export default ({ type, tradeSwitch, inputValue, transformation, abbr, exChangeR
     }
     // 交易池VToken Token
     async function SwapVTokanToToken() {
-        let token_amount = Format.exceptride(inputValue)
+        let token_amount
+        if (inputValue === '') {
+            token_amount = 0
+        }
+        else { token_amount = Format.exceptride(inputValue) }
         let assets_ID = MappingFile.TOKEN[abbr]
         console.log('input值', token_amount, assets_ID)
         try {
@@ -56,7 +60,11 @@ export default ({ type, tradeSwitch, inputValue, transformation, abbr, exChangeR
         }
     }
     async function SwapTokanToVToken() {
-        let token_amount = Format.exceptride(inputValue)
+        let token_amount
+        if (inputValue === '') {
+            token_amount = 0
+        }
+        else { token_amount = Format.exceptride(inputValue) }
         let assets_ID = MappingFile.TOKEN[abbr]
         console.log('input值', token_amount, assets_ID)
         try {
@@ -89,10 +97,15 @@ export default ({ type, tradeSwitch, inputValue, transformation, abbr, exChangeR
     // 0 v100 90 1 80 70 2 60 50
     useEffect(() => { console.log('用户', polkadotAccount) }, [polkadotAccount])
     async function ExchangeTokanToVToken() {
-        let token_amount = Format.exceptride(inputValue)
+        let token_amount
+        if (inputValue === '') {
+            token_amount = 0
+        }
+        else { token_amount = Format.exceptride(inputValue) }
         let assets_ID = MappingFile.TOKEN[abbr]
-        console.log('input值', token_amount, assets_ID)
+
         try {
+            console.log('input值', token_amount, assets_ID)
             const injector = await web3FromAddress(polkadotAccount);
             api.setSigner(injector.signer)
             await api.tx.exchange.exchangeTokenToVtoken(token_amount, assets_ID)
@@ -120,7 +133,11 @@ export default ({ type, tradeSwitch, inputValue, transformation, abbr, exChangeR
         }
     }
     async function ExchangeVTokanToToken() {
-        let token_amount = Format.exceptride(inputValue)
+        let token_amount
+        if (inputValue === '') {
+            token_amount = 0
+        }
+        else { token_amount = Format.exceptride(inputValue) }
         let assets_ID = MappingFile.TOKEN[abbr]
         console.log('input值', token_amount, assets_ID)
         try {
@@ -151,24 +168,25 @@ export default ({ type, tradeSwitch, inputValue, transformation, abbr, exChangeR
 
         }
     }
-    const ContextItem = ({ left, right, maxWidth, bb, svg }) => {
+    const ContextItem = ({ left, right, bb, svg, redeem }) => {
         return (
-            <Flex w={30} h={5} aic jcsb bb={bb} style={{ position: "relative" }}>
-                <TextTypesetting maxWidth={maxWidth} scale={1.125} mr={0.5}>{left}</TextTypesetting>
-                {svg ? <View style={{ position: "absolute", left: '14em', top: '1.5em' }}>
+            <Flex w={[15, 30, 30]} h={5} aic jcsb bb={bb} style={{ position: "relative" }}>
+                <TextTypesetting  maxWidth={[8, 11, 11]} scale={[-1, 1.125, 1.125]} >{left}</TextTypesetting>
+                {svg ? <View style={screen === 'mobile' ? { position: "absolute", left: '7em', top: '1.5em' }
+                    : { position: "absolute", left: '14em', top: '1.5em' }}>
                     <SVG svg={SingleArrowhead} height={2} /></View> : null}
-                <TextTypesetting maxWidth={maxWidth} scale={1.125} >{right}</TextTypesetting>
+                <TextTypesetting maxWidth={redeem ? [11, 11, 11] : [8, 11, 11]} scale={[-1, 1.125, 1.125]} >{right}</TextTypesetting>
             </Flex>
         )
     }
     return (<>
-        {type === 'Exchange' ? <ContextItem svg maxWidth={10}
-            left={tradeSwitch ? `${Format.decimalTwo(inputValue)} ${abbr}` : `${Format.decimalTwo(inputValue)} v${abbr}`}
-            right={tradeSwitch ? `${Format.decimalTwo(transformation)} v${abbr}` : `${Format.decimalTwo(transformation)} ${abbr}`} bb={color.darkGray} /> : null}
+        {type === 'Exchange' ? <ContextItem svg
+            left={tradeSwitch && inputValue !== '' ? `${Format.decimalTwo(inputValue)} ${abbr}` : !tradeSwitch && inputValue !== '' ? `${Format.decimalTwo(inputValue)} v${abbr}` : 0}
+            right={tradeSwitch && inputValue !== '' ? `${Format.decimalTwo(transformation)} v${abbr}` : !tradeSwitch && inputValue !== '' ? `${Format.decimalTwo(transformation)} ${abbr}` : 0} bb={color.darkGray} /> : null}
         {
             type === 'Exchange' ? null : <ContextItem left='方向'
-                right={tradeSwitch?`${abbr} -> v${abbr}`:
-            `v${abbr} -> ${abbr}` } bb={color.darkGray} />
+                right={tradeSwitch ? `${abbr} -> v${abbr}` :
+                    `v${abbr} -> ${abbr}`} bb={color.darkGray} />
         }
         {
             type === 'Exchange' ? null :
@@ -180,20 +198,17 @@ export default ({ type, tradeSwitch, inputValue, transformation, abbr, exChangeR
                 : 0}
         />
         {
-            type === 'Exchange' && !tradeSwitch ? <ContextItem left='预计到账时间'
+            type === 'Exchange' && !tradeSwitch ? <ContextItem redeem left='预计到账时间'
                 right={redeemDate} /> : null
         }
         {
             type === 'Exchange' ? null :
                 <ContextItem left='差价' right='-0.03' />
         }
-        <Flex jcc w={30} mt={3}>
-            <Flex onClick={type === 'Exchange' ? SubmissionExchange : SubmissionSwap}
-                aic jcc bg={color.blue} r={radius.xsm} w={14.0625} h={4} style={{ cursor: 'pointer' }}>
-                <Text ff="Noto Sans SC" scale={1.5} paragraph={2} ls={0.0416} color={color.white}
-                >
-                    {type === 'Exchange' ? tradeSwitch ? "确认兑换" : '确认赎回' : "确认交易"}</Text>
-            </Flex>
+        <Flex jcc w={[15, 30, 30]} mt={3}>
+            <Button w={[12.5625, 14.0625, 14.0625]} h={4} Event={type === 'Exchange' ? SubmissionExchange : SubmissionSwap}
+                text={type === 'Exchange' ? tradeSwitch ? "确认兑换" : '确认赎回' : "确认交易"}
+            />
         </Flex>
     </>)
 }

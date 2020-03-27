@@ -1,12 +1,12 @@
 // 头部组件
 import React, { useEffect, useState, useContext } from "react";
-import { Flex, Content, color, Text, CardFlex, TextTypesetting, Arrow } from "./Styles"
+import { Flex, Content, color, Text, CardFlex, TextTypesetting, Arrow, Hidden } from "./Styles"
 import { useTranslation } from "react-i18next";
 import { useLocation } from 'react-router-dom'
 import { StateContext } from '../App'
 import Format from './Format'
 import * as logo from "../images/13-5.png"
-export default (({ account, polkadotAccount, ToggleUnitValue, state, unitState, SwitchingUnit, exchangeRate, vTokenBalance,screen }) => {
+export default (({ account, polkadotAccount, ToggleUnitValue, state, unitState, SwitchingUnit, exchangeRate, vTokenBalance, screen }) => {
     const { t, i18n } = useTranslation();
     // 当前路由
     const [path, setPath] = useState("")
@@ -22,7 +22,7 @@ export default (({ account, polkadotAccount, ToggleUnitValue, state, unitState, 
     }, [path])
     const AddressLogin = () => {
         return (
-            <Flex aic> <Text>
+            <Flex aic jcsb w={9}> <Text>
                 {path === '/veos' ? 'EOS地址：' : path === '/vdot' ? 'DOT地址：' : "KSM地址："}</Text>
                 <Text style={{ cursor: 'pointer' }} ml={1.1875} color={color.blue} ff="Noto Sans SC" fw={500} paragraph={1.5} ls={0.1}>登录</Text>
             </Flex>
@@ -48,14 +48,14 @@ export default (({ account, polkadotAccount, ToggleUnitValue, state, unitState, 
             ${Format.format(AssetValue.reduce((n, m) => n + m))}
         </>)
     }
-    const Card = ({ text, value, numberColor }) => {
+    const Card = ({ text, value, numberColor,special }) => {
         return (
-            <CardFlex column jcsb w={23.5} h={10} pt={2} px={2.5} >
+            <CardFlex bg={color.gray} column jcsb w={special?[20.5,23.5,42]:[20.5,23.5,23.5]} h={[8.5,10,10]} pt={2} px={2.5} mb={[1.5,3,3]} >
                 <Text ff="Noto Sans SC" paragraph={1.5} fw={500} ls={0.06}>{text}</Text>
-                <TextTypesetting bold paragraph={3} scale={2} color={numberColor} maxWidth={22}>
+                <TextTypesetting bold paragraph={3} scale={5} color={numberColor} maxWidth={22}>
                     {value === 'assets' ?
                         vTokenBalance === '' || vTokenBalance.length === 0 ? 0 :
-                        <Asset />
+                            <Asset />
                         : vTokenBalance === '' || vTokenBalance.length === 0 || exchangeRate === '' || exchangeRate.length === 0 ? 0 :
                             <Profit />
                     }
@@ -92,24 +92,31 @@ export default (({ account, polkadotAccount, ToggleUnitValue, state, unitState, 
         let LogLength = Login.length;
         let shortLogin2 = Login.substring(LogLength - 4, LogLength);
         return (
-            <Text ff="Noto Sans SC" paragraph={1.5} fw={500} ls={0.1} w={6.4375} mr={1}>
+            <Text ff="Noto Sans SC" paragraph={1.5} fw={500} ls={0.1}  mr={1}>
                 {`${shortLogin1}...${shortLogin2}`}</Text>
         )
     }
     return (
-        <Content mt={4.5} w={[20.5,75,45]}>
-            <Flex h={10} column jcsb >
-                <Flex column h={6.4375} jcsb>
-                    <img src={logo} style={{ width: "10.625em", height: "2.5em" }} />
-                    <Flex jcsb aic>
-                        <LoginText />
-                        {path === '' || path === '/' ? <Company /> : null} </Flex>
-                    {path === '' || path === '/' ? null : <AddressLogin />}
+        <Content mt={[2.5,4.5,4.5]} w={[20.5, 75, 42]}>
+            <Flex column >
+                <Flex  jcsb={screen==='mobile'?false:true} jcc={screen!=='mobile'?false:true} 
+                w={[20.5, 75, 42]}>
+                    <Flex h={[8.5,10,10]} column jcsb={screen==='mobile'?false:true} jcc={screen!=='mobile'?false:true} >
+                        <Flex column h={6.4375} jcsb={screen==='mobile'?false:true} jcc={screen!=='mobile'?false:true}>
+                            <img src={logo} style={{ width: "10.625em", height: "2.5em" }} />
+                            <Flex jcsb={screen==='mobile'?false:true} jcc={screen!=='mobile'?false:true} aic>
+                                <LoginText />
+                                {path === '' || path === '/' ? <Company /> : null} </Flex>
+                            {path === '' || path === '/' ? null : <AddressLogin />}
+                        </Flex>
+                    </Flex>
+                    <Hidden mobile tablet> <Card text="总资产" value="assets" numberColor="#002DC2" /></Hidden>
+                    <Hidden mobile > <Card text="收益" value="profit" numberColor="#ED635E" /></Hidden>
                 </Flex>
+                <Hidden tablet desktop >  <Card text="收益" value="profit" numberColor="#ED635E" /></Hidden>
+                <Hidden desktop> <Card special={screen==='Tablet'?true:false} text="总资产" value="assets" numberColor="#002DC2" /></Hidden>
+               
             </Flex>
-            <Card text="总资产" value="assets" numberColor="#002DC2" />
-            <Card text="收益" value="profit" numberColor="#ED635E" />
-
         </Content>
 
     )

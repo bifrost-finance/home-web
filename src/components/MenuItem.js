@@ -1,63 +1,66 @@
 import React, { lazy, Suspense, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom"
 import Format from './Format'
-import {
-    Text, radius,
-    Content, CardFlex, View, Flex, color, TextTypesetting, SVG
-} from "./Styles"
+import { Button, Text, radius, Flex, color, TextTypesetting, Hidden } from "./Styles"
 import TokenLogo from "../components/TokenLogo"
-export default ({ abbr, type, vTokenBalance, exchangeRate, vTokens, TokeninVariant, assetID, cost, income, exAllChangeRate }) => {
+export default ({ abbr, type, vTokenBalance, exchangeRate, vTokens, TokeninVariant, assetID, cost, income, exAllChangeRate, screen }) => {
     let history = useHistory();
     const JumpRouting = () => {
         history.push("/v" + abbr);
     }
+    const MenuDecompose = ({ tokenLogo, vabbr, menuname, context, abbr, abbrCompany }) => {
+        return (
+            <Flex w={[9.25, 13.8, 7.49]} h={[5.5, 7.5, 7.5]}
+                aic={screen !== 'mobile' ? true : false}
+                column={screen === 'mobile' ? true : false}>
+                {tokenLogo ?
+                    <Hidden mobile><TokenLogo abbr={abbr} /></Hidden> : null}
+                <Hidden desktop tablet>
+                    <Text ff='Noto Sans SC' bold scale={1} color={color.gray} paragraph={2.22223}>{menuname}</Text></Hidden>
+                <Flex aic>
+                    <TextTypesetting scale={1} paragraph={2.22223} bold bg={color.yellow} maxWidth={[5, 8.5, 3]}>
+                        {context}
+                    </TextTypesetting>
+                    {vabbr ?
+                        <Text scale={1.5} paragraph={1.6667} bold>
+                            {`v${abbr}`}
+                        </Text> : null}
+                    {abbrCompany ? <Text bold scale={1} paragraph={2.22223} >
+                        {abbr}
+                    </Text> : null}
+                </Flex>
+
+            </Flex >
+        )
+    }
     return (
-        <Flex h={7.5} jcsb aic w={75} px={4.25} style={{ boxSizing: 'border-box', cursor: "pointer" }}
-            onClick={JumpRouting}>
-            <Flex>
-                <TokenLogo abbr={abbr} />
-                <Flex jcc aic w={3.8125} mr={7.3}>
-                    <Text scale={1.5} paragraph={1.6667} bold>
-                        {`v${abbr}`}
-                    </Text></Flex>
-                <Flex w={14.6} pr={2} style={{ boxSizing: 'border-box' }} aic>
-                    <TextTypesetting scale={1.125} bold maxWidth={10} paragraph={2.22223} mr={0.2}>
-                        {type === 'Market' ? Format.FormattingNumbers(vTokens) : Format.FormattingNumbers(vTokenBalance)}
-                        {/* {type === 'Market' ? numeral(vTokens).format('0,0') :numeral(vTokenBalance).format('0,0')} */}
-                    </TextTypesetting>
-                    <Text scale={1.125} paragraph={2.22223} bold mr={1.5}>
-                        {`v${abbr}`}
-                    </Text>
-                </Flex>
-                <Flex w={10.4} aic>
-                    <TextTypesetting scale={1.125} bold maxWidth={10} paragraph={2.22223} ml={0.1}>
-                        {/* {type === 'Market' ? 1 :  numeral(NP.times(exchangeRate, vTokenBalance)).format('0,0')} */}
-                        {type === 'Market' ? 2 :
-                        exchangeRate===0?0:
-                        Format.ride(Format.except(vTokenBalance),Format.Reciprocal(exchangeRate))}
-                        {/* <Ride number1={vTokenBalance} number2={exchangeRate}/> */}
-                    </TextTypesetting>
-                    {type === 'Market' ? null :
-                        <Text scale={1.125} paragraph={2.22223} bold mr={1.5}>
-                            {abbr}
-                        </Text>}
-                </Flex>
-                <Flex w={9.4375} aic>
-                    <Text scale={1.125} paragraph={2.22223} bold >
-                        {type === 'Market' ?Format.decimalTwo(exAllChangeRate):
-                            // Format.Profit(0, 0, 100000000000000, 0)}
-                            Format.Profit(cost, income, vTokenBalance, exchangeRate)}
-                    </Text>
-                </Flex></Flex>
-            {type === 'Market' ?
-                <Flex w={10.3125}>
-                    <TextTypesetting scale={1.125} bold maxWidth={10} paragraph={2.22223} mr={0.5}>
-                        {Format.FormattingNumbers(TokeninVariant)}
-                    </TextTypesetting>
-                    <Text scale={1.125} paragraph={2.22223} bold mr={1.5}>
-                        {`${abbr}`}
-                    </Text>
-                </Flex> : null}
-        </Flex>
+        <Flex h={[16.5, 7.5, 7.5]} w={[20.5, 75, 42]} px={[1, 3, 2]}
+            column={screen === 'mobile' ? true : false}
+            aic={screen !== 'mobile' ? true : false}
+            style={screen === 'mobile' ? { boxSizing: 'border-box' } : { boxSizing: 'border-box', cursor: "pointer" }}
+            onClick={screen === 'mobile' ? null : JumpRouting}>
+            {/* TOKEN */}
+            < Flex aic >
+                <MenuDecompose tokenLogo menuname='vToken' context={abbr} abbr={abbr} />
+                {type === 'Market' ? <MenuDecompose menuname='已发行' vabbr abbr={abbr} context={Format.FormattingNumbers(vTokens)} />
+                    : <MenuDecompose menuname='余额' vabbr abbr={abbr} context={Format.FormattingNumbers(vTokenBalance)} />}
+            </ Flex>
+            <Flex aic>
+                {type === 'Market' ? <MenuDecompose menuname='年化率' context={2} />
+                    : <MenuDecompose menuname='可兑换' abbrCompany abbr={abbr}
+                        context={exchangeRate === 0 ? 0 :
+                            Format.ride(Format.except(vTokenBalance), Format.Reciprocal(exchangeRate))} />}
+                {type === 'Market' ? <MenuDecompose menuname='兑换价' context={Format.decimalTwo(exAllChangeRate)} />
+                    : <MenuDecompose menuname='收益' abbrCompany abbr={abbr} context={Format.Profit(cost, income, vTokenBalance, exchangeRate)} />}
+            </Flex>
+            <Flex aic>
+                {type === 'Market' ?
+                    <MenuDecompose menuname='交易池' context={Format.FormattingNumbers(TokeninVariant)} abbrCompany />
+                    : null}
+            </Flex>
+            <Hidden desktop tablet>
+                <Button w={16.5} h={3} mx={1}  Event={JumpRouting} text='查看' />
+            </Hidden>
+        </Flex >
     )
 }

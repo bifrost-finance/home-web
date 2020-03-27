@@ -18,6 +18,8 @@ import Details from "./pages/Details"
 const HomePage = lazy(() => import('./pages/HomePage'))
 const Loading = lazy(() => import('./components/Loading'))
 export default () => {
+  // token 的prices
+  const [tokenPrices,setTokenPrices] = useState('')
   // 资产交易池
   const [TokeninVariant, setTokeninVariant] = useState('')
   // 用户资产余额
@@ -97,10 +99,12 @@ export default () => {
     let exchangeRateParameter = []
     let vbalancesParameter = []
     let balancesParameter = []
+    let prices = []
     accountAssets.map((v) => {
       exchangeRateParameter.push([v])
       vbalancesParameter.push([v, 'vToken', polkadotAccount])
       balancesParameter.push([v, 'Token', polkadotAccount])
+      prices.push([v, 'Token'])
     })
     try {
       await Promise.all([
@@ -123,7 +127,13 @@ export default () => {
           // res.map((v) => { console.log('汇率assetID', v.toJSON()[0]) })
           // console.log('汇率数组', res)
           setExchangeRate(res)
-        })
+        }),
+        api.query.assets.prices.multi(prices, (res) => {
+          // 精度处理
+          res.map((v) => { console.log('价格assetID', v.toJSON()) })
+          console.log('汇率数组', res)
+          setTokenPrices(res)
+        }),
       ])
 
     }
@@ -277,7 +287,8 @@ export default () => {
                 vTokens={vTokens}
                 totalAssets={totalAssets}
                 TokeninVariant={TokeninVariant}
-                exAllChangeRate={exAllChangeRate} /> : <Loading />
+                exAllChangeRate={exAllChangeRate}
+                screen={screen} /> : <Loading />
           )} />
         <Route
           path="/vdot"
@@ -293,6 +304,7 @@ export default () => {
                 vTokenBalance={vTokenBalance}
                 accountAssets={accountAssets}
                 vTokens={vTokens}
+                screen={screen}
               />
           )} />
         <Route
@@ -309,6 +321,7 @@ export default () => {
                 vTokenBalance={vTokenBalance}
                 accountAssets={accountAssets}
                 vTokens={vTokens}
+                screen={screen}
               />
           )} />
         <Route
@@ -325,6 +338,7 @@ export default () => {
                 TokenBalance={TokenBalance}
                 accountAssets={accountAssets}
                 vTokens={vTokens}
+                screen={screen}
               />
           )} />
       </Switch>
@@ -332,13 +346,14 @@ export default () => {
     )
   }
   useEffect(() => {
-    if (document.documentElement.clientWidth < 768) {
+    console.log('宽度',document.documentElement.clientWidth)
+    if (document.documentElement.clientWidth < 720) {
       setScreen("mobile");
     }
-    else if (document.documentElement.clientWidth > 768 || document.documentElement.clientWidth === 768 || document.documentElement.clientWidth < 979) {
+    else if ((document.documentElement.clientWidth > 720 || document.documentElement.clientWidth === 720) && document.documentElement.clientWidth < 1200) {
       setScreen("Tablet");
     }
-    else if (document.documentElement.clientWidth > 979 || document.documentElement.clientWidth === 979) {
+    else if (document.documentElement.clientWidth > 1200 || document.documentElement.clientWidth === 1200) {
       setScreen("laptop");
     }
     console.log('自适应', screen)

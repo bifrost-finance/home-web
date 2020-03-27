@@ -7,18 +7,18 @@ import { ReactComponent as IconEos } from "../images/eos-19.svg";
 import { ReactComponent as IconDot } from "../images/dot-15.svg";
 import { ReactComponent as IconKsm } from "../images/ksm-17.svg";
 export const mobile = (...args) => css`
-  @media (max-width: 768px) {
+  @media screen and (max-width: 719px) {
     ${css(...args)}
   }
 `;
 export const tablet = (...args) => css`
-@media (min-width: 769px) and (max-width: 979px)  {
+@media screen and (min-width: 720px) and (max-width: 1198px)  {
     ${css(...args)}
   }
 `;
 
 export const desktop = (...args) => css`
-  @media (min-width: 980px) {
+  @media screen and (min-width: 1199px) {
     ${css(...args)}
   }
 `;
@@ -95,9 +95,6 @@ export const View = styled.div`
   flex: ${p => p.flex};
   text-align: ${p =>
         p.center ? "center" : p.left ? "left" : p.right && "right"};
-
-  max-width: ${p => p.maxWidth && p.maxWidth + "em"};
-  max-height: ${p => p.maxHeight && p.maxHeight + "em"};
   min-width: ${p => p.minWidth && p.minWidth + "em"};
   min-height: ${p => p.minHeight && p.minHeight + "em"};
 
@@ -118,6 +115,10 @@ export const View = styled.div`
   ${mobile`
     width: ${p =>
             p.w && (typeof p.w === "number" ? p.w + "em" : p.w[0] && p.w[0] + "em")};
+    max-width:${p =>
+            p.maxWidth && (typeof p.maxWidth === "number" ? p.maxWidth + "em" : p.maxWidth[0] && p.maxWidth[0] + "em")};
+    max-height:${p =>
+            p.maxHeight && (typeof p.maxHeight === "number" ? p.maxHeight + "em" : p.maxHeight[0] && p.maxHeight[0] + "em")};
     height:${p =>
             p.h && (typeof p.h === "number" ? p.h + "em" : p.h[0] && p.h[0] + "em")};
     margin: ${p =>
@@ -186,6 +187,10 @@ export const View = styled.div`
   ${desktop`
     width: ${p =>
             p.w && (typeof p.w === "number" ? p.w + "em" : p.w[1] && p.w[1] + "em")};
+    max-width:${p =>
+            p.maxWidth && (typeof p.maxWidth === "number" ? p.maxWidth + "em" : p.maxWidth[1] && p.maxWidth[1] + "em")};
+    max-height:${p =>
+            p.maxHeight && (typeof p.maxHeight === "number" ? p.maxHeight + "em" : p.maxHeight[1] && p.maxHeight[1] + "em")};
     height:${p =>
             p.h && (typeof p.h === "number" ? p.h + "em" : p.h[1] && p.h[1] + "em")};
     margin: ${p =>
@@ -252,11 +257,15 @@ export const View = styled.div`
   `}
   ${tablet`
     width: ${p =>
-            p.w && (typeof p.w === "number" ? p.w + "em" : p.w[2] && p.w[1] + "em")};
+            p.w && (typeof p.w === "number" ? p.w + "em" : p.w[2] && p.w[2] + "em")};
+    max-width:${p =>
+            p.maxWidth && (typeof p.maxWidth === "number" ? p.maxWidth + "em" : p.maxWidth[2] && p.maxWidth[2] + "em")};
+    max-height:${p =>
+            p.maxHeight && (typeof p.maxHeight === "number" ? p.maxHeight + "em" : p.maxHeight[2] && p.maxHeight[2] + "em")};
     height:${p =>
-            p.h && (typeof p.h === "number" ? p.h + "em" : p.h[2] && p.h[1] + "em")};
+            p.h && (typeof p.h === "number" ? p.h + "em" : p.h[2] && p.h[2] + "em")};
     margin: ${p =>
-            p.m && (typeof p.m === "number" ? p.m + "em" : p.m[2] && p.m[1] + "em")};
+            p.m && (typeof p.m === "number" ? p.m + "em" : p.m[2] && p.m[2] + "em")};
     margin-top: ${p =>
             p.my
                 ? typeof p.my === "number"
@@ -476,15 +485,27 @@ export const Content = styled.div`
 ${mobile`
     width:${p =>
             p.w && (typeof p.w === "number" ? p.w + "em" : p.w[0] && p.w[0] + "em")};
+    margin-top:${p =>
+            p.mt && (typeof p.mt === "number" ? p.mt + "em" : p.mt[0] && p.mt[0] + "em")};
+    margin-bottom:${p =>
+            p.mb && (typeof p.mb === "number" ? p.mb + "em" : p.mb[0] && p.mb[0] + "em")};
   `}
 
   ${desktop`
     width: ${p =>
             p.w && (typeof p.w === "number" ? p.w + "em" : p.w[1] && p.w[1] + "em")};
+    margin-top:${p =>
+            p.mt && (typeof p.mt === "number" ? p.mt + "em" : p.mt[1] && p.mt[1] + "em")};
+    margin-bottom:${p =>
+            p.mb && (typeof p.mb === "number" ? p.mb + "em" : p.mb[1] && p.mb[1] + "em")};
   `}
   ${tablet`
     width: ${p =>
             p.w && (typeof p.w === "number" ? p.w + "em" : p.w[2] && p.w[2] + "em")};
+    margin-top:${p =>
+            p.mt && (typeof p.mt === "number" ? p.mt + "em" : p.mt[2] && p.mt[2] + "em")};
+    margin-bottom:${p =>
+            p.mb && (typeof p.mb === "number" ? p.mb + "em" : p.mb[2] && p.mb[2] + "em")};
   `}
 
 height:${p => p.h ? p.h + "em" : ""};
@@ -493,8 +514,6 @@ flex-direction:${p => p.fd ? p.fd : "row"};
 justify-content:space-between;
 align-items:center;
 margin:0 auto;
-margin-top:${p => p.mt ? p.mt + "em" : 0};
-margin-bottom:${p => p.mb ? p.mb + "em" : 0};
 `;
 export const CardFlex = styled(Flex)`
     box-sizing: border-box;
@@ -504,10 +523,6 @@ export const CardFlex = styled(Flex)`
     `;
 export const ScrollPage = styled(Flex)`
 box-sizing: border-box;
-width:36em;
-height:25em;
-padding-left:3em;
-padding-right:3em;
 overflow-y:auto;
 `;
 export const TextTypesetting = styled(Text)`
@@ -527,17 +542,49 @@ transform: rotate(-45deg);
 
 `;
 export const Input = styled.input`
-width: 26em;
+${mobile`
+    width:${p =>
+            p.w && (typeof p.w === "number" ? p.w + "em" : p.w[0] && p.w[0] + "em")};
+    margin:${p =>
+            p.m && (typeof p.m === "number" ? p.m + "em" : p.m[0] && p.m[0] + "em")};
+    font-size: ${p =>
+            (p.scale || p.scale === 0) &&
+            (typeof p.scale === "number"
+                ? Math.pow(1.1, p.scale) + "rem"
+                : (p.scale[0] || p.scale[0] === 0) &&
+                Math.pow(1.1, p.scale[0]) + "rem")};
+  `}
+
+  ${desktop`
+    width: ${p =>
+            p.w && (typeof p.w === "number" ? p.w + "em" : p.w[1] && p.w[1] + "em")};
+    margin:${p =>
+            p.m && (typeof p.m === "number" ? p.m + "em" : p.m[1] && p.m[1] + "em")};
+    font-size: ${p =>
+            (p.scale || p.scale === 0) &&
+            (typeof p.scale === "number"
+                ? Math.pow(1.15, p.scale) + "rem"
+                : (p.scale[1] || p.scale[1] === 0) &&
+                Math.pow(1.15, p.scale[1]) + "rem")};
+  `}
+  ${tablet`
+    width: ${p =>
+            p.w && (typeof p.w === "number" ? p.w + "em" : p.w[2] && p.w[2] + "em")};
+    margin:${p =>
+            p.m && (typeof p.m === "number" ? p.m + "em" : p.m[2] && p.m[2] + "em")};
+    font-size: ${p =>
+            (p.scale || p.scale === 0) &&
+            (typeof p.scale === "number"
+                ? Math.pow(1.15, p.scale) + "rem"
+                : (p.scale[2] || p.scale[2] === 0) &&
+                Math.pow(1.15, p.scale[2]) + "rem")};
+  `}
 border: 0px;
 background-color:#F7F7F9;
 font-family: Product Sans;
 font-weight: bold;
-font-size: 1.5rem;
-margin:1em
-
 `;
 export const ScrollView = styled(View)`
-max-height:30em;
 overflow-y: auto;
 scrollbar-width: none
 `;
@@ -545,4 +592,14 @@ export const DetailText = styled(Text)`
 font-weight:500;
 font-family:Noto Sans SC;
 `;
+export const Button = props => (
+    <Flex
+     w={props.w} h={props.h} mx={props.mx} aic jcc r={radius.xsm} bg={color.blue}
+        onClick={props.Event}
+        style={{ cursor: 'pointer' }}>
+        <Text ff="Noto Sans SC" scale={1.5} paragraph={2} ls={0.0416} color={color.white}>
+            {props.text}</Text>
+    </Flex>
+
+)
 
