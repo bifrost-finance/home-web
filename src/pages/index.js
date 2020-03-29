@@ -136,7 +136,7 @@ export default () => {
           >
             {/*<TitleText text='开发者' ResponseEvent={() => { window.open("https://docs.bifrost.codes/developer") }} />*/}
             <TitleText text='白皮书' ResponseEvent={() => { window.open("https://docs.bifrost.codes/whitepaper") }} />
-            <TitleText text='节点监控' ResponseEvent={() => { window.open(" https://telemetry.polkadot.io/#list/Bifrost%20POC-1%20Testnet") }} />
+            <TitleText text='节点监控' ResponseEvent={() => { window.open("https://telemetry.polkadot.io/#list/Bifrost%20POC-2%20Testnet") }} />
             <Flex
               onClick={() => {
                 i18n.changeLanguage(i18n.language === "zh" ? "en" : "zh")
