@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Flex, color, Text, CardFlex, View, SVG, Hidden, CoinIcon, Input, TextTypesetting } from "../components/Styles"
+import React, { useState, useRef } from "react";
+import { Flex, color, Text, CardFlex, View, SVG, Hidden, TextTypesetting } from "./Styles"
 import { ReactComponent as Switch } from "../images/switch-25.svg";
 import { ReactComponent as Ico } from "../images/ico-23.svg";
 import { ReactComponent as Info } from "../images/info-27.svg";
 import InputBox from './InputBox'
 import Format from './Format'
-export default ({ abbr, type, exChangeRate, TokeninVariant, TokenBalance, vTokenBalance, api,
-    polkadotAccount, InVariantPool, vTokeninVariant,screen }) => {
+const ExchangePage = ({ abbr, type, exChangeRate, api, polkadotAccount, screen, TokeninVariant,
+    vTokeninVariant, InVariantPool, vTokenBalance, TokenBalance }) => {
     // 交易状态切换
     const [tradeSwitch, setTradeSwitch] = useState(true)
     const childRef = useRef()
@@ -49,8 +49,8 @@ export default ({ abbr, type, exChangeRate, TokeninVariant, TokenBalance, vToken
             </Hidden>
             <InputBox cRef={childRef} type={type} abbr={abbr} tradeSwitch={tradeSwitch} exChangeRate={exChangeRate}
                 TokenBalance={TokenBalance} vTokenBalance={vTokenBalance} vTokeninVariant={vTokeninVariant}
-                api={api} polkadotAccount={polkadotAccount} InVariantPool={InVariantPool} 
-                TokeninVariant={TokeninVariant}screen={screen} />
+                api={api} polkadotAccount={polkadotAccount} InVariantPool={InVariantPool}
+                TokeninVariant={TokeninVariant} screen={screen} />
             <Flex h={2.5} w={[16.5, 30, 36]} aic jcsb mx={[2, 3, 3]} my={[1, 3, 3]}>
                 <Text ff="Noto Sans SC" scale={1.125} paragraph={2.222} color={color.gray}>
                     {type === 'Exchange' ? "赎回中" : "交易池"}
@@ -58,7 +58,7 @@ export default ({ abbr, type, exChangeRate, TokeninVariant, TokenBalance, vToken
                 <Flex aic>
                     {type === 'Exchange' ?
                         <SVG svg={Info} height={1.5} /> : null}
-                    <TextTypesetting maxWidth={[6, 10, 13]} ml={[0.2,0.5,0.5]} scale={1.125} paragraph={2.222} color={color.gray}>
+                    <TextTypesetting maxWidth={[6, 10, 13]} ml={[0.2, 0.5, 0.5]} scale={1.125} paragraph={2.222} color={color.gray}>
                         {type === 'Exchange' ? `1111111111111111111111111111111.121` :
                             `${Format.decimalFormattingNumbers(TokeninVariant)}`}
                     </TextTypesetting>
@@ -68,4 +68,5 @@ export default ({ abbr, type, exChangeRate, TokeninVariant, TokenBalance, vToken
 
         </CardFlex>
     )
-}
+};
+export default React.memo(ExchangePage)

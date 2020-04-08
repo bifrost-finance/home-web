@@ -2,10 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { useTransition, animated } from "react-spring";
 import { radius, color, Text, SVG, Flex, View, ScrollView } from "./Styles";
-
 import { ReactComponent as IconClose } from "../images/close-45.svg";
-
-export default ({ show, close, title, children}) => {
+const Modal = ({ show, close, title, children }) => {
   const overlayTransition = useTransition(show, null, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
@@ -32,27 +30,27 @@ export default ({ show, close, title, children}) => {
         ({ item, key, props }) =>
           item && (
             <ModalContainer key={key} style={props}>
-              <Modal
-                w={[19,36,36]}
+              <ModalContent
+                w={[19, 36, 36]}
                 pb={3}
                 z={1000}
                 column
                 r={radius.lg}
                 bg={color.white}
               >
-                <Flex p={[2,3,3]}  bb={color.darkGray} jcsb>
+                <Flex p={[2, 3, 3]} bb={color.darkGray} jcsb>
                   <Text scale={1.5} fw={500} ff='Noto Sans SC'>
                     {title}
                   </Text>
                   <CloseButton as="span" p={0.5} jcc aic onClick={close}>
-                    <SVG svg={IconClose} height={1.5}  />
+                    <SVG svg={IconClose} height={1.5} />
                   </CloseButton>
                 </Flex>
 
-                <ScrollView maxHeight={[25,30,30]}>
-                  <View px={[2,3,3]}>{children}</View>
+                <ScrollView maxHeight={[25, 30, 30]}>
+                  <View px={[2, 3, 3]}>{children}</View>
                 </ScrollView>
-              </Modal>
+              </ModalContent>
               <ModalContainer onClick={close} />
             </ModalContainer>
           )
@@ -60,7 +58,7 @@ export default ({ show, close, title, children}) => {
     </>
   );
 };
-
+export default React.memo(Modal)
 const Overylay = styled(animated.section)`
   z-index: 10;
   position: fixed;
@@ -83,10 +81,11 @@ const ModalContainer = styled(animated.section)`
   justify-content: center;
 `;
 
-const Modal = styled(Flex)`
+const ModalContent = styled(Flex)`
   position: relative;
 `;
 
 const CloseButton = styled(Flex)`
   cursor: pointer;
 `;
+

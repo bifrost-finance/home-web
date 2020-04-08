@@ -2,51 +2,34 @@
 import React, { lazy, Suspense, useState, useEffect } from "react";
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
-import { TypeRegistry } from '@polkadot/types';
+// import "./i18n/i18n";
+import { useTranslation } from "react-i18next";
 import { encodeAddress, setSS58Format } from '@polkadot/util-crypto';
 import {
   BrowserRouter as Router,
   Route, withRouter, Switch
 } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import NP from 'number-precision'
 import parameter from './components/parameter'
-import Header from "./components/Header"
-// import HomePage from "./pages/HomePage"
-import Details from "./pages/Details"
-// const Details = lazy(() => import('./pages/Details'))
+const Details = lazy(() => import('./pages/Details'))
 const HomePage = lazy(() => import('./pages/HomePage'))
 const Loading = lazy(() => import('./components/Loading'))
-export default () => {
+const Header = lazy(() => import('./components/Header'))
+
+const App = () => {
   // token 的prices
-  const [tokenPrices,setTokenPrices] = useState('')
-  // 资产交易池
-  const [TokeninVariant, setTokeninVariant] = useState('')
-  // 用户资产余额
-  const [vTokenBalance, setvTokenBalance] = useState('')
-  const [TokenBalance, setTokenBalance] = useState('')
-  // const [allBalance, setAllBalance] = useState('')
-  // 资产汇率
-  const [exchangeRate, setExchangeRate] = useState('')
-  // 所有资产汇率
-  const [exAllChangeRate, setAllExchangeRate] = useState('')
-  // 资产总发行
-  const [vTokens, setVtokens] = useState('')
+  const [tokenPrices, setTokenPrices] = useState('')
+  // 用户创建的资产
+  const [accountAssets, setAccountAssets] = useState([])
   // 下一个要创建的资产类型
   const [nextAssetId, setNextAssetId] = useState('')
-  const [totalAssets, setTotalAssets] = useState([])
-  // 创建的资产
-  const [accountAssets, setAccountAssets] = useState([])
   // 连接后端api
   const [api, setApi] = useState(null)
-  // 下拉框状态
-  const [unitState, setUnitState] = useState(false)
   // 当前屏幕尺寸
   const [screen, setScreen] = useState("")
   // 翻译文件
   const { t } = useTranslation()
   // 当前单位
-  const [state, setState] = useState(false)
+  const [state, setState] = useState('TOKEN')
   // 本地登陆的polkadot账号(转码前)
   const [polkadotAccount, setPolkadotAccount] = useState('')
   // 本地登陆的polkadot账号(转码后)
@@ -62,23 +45,109 @@ export default () => {
     setApi(polkadotApi)
   }
   let timer
+  // 创建接口api 
   useEffect(() => {
     if (api === null) {
       timer = setTimeout(() => {
         main()
       }, 100)
     }
+    //组件卸载生命周期
     return () => {
       clearTimeout(timer)
       console.log('卸载')
     }
   }, [api])
-  // 查询用户asset id 和下一个要创建的资产
+  // 检测本地插件 插件是否有账号
+  useEffect(() => {
+    CheckWallet()
+  }, [])
+  // 获取浏览器当前宽度
+  useEffect(() => {
+    console.log('宽度', document.documentElement.clientWidth)
+    if (document.documentElement.clientWidth < 720) {
+      setScreen("mobile");
+    }
+    else if ((document.documentElement.clientWidth > 720
+      || document.documentElement.clientWidth === 720)
+      && document.documentElement.clientWidth < 1200) {
+      setScreen("Tablet");
+    }
+    else if (document.documentElement.clientWidth > 1200
+      || document.documentElement.clientWidth === 1200) {
+      setScreen("laptop");
+    }
+    console.log('自适应', screen)
+  }, [screen]);
+  useEffect(() => {
+    if (!purseStatus || !accountStatus) {
+      setPolkadotAccount('5GjJNWYS6f2UQ9aiLexuB8qgjG8fRs2Ax4nHin1z1engpnNt')
+    }
+  }, [purseStatus, accountStatus])
+  useEffect(() => {
+    if (purseStatus === false) {
+      setAccountStatus(false)
+    }
+  }, [purseStatus])
   useEffect(() => {
     if (polkadotAccount !== '' && api !== null) {
       QueryAssets()
     }
   }, [polkadotAccount, api])
+  useEffect(() => {
+    if (polkadotAccount !== '') { AddressTranscoding() }
+  }, [polkadotAccount])
+  async function CheckAddress() {
+    const allAccounts = await web3Accounts()
+    console.log('地址', allAccounts)
+    if (allAccounts.length === 0) { setAccountStatus(false) }
+    else {
+      const res = allAccounts.findIndex((i) => {
+        return i.meta.source === "polkadot-js"
+      })
+      if (res === -1) {
+        setAccountStatus(false)
+      }
+      else {
+        // 获取 登陆地址数组
+        const AddressArr = allAccounts.map((i) => {
+          if (i.meta.source === "polkadot-js") {
+            return { address: i.address, name: i.meta.name }
+          }
+        })
+        console.log('地址', AddressArr)
+        setPolkadotAccount(AddressArr[4].address)
+      }
+    }
+  }
+  async function CheckWallet() {
+    const allInjected = await web3Enable(' my cool dapp ');
+    if (allInjected.length === 0) {
+      setPurseStatus(false)
+    }
+    else {
+      const res = allInjected.findIndex((i) => {
+        return i.name === 'polkadot-js'
+      })
+      if (res === -1) {
+        setPurseStatus(false)
+      }
+      // 有插件再去检测有没有地址
+      else {
+        CheckAddress()
+      }
+    }
+  }
+  async function AddressTranscoding() {
+    setSS58Format(6)
+    try {
+      let dotAccount = encodeAddress(polkadotAccount);
+      setAccount(dotAccount)
+    }
+    catch (error) { console.log('转码地址错误', error) }
+
+  }
+  // 查询用户的资产类型和下一个要创建的资产
   async function QueryAssets() {
     console.log('正在查询', polkadotAccount)
     try {
@@ -93,202 +162,29 @@ export default () => {
     }
     catch (error) { console.log('错误', error) }
   }
-  // 查询用户相关资产
-  async function FindVToken() {
-    let balance = []
-    let exchangeRateParameter = []
-    let vbalancesParameter = []
-    let balancesParameter = []
-    let prices = []
-    accountAssets.map((v) => {
-      exchangeRateParameter.push([v])
-      vbalancesParameter.push([v, 'vToken', polkadotAccount])
-      balancesParameter.push([v, 'Token', polkadotAccount])
-      prices.push([v, 'Token'])
-    })
-    try {
-      await Promise.all([
-        api.query.assets.accountAssets.multi(vbalancesParameter, (res) => {
-          // res.map((v) => { console.log('余额SassetID', balance.push(v.balance.toString())) })
-          // console.log('余额', res)
-          // console.log('余额和', balance)
-          // setAllBalance(balance)
-          setvTokenBalance(res)
-
-        }),
-        api.query.assets.accountAssets.multi(balancesParameter, (res) => {
-          // res.map((v) => { console.log('余额SassetID', balance.push(v.balance.toString())) })
-          // console.log('余额', res)
-          // console.log('余额和', balance
-          setTokenBalance(res)
-
-        }),
-        api.query.exchange.exchangeRate.multi(exchangeRateParameter, (res) => {
-          // res.map((v) => { console.log('汇率assetID', v.toJSON()[0]) })
-          // console.log('汇率数组', res)
-          setExchangeRate(res)
-        }),
-        api.query.assets.prices.multi(prices, (res) => {
-          // 精度处理
-          res.map((v) => { console.log('价格assetID', v.toJSON()) })
-          console.log('汇率数组', res)
-          setTokenPrices(res)
-        }),
-      ])
-
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
-  useEffect(() => {
-    if (api !== null && polkadotAccount !== '') {
-      FindVToken()
-    }
-  }, [api, polkadotAccount, accountAssets])
-  useEffect(() => {
-    if (nextAssetId !== '') {
-      let AssetsID = Array.from({ length: nextAssetId }, (v, k) => k);
-      setTotalAssets(AssetsID)
-    }
-  }, [nextAssetId])
-  // 查找公共信息
-  async function FindMarket() {
-    let tokens = []
-    let inVariant = []
-    // let balancesParameter = []
-    totalAssets.map((v) => {
-      tokens.push([v])
-      inVariant.push(v)
-      // balancesParameter.push([v, 'vToken', polkadotAccount])
-    })
-    try {
-      await Promise.all([
-        api.query.assets.tokens.multi(tokens, (res) => {
-          // res.map((i) => { console.log('assetID', i.vtoken.totalSupply.toString()) })
-          // console.log('总发行', res)
-          setVtokens(res)
-        }),
-        api.query.swap.inVariant.multi(inVariant, (res) => {
-          res.map((v) => {
-            console.log('流通交易池', v.toJSON()[2])
-            console.log('token交易池', v.toJSON()[0])
-            console.log('vtoken交易池', v.toJSON()[1])
-
-          })
-          console.log('交易池', res)
-          setTokeninVariant(res)
-        }),
-        api.query.exchange.exchangeRate.multi(tokens, (res) => {
-          res.map((v) => { console.log('所有资产汇率assetID', v.toJSON()[0]) })
-          console.log('所有汇率数组', res)
-          setAllExchangeRate(res)
-        }),
-        api.query.swap.fee.multi(tokens, (res) => {
-          res.map((v) => { console.log('手续费', v.toJSON()) })
-        })
-      ])
-
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
-  useEffect(() => {
-    if (api !== null && nextAssetId !== '' && totalAssets !== '') {
-      FindMarket()
-    }
-  }, [api, nextAssetId, totalAssets])
-  useEffect(() => {
-    if (!purseStatus || !accountStatus) {
-      setPolkadotAccount('5GjJNWYS6f2UQ9aiLexuB8qgjG8fRs2Ax4nHin1z1engpnNt')
-    }
-  }, [purseStatus, accountStatus])
-  // 检测本地插件 插件是否有账号
-  useEffect(() => {
-    CheckWallet()
-    CheckAddress()
-  }, [])
-  async function CheckAddress() {
-    const allAccounts = await web3Accounts()
-    if (allAccounts === []) { setAccountStatus(false) }
-    else {
-      let AddressArr = []
-      let noPolkadotAddtess = []
-      allAccounts.map((i) => {
-        if (i.meta.source === "polkadot-js") {
-          AddressArr.push({ address: i.address, name: i.meta.name })
-        }
-        else if (i.meta.source === "polkadot-js") {
-          noPolkadotAddtess.push(i.meta.source)
-        }
-      })
-      if (AddressArr.length !== 0) {
-        console.log('有登陆账号', AddressArr)
-        setPolkadotAccount(`${AddressArr[2].address}`)
-      }
-      if (noPolkadotAddtess.length === allAccounts.length) {
-        setAccountStatus(false)
-      }
-    }
-  }
-  async function CheckWallet() {
-    const allInjected = await web3Enable(' my cool dapp ');
-    // 检测插件
-    console.log(allInjected)
-    if (allInjected === []) { setPurseStatus(false) }
-    else {
-      let nopurse = []
-      allInjected.map((i) => {
-        if (i.name !== 'polkadot-js') {
-          nopurse.push(i.name)
-        }
-        if (nopurse.length === allInjected.length) {
-          setPurseStatus(false)
-        }
-      })
-    }
-  }
-  async function AddressTranscoding() {
-    setSS58Format(6)
-    try {
-      let dotAccount = encodeAddress(polkadotAccount);
-      setAccount(dotAccount)
-    }
-    catch (error) { console.log('转码地址错误', error) }
-
-  }
-  useEffect(() => { if (polkadotAccount !== '') { AddressTranscoding() } }, [polkadotAccount])
   // useEffect(() => { console.log('assets长度', accountAssets.length) }, [accountAssets])
   // 改变单位,关闭下拉框
-  const ToggleUnitValue = () => {
-    setState(!state)
-    // console.log(state)
-    setUnitState(false)
+  const ToggleUnitValue = (e) => {
+    setState(e.target.value)
+    console.log('e.target',e.target.value)
   }
-  // 改变下拉框状态
-  const SwitchingUnit = () => {
-    setUnitState(!unitState)
-  }
+
   const Link = () => {
     return (
       <><Switch>
         <Route exact
           path="/"
-          key="1"
+          key="home"
           render={() => (
             api !== null && polkadotAccount !== '' ?
-              <HomePage state={state} api={api}
+              <HomePage
+                // state={state}
+                api={api}
                 polkadotAccount={polkadotAccount}
-                account={account}
+                screen={screen}
                 accountAssets={accountAssets}
-                vTokenBalance={vTokenBalance}
-                exchangeRate={exchangeRate}
-                vTokens={vTokens}
-                totalAssets={totalAssets}
-                TokeninVariant={TokeninVariant}
-                exAllChangeRate={exAllChangeRate}
-                screen={screen} /> : <Loading />
+                nextAssetId={nextAssetId}
+              /> : <Loading />
           )} />
         <Route
           path="/vdot"
@@ -296,14 +192,10 @@ export default () => {
           render={() => (
             api === null || polkadotAccount === '' ?
               <Loading />
-              : <Details abbr="DOT" api={api}
+              : <Details
+                abbr="DOT"
+                api={api}
                 polkadotAccount={polkadotAccount}
-                exAllChangeRate={exAllChangeRate}
-                TokeninVariant={TokeninVariant}
-                TokenBalance={TokenBalance}
-                vTokenBalance={vTokenBalance}
-                accountAssets={accountAssets}
-                vTokens={vTokens}
                 screen={screen}
               />
           )} />
@@ -313,14 +205,10 @@ export default () => {
           render={() => (
             api === null || polkadotAccount === '' ?
               <Loading />
-              : <Details abbr="KSM" api={api}
+              : <Details
+                abbr="KSM"
+                api={api}
                 polkadotAccount={polkadotAccount}
-                exAllChangeRate={exAllChangeRate}
-                TokeninVariant={TokeninVariant}
-                TokenBalance={TokenBalance}
-                vTokenBalance={vTokenBalance}
-                accountAssets={accountAssets}
-                vTokens={vTokens}
                 screen={screen}
               />
           )} />
@@ -330,14 +218,10 @@ export default () => {
           render={() => (
             api === null || polkadotAccount === '' ?
               <Loading />
-              : <Details abbr="EOS" api={api}
+              : <Details
+                abbr="EOS"
+                api={api}
                 polkadotAccount={polkadotAccount}
-                exAllChangeRate={exAllChangeRate}
-                TokeninVariant={TokeninVariant}
-                vTokenBalance={vTokenBalance}
-                TokenBalance={TokenBalance}
-                accountAssets={accountAssets}
-                vTokens={vTokens}
                 screen={screen}
               />
           )} />
@@ -345,33 +229,19 @@ export default () => {
       </>
     )
   }
-  useEffect(() => {
-    console.log('宽度',document.documentElement.clientWidth)
-    if (document.documentElement.clientWidth < 720) {
-      setScreen("mobile");
-    }
-    else if ((document.documentElement.clientWidth > 720 || document.documentElement.clientWidth === 720) && document.documentElement.clientWidth < 1200) {
-      setScreen("Tablet");
-    }
-    else if (document.documentElement.clientWidth > 1200 || document.documentElement.clientWidth === 1200) {
-      setScreen("laptop");
-    }
-    console.log('自适应', screen)
-  }, [screen]);
+
 
   return (
     <Router>
-
       <Suspense fallback="">
         <Header
+          api={api}
           screen={screen}
-          vTokenBalance={vTokenBalance}
-          exchangeRate={exchangeRate}
-          // allBalance={allBalance}
+          accountAssets={accountAssets}
           polkadotAccount={polkadotAccount}
           account={account}
-          ToggleUnitValue={ToggleUnitValue} state={state}
-          unitState={unitState} SwitchingUnit={SwitchingUnit} />
+          ToggleUnitValue={ToggleUnitValue}
+          state={state} />
         <Link />
       </Suspense>
 
@@ -379,6 +249,7 @@ export default () => {
 
   )
 };
+export default React.memo(App)
 
 
 

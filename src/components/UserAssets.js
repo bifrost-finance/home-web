@@ -1,11 +1,10 @@
 import React, { lazy, Suspense, useState, useEffect } from "react";
-import { Text, Content, CardFlex, View, Flex, color, Hidden, } from "../components/Styles"
+import { Text, Content, CardFlex, Flex, color, Hidden, } from "./Styles"
 import MenuItem from './MenuItem'
 import MappingFile from '../pages/MappingFile.json'
 import TokenLogo from './TokenLogo'
-import Format from './Format'
-export default ({ state, type, accountAssets, vTokenBalance, exchangeRate, vTokens, totalAssets, exAllChangeRate,
-  TokeninVariant, screen }) => {
+const UserAssets = ({ state, type, accountAssets, vTokenBalance, exchangeRate, vTokens, totalAssets, exAllChangeRate,
+  TokeninVariant, screen ,AnnualizedRate}) => {
   // vtoken 选中的
   const [vtokenSelectionAbbr, setVtokenSelectionAbbr] = useState('')
   // market 选中的
@@ -47,6 +46,7 @@ export default ({ state, type, accountAssets, vTokenBalance, exchangeRate, vToke
           vTokens={vTokens === '' || vTokens.length === 0 ? 0 : vTokens[i].vtoken.totalSupply.toString()}
           TokeninVariant={TokeninVariant === '' || TokeninVariant.length === 0 ? 0 : TokeninVariant[i].toJSON()[0]}
           exAllChangeRate={exAllChangeRate === '' || exAllChangeRate.length === 0 ? 0 : exAllChangeRate[i].toJSON()[0]}
+          AnnualizedRate={AnnualizedRate.length===0 ||  AnnualizedRate === '' ?0: AnnualizedRate[i] }
         />)
       })}
     </>)
@@ -57,6 +57,7 @@ export default ({ state, type, accountAssets, vTokenBalance, exchangeRate, vToke
         vTokens={vTokens === '' || vTokens.length === 0 ? 0 : vTokens[selectionAbbr].vtoken.totalSupply.toString()}
         TokeninVariant={TokeninVariant === '' || TokeninVariant.length === 0 ? 0 : TokeninVariant[selectionAbbr].toJSON()[0]}
         exAllChangeRate={exAllChangeRate === '' || exAllChangeRate.length === 0 ? 0 : exAllChangeRate[selectionAbbr].toJSON()[0]}
+        AnnualizedRate={AnnualizedRate === '' || AnnualizedRate.length === 0 ? 0 : AnnualizedRate[selectionAbbr]}
       />)
     }
     else {
@@ -137,12 +138,14 @@ export default ({ state, type, accountAssets, vTokenBalance, exchangeRate, vToke
             {type === 'Market' ?
               <MobileMarket /> :
               <MobileVtoken />
+              
             }
           </Hidden>
           <Hidden mobile><Menu />
             {type === 'Market' ?
               <Market /> :
               <Vtoken />
+              
             }
           </Hidden>
 
@@ -151,3 +154,4 @@ export default ({ state, type, accountAssets, vTokenBalance, exchangeRate, vToke
     </>
   )
 };
+export default React.memo(UserAssets)

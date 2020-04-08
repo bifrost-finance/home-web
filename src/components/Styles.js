@@ -579,10 +579,12 @@ ${mobile`
                 : (p.scale[2] || p.scale[2] === 0) &&
                 Math.pow(1.15, p.scale[2]) + "rem")};
   `}
-border: 0px;
+border: 0;
+outline: none; 
 background-color:#F7F7F9;
 font-family: Product Sans;
 font-weight: bold;
+
 `;
 export const ScrollView = styled(View)`
 overflow-y: auto;
@@ -594,7 +596,7 @@ font-family:Noto Sans SC;
 `;
 export const Button = props => (
     <Flex
-     w={props.w} h={props.h} mx={props.mx} aic jcc r={radius.xsm} bg={color.blue}
+        w={props.w} h={props.h} mx={props.mx} ml={props.ml} aic jcc r={radius.xsm} bg={color.blue}
         onClick={props.Event}
         style={{ cursor: 'pointer' }}>
         <Text ff="Noto Sans SC" scale={1.5} paragraph={2} ls={0.0416} color={color.white}>

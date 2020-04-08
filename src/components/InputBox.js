@@ -208,5 +208,5 @@ const InputBox = ({ type, abbr, tradeSwitch, exChangeRate, TokenBalance, vTokenB
 
         </Modal>
     </>)
-}
-export default InputBox
+};
+export default React.memo(InputBox) 

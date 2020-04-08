@@ -1,9 +1,9 @@
-import React, { lazy, Suspense, useState, useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom"
 import Format from './Format'
-import { Button, Text, radius, Flex, color, TextTypesetting, Hidden } from "./Styles"
+import { Button, Text, Flex, color, TextTypesetting, Hidden } from "./Styles"
 import TokenLogo from "../components/TokenLogo"
-export default ({ abbr, type, vTokenBalance, exchangeRate, vTokens, TokeninVariant, assetID, cost, income, exAllChangeRate, screen }) => {
+const MenuItem = ({ abbr, type, vTokenBalance, exchangeRate, vTokens, TokeninVariant, assetID, cost, income, exAllChangeRate, screen, AnnualizedRate }) => {
     let history = useHistory();
     const JumpRouting = () => {
         history.push("/v" + abbr);
@@ -18,7 +18,7 @@ export default ({ abbr, type, vTokenBalance, exchangeRate, vTokens, TokeninVaria
                 <Hidden desktop tablet>
                     <Text ff='Noto Sans SC' bold scale={1} color={color.gray} paragraph={2.22223}>{menuname}</Text></Hidden>
                 <Flex aic>
-                    <TextTypesetting scale={1} paragraph={2.22223} bold bg={color.yellow} maxWidth={[5, 8.5, 3]}>
+                    <TextTypesetting scale={1} paragraph={2.22223} bold maxWidth={[5, 8.5, 3]}>
                         {context}
                     </TextTypesetting>
                     {vabbr ?
@@ -46,7 +46,7 @@ export default ({ abbr, type, vTokenBalance, exchangeRate, vTokens, TokeninVaria
                     : <MenuDecompose menuname='余额' vabbr abbr={abbr} context={Format.FormattingNumbers(vTokenBalance)} />}
             </ Flex>
             <Flex aic>
-                {type === 'Market' ? <MenuDecompose menuname='年化率' context={2} />
+                {type === 'Market' ? <MenuDecompose menuname='年化率' context={`${AnnualizedRate}%`} />
                     : <MenuDecompose menuname='可兑换' abbrCompany abbr={abbr}
                         context={exchangeRate === 0 ? 0 :
                             Format.ride(Format.except(vTokenBalance), Format.Reciprocal(exchangeRate))} />}
@@ -59,8 +59,9 @@ export default ({ abbr, type, vTokenBalance, exchangeRate, vTokens, TokeninVaria
                     : null}
             </Flex>
             <Hidden desktop tablet>
-                <Button w={16.5} h={3} mx={1}  Event={JumpRouting} text='查看' />
+                <Button w={16.5} h={3} mx={1} Event={JumpRouting} text='查看' />
             </Hidden>
         </Flex >
     )
-}
+};
+export default React.memo(MenuItem)

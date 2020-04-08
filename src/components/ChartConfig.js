@@ -1,5 +1,5 @@
 // 折线图组件
-import React, { Component } from 'react'
+import React from 'react'
 import { Card } from 'antd'
 //按需导入
 //导入折线图
@@ -10,9 +10,9 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/markPoint'
 import ReactEcharts from 'echarts-for-react'
+const ChartConfig = (props) => {
 
-class ChartConfig extends Component {
-    getOption = () => {
+    const getOption = () => {
         let option = {
             tooltip: {
                 trigger: 'axis',
@@ -58,8 +58,7 @@ class ChartConfig extends Component {
             xAxis: {
                 show: true,
                 boundaryGap: false,
-                data: ['2019-01', '2019-02', '2019-01', '2019-01', '2019-01', '2019-01', '2019-01', '2019-01', '2019-01', '2019-01', '2019-01', '2019-01'
-                ],
+                data: [0, 1, 2, 3, 4, 5, 6, 7],
                 axisLabel: {
                     show: false,
                 },
@@ -81,7 +80,7 @@ class ChartConfig extends Component {
                     smooth: true,
                     showSymbol: false,
                     symbolSize: 8,
-                    data: [{ 'date': '2019-01', 'value': '2.0' }, { 'date': '2019-02', 'value': '4.9' }, { 'date': '2019-01', 'value': '7.0' }, { 'date': '2019-01', 'value': '23.2' }, { 'date': '2019-01', 'value': '25.6' }, { 'date': '2019-01', 'value': '76.7' }, { 'date': '2019-01', 'value': '135.6' }, { 'date': '2019-01', 'value': '162.2' }, { 'date': '2019-01', 'value': '32.6' }, { 'date': '2019-01', 'value': '20.0' }, { 'date': '2019-01', 'value': '6.4' }, { 'date': '2019-01', 'value': '3.3' }],
+                    data: props.SevenDayExchangeRate,
                     areaStyle: {
                         normal: {
                             color: "rgba(0, 45, 194, 0.1)"//区域颜色
@@ -101,12 +100,22 @@ class ChartConfig extends Component {
         }
         return option;
     }
-    render() {
-        return (
+    return (
+        <>
             <Card.Grid className="line_b" >
-                <ReactEcharts style={{ height: "15em" }} option={this.getOption()} />
+                <ReactEcharts style={{ height: "15em" }} option={getOption()} />
             </Card.Grid>
-        )
-    }
+
+        </>
+    )
 }
-export default ChartConfig;
+
+const areEqual = (prevProps, nextProps) => {
+    if (prevProps.SevenDayExchangeRate === nextProps.SevenDayExchangeRate) {
+        return true
+    } else {
+        return false
+    }
+
+}
+export default React.memo(ChartConfig, areEqual)

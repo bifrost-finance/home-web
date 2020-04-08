@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { Flex, color, Button, SVG, TextTypesetting, View } from "./Styles"
 import { ReactComponent as SingleArrowhead } from "../images/SingleArrowhead.svg";
 import Format from './Format'
 import MappingFile from '../pages/MappingFile.json'
 import { web3FromAddress } from '@polkadot/extension-dapp';
-export default ({ type, tradeSwitch, inputValue, transformation, abbr, exChangeRate, redeemDate, api, polkadotAccount, screen }) => {
+const Children =  ({ type, tradeSwitch, inputValue, transformation, abbr, exChangeRate, redeemDate, api, polkadotAccount, screen }) => {
     // 交易池交易
     const SubmissionSwap = () => {
         if (tradeSwitch) {
@@ -206,9 +206,10 @@ export default ({ type, tradeSwitch, inputValue, transformation, abbr, exChangeR
                 <ContextItem left='差价' right='-0.03' />
         }
         <Flex jcc w={[15, 30, 30]} mt={3}>
-            <Button w={[12.5625, 14.0625, 14.0625]} h={4} Event={type === 'Exchange' ? SubmissionExchange : SubmissionSwap}
+            <Button w={[12.5625, 14.0625, 14.0625]} h={[3,4,4]} Event={type === 'Exchange' ? SubmissionExchange : SubmissionSwap}
                 text={type === 'Exchange' ? tradeSwitch ? "确认兑换" : '确认赎回' : "确认交易"}
             />
         </Flex>
     </>)
-}
+};
+export default React.memo(Children)
