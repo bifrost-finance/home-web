@@ -32,92 +32,106 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
       setTotalAssets(AssetsID)
     }
   }, [nextAssetId])
+  // 查找用户资产详情
   useEffect(() => {
+    let isUnmounted = false
     if (api !== null && polkadotAccount !== '' && accountAssets !== []) {
-      FindVToken()
+      (async () => {
+        let balance = []
+        let exchangeRateParameter = []
+        let vbalancesParameter = []
+        accountAssets.map((v) => {
+          exchangeRateParameter.push([v])
+          vbalancesParameter.push([v, 'vToken', polkadotAccount])
+        })
+        try {
+          await Promise.all([
+            api.query.assets.accountAssets.multi(vbalancesParameter, (res) => {
+              console.log('Vtoken 余额数组', res)
+              // setAllBalance(balance)
+              if (!isUnmounted) { setvTokenBalance(res) }
+
+            }),
+            api.query.exchange.exchangeRate.multi(exchangeRateParameter, (res) => {
+              res.map((v) => { console.log('汇率assetID', v.toJSON()[0]) })
+              console.log('汇率数组', res)
+              if (!isUnmounted) { setExchangeRate(res) }
+            }),
+          ])
+
+        }
+        catch (error) {
+          console.log(error);
+        }
+      })();
+    }
+    return () => {
+      isUnmounted = true
     }
   }, [api, polkadotAccount, accountAssets])
   //  查找公共信息
   useEffect(() => {
+    let isUnmounted = false
     if (api !== null && nextAssetId !== '' && totalAssets !== '') {
-      FindMarket()
-      FindBlock()
-      console.log('重新执行memo')
+     
+      (async () => {
+        // 查找公共信息
+    console.log('重新查询了')
+        let tokens = []
+        let inVariant = []
+        // let balancesParameter = []
+        totalAssets.map((v) => {
+          tokens.push([v])
+          inVariant.push(v)
+          // balancesParameter.push([v, 'vToken', polkadotAccount])
+        })
+        try {
+          await Promise.all([
+            api.query.assets.tokens.multi(tokens, (res) => {
+              // res.map((i) => { console.log('assetID', i.vtoken.totalSupply.toString()) })
+              // console.log('总发行', res)
+              if (!isUnmounted) { setVtokens(res) }
+            }),
+            api.query.swap.inVariant.multi(inVariant, (res) => {
+              res.map((v) => {
+                console.log('流通交易池', v.toJSON()[2])
+                console.log('token交易池', v.toJSON()[0])
+                console.log('vtoken交易池', v.toJSON()[1])
+
+              })
+              console.log('交易池', res)
+              if (!isUnmounted) { setTokeninVariant(res) }
+            }),
+            api.query.exchange.exchangeRate.multi(tokens, (res) => {
+              res.map((v) => { console.log('所有资产汇率assetID', v.toJSON()[0]) })
+              console.log('所有汇率数组', res)
+              if (!isUnmounted) { setAllExchangeRate(res) }
+            }),
+            api.query.swap.fee.multi(tokens, (res) => {
+              res.map((v) => {
+                console.log('手续费', v.toJSON())
+              })
+            }),
+          ])
+
+        }
+        catch (error) {
+          console.log(error);
+        }
+      })();
+      (async () => {
+        try {
+          const header = await api.rpc.chain.getHeader();
+          console.log('出块高度', header.toJSON().number)
+          if (!isUnmounted) { setNumberBlock(header.toJSON().number) }
+        }
+        catch (error) { console.log('api.rpc.chain.getHeader() error', error) }
+      })();
+    }
+    return () => {
+      isUnmounted = true
     }
   }, [api, nextAssetId, totalAssets])
-  // 查找公共信息
-  async function FindMarket() {
-    let tokens = []
-    let inVariant = []
-    // let balancesParameter = []
-    totalAssets.map((v) => {
-      tokens.push([v])
-      inVariant.push(v)
-      // balancesParameter.push([v, 'vToken', polkadotAccount])
-    })
-    try {
-      await Promise.all([
-        api.query.assets.tokens.multi(tokens, (res) => {
-          // res.map((i) => { console.log('assetID', i.vtoken.totalSupply.toString()) })
-          // console.log('总发行', res)
-          setVtokens(res)
-        }),
-        api.query.swap.inVariant.multi(inVariant, (res) => {
-          res.map((v) => {
-            console.log('流通交易池', v.toJSON()[2])
-            console.log('token交易池', v.toJSON()[0])
-            console.log('vtoken交易池', v.toJSON()[1])
-
-          })
-          console.log('交易池', res)
-          setTokeninVariant(res)
-        }),
-        api.query.exchange.exchangeRate.multi(tokens, (res) => {
-          res.map((v) => { console.log('所有资产汇率assetID', v.toJSON()[0]) })
-          console.log('所有汇率数组', res)
-          setAllExchangeRate(res)
-        }),
-        api.query.swap.fee.multi(tokens, (res) => {
-          res.map((v) => {
-            console.log('手续费', v.toJSON())
-          })
-        }),
-      ])
-
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
-
-  //  查找用户资产
-  async function FindVToken() {
-    let balance = []
-    let exchangeRateParameter = []
-    let vbalancesParameter = []
-    accountAssets.map((v) => {
-      exchangeRateParameter.push([v])
-      vbalancesParameter.push([v, 'vToken', polkadotAccount])
-    })
-    try {
-      await Promise.all([
-        api.query.assets.accountAssets.multi(vbalancesParameter, (res) => {
-          console.log('Vtoken 余额数组', res)
-          // setAllBalance(balance)
-          setvTokenBalance(res)
-        }),
-        api.query.exchange.exchangeRate.multi(exchangeRateParameter, (res) => {
-          res.map((v) => { console.log('汇率assetID', v.toJSON()[0]) })
-          console.log('汇率数组', res)
-          setExchangeRate(res)
-        }),
-      ])
-
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
   // 年化率
   useEffect(() => {
     if (numberBlock !== '') {
@@ -139,29 +153,43 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
       console.log('过去七天天0点块高', pastBlockArr)
     }
   }, [numberBlock])
-  useMemo(() => {
+  useEffect(() => {
+    let isUnmounted = false
     if (sevenDayBlock !== []) {
-      FindHash()
+      (async () => {
+        try {
+          let sevenDayHash = []
+          for (let v of sevenDayBlock) {
+            console.log('v', v)
+            let res = await api.rpc.chain.getBlockHash(parseInt(v))
+            sevenDayHash.push(res.toString())
+
+          }
+          console.log('七天哈希', sevenDayHash)
+          if (!isUnmounted) { setSevenDayHashBlock(sevenDayHash) }
+        }
+        catch (error) { console.log(error) }
+      })();
+    }
+    return () => {
+      isUnmounted = true
     }
   }, [sevenDayBlock])
-  async function FindHash() {
-    try {
-      let sevenDayHash = []
-      for (let v of sevenDayBlock) {
-        console.log('v', v)
-        let res = await api.rpc.chain.getBlockHash(parseInt(v))
-        sevenDayHash.push(res.toString())
 
-      }
-      console.log('七天哈希', sevenDayHash)
-      setSevenDayHashBlock(sevenDayHash)
-    }
-    catch (error) { console.log(error) }
-  }
   useEffect(() => {
+    let isUnmounted = false
     if (sevenDayHashBlock !== [] && totalAssets !== '') {
-      FindThree()
-
+      (async () => {
+        let exchangeArr = []
+        for (let i of totalAssets) {
+          let arr = await SevenDayExchangeRate(i)
+          exchangeArr.push(arr)
+        }
+        if (!isUnmounted) { setAssetsSevenDayExchangeRate(exchangeArr) }
+      })();
+    }
+    return () => {
+      isUnmounted = true
     }
   }, [sevenDayHashBlock, totalAssets])
   useEffect(() => {
@@ -196,14 +224,7 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
       return 0
     }
   }
-  async function FindThree() {
-    let exchangeArr = []
-    for (let i of totalAssets) {
-      let arr = await SevenDayExchangeRate(i)
-      exchangeArr.push(arr)
-    }
-    setAssetsSevenDayExchangeRate(exchangeArr)
-  }
+
   async function SevenDayExchangeRate(i) {
     try {
       let arr = []
@@ -217,15 +238,7 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
     catch (error) { console.log(error) }
 
   }
-  async function FindBlock() {
-    try {
-      const header = await api.rpc.chain.getHeader();
-      console.log('出块高度', header.toJSON().number)
-      setNumberBlock(header.toJSON().number)
 
-    }
-    catch (error) { console.log('api.rpc.chain.getHeader() error', error) }
-  }
   return (
     <>
       {accountAssets.length === 0
@@ -258,12 +271,4 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
     </>
   )
 };
-const areEqual = (prevProps, nextProps) => {
-  if (prevProps.SevenDayExchangeRate === nextProps.SevenDayExchangeRate) {
-    return true
-  } else {
-    return false
-  }
-
-}
-export default React.memo(HomePage, areEqual)
+export default React.memo(HomePage)

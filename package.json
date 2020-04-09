@@ -4,7 +4,7 @@
   "private": true,
   "main": "index.js",
   "dependencies": {
-    "@polkadot/api": "^1.5.1",
+    "@polkadot/api": "^1.9.1",
     "@polkadot/extension-dapp": "^0.22.1",
     "@polkadot/util-crypto": "^2.6.1",
     "@testing-library/jest-dom": "^4.2.4",

@@ -104,10 +104,14 @@ const Details = (props) => {
     // 7天零点的出块高度
     useEffect(() => {
         if (numberBlock !== '') {
+            console.log('高度',numberBlock)
             let Date1 = new Date();
+            // 距离零点多少秒
             let seconds = Date1.getHours() * 3600 + Date1.getMinutes() * 60 + Date1.getSeconds()
+            console.log('现在得时间',seconds,Date1.getHours(), Date1.getMinutes(),Date1.getSeconds())
             // 零点出块多少 一天出28800个块
             let ZeroPointBlock = Format.minus(numberBlock, Format.BlockVelocity(seconds))
+            console.log('ZeroPointBlock',ZeroPointBlock)
             let arr = [7, 6, 5, 4, 3, 2, 1, 0]
             let pastBlockArr = []
             arr.map((v) => {

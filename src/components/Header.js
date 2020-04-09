@@ -20,14 +20,17 @@ const Header = ({ account, polkadotAccount, ToggleUnitValue, state, unitState, S
     useEffect(() => {
         setPath(link)
         window.scrollTo(0, 0)
-    }, [link])
+       
+    }
+
+        , [link])
     useEffect(() => {
         if (api !== null && polkadotAccount !== '' && accountAssets !== []) {
             FindVToken()
         }
     }, [api, polkadotAccount, accountAssets])
     async function FindVToken() {
-        console.log('头部',accountAssets)
+        console.log('头部', accountAssets)
         // let exchangeRateParameter = []
         // let vbalancesParameter = []
         // accountAssets.map((v) => {
@@ -56,7 +59,7 @@ const Header = ({ account, polkadotAccount, ToggleUnitValue, state, unitState, S
         return (
             <Flex aic jcsb w={9}> <Text>
                 {path === '/veos' ? 'EOS地址：' : path === '/vdot' ? 'DOT地址：' : "KSM地址："}</Text>
-        <Text style={{ cursor: 'pointer' }} ml={1.1875} color={color.blue} ff="Noto Sans SC" fw={500} paragraph={1.5} ls={0.1}>登录</Text>
+                <Text style={{ cursor: 'pointer' }} ml={1.1875} color={color.blue} ff="Noto Sans SC" fw={500} paragraph={1.5} ls={0.1}>登录</Text>
             </Flex>
         )
     }

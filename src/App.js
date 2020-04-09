@@ -1,5 +1,5 @@
 // 主组件
-import React, { lazy, Suspense, useState, useEffect } from "react";
+import React, { lazy, Suspense, useState, useEffect, useMemo } from "react";
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 // import "./i18n/i18n";
@@ -120,6 +120,16 @@ const App = () => {
       }
     }
   }
+  const useHomePage = useMemo(() => {
+    return <HomePage
+      // state={state}
+      api={api}
+      polkadotAccount={polkadotAccount}
+      screen={screen}
+      accountAssets={accountAssets}
+      nextAssetId={nextAssetId}
+    />
+  }, [api, polkadotAccount, screen, accountAssets, nextAssetId])
   async function CheckWallet() {
     const allInjected = await web3Enable(' my cool dapp ');
     if (allInjected.length === 0) {
@@ -166,7 +176,7 @@ const App = () => {
   // 改变单位,关闭下拉框
   const ToggleUnitValue = (e) => {
     setState(e.target.value)
-    console.log('e.target',e.target.value)
+    console.log('e.target', e.target.value)
   }
 
   const Link = () => {
@@ -177,14 +187,7 @@ const App = () => {
           key="home"
           render={() => (
             api !== null && polkadotAccount !== '' ?
-              <HomePage
-                // state={state}
-                api={api}
-                polkadotAccount={polkadotAccount}
-                screen={screen}
-                accountAssets={accountAssets}
-                nextAssetId={nextAssetId}
-              /> : <Loading />
+              useHomePage : <Loading />
           )} />
         <Route
           path="/vdot"
