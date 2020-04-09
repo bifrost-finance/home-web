@@ -35,9 +35,8 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
   // 查找用户资产详情
   useEffect(() => {
     let isUnmounted = false
-    if (api !== null && polkadotAccount !== '' && accountAssets !== []) {
+    if (api !== null && polkadotAccount !== '' && accountAssets.length !== 0) {
       (async () => {
-        let balance = []
         let exchangeRateParameter = []
         let vbalancesParameter = []
         accountAssets.map((v) => {
@@ -45,15 +44,19 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
           vbalancesParameter.push([v, 'vToken', polkadotAccount])
         })
         try {
+          console.log('请求得数组', vbalancesParameter)
           await Promise.all([
+            // 没变
             api.query.assets.accountAssets.multi(vbalancesParameter, (res) => {
               console.log('Vtoken 余额数组', res)
               // setAllBalance(balance)
               if (!isUnmounted) { setvTokenBalance(res) }
 
             }),
+            // v.toJSON()[0] => v.toJSON()
             api.query.exchange.exchangeRate.multi(exchangeRateParameter, (res) => {
-              res.map((v) => { console.log('汇率assetID', v.toJSON()[0]) })
+              res.map((v) => { console.log('汇率assetID', v.toJSON()) })
+              // res.map((v) => { console.log('汇率assetID', v.toJSON()[0]) })
               console.log('汇率数组', res)
               if (!isUnmounted) { setExchangeRate(res) }
             }),
@@ -73,10 +76,10 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
   useEffect(() => {
     let isUnmounted = false
     if (api !== null && nextAssetId !== '' && totalAssets !== '') {
-     
+
       (async () => {
         // 查找公共信息
-    console.log('重新查询了')
+        console.log('重新查询了')
         let tokens = []
         let inVariant = []
         // let balancesParameter = []
@@ -87,11 +90,13 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
         })
         try {
           await Promise.all([
+            // 没变
             api.query.assets.tokens.multi(tokens, (res) => {
-              // res.map((i) => { console.log('assetID', i.vtoken.totalSupply.toString()) })
-              // console.log('总发行', res)
+              res.map((i) => { console.log('总发行assetID', i.vtoken.totalSupply.toString()) })
+              console.log('总发行', res)
               if (!isUnmounted) { setVtokens(res) }
             }),
+            // 没变
             api.query.swap.inVariant.multi(inVariant, (res) => {
               res.map((v) => {
                 console.log('流通交易池', v.toJSON()[2])
@@ -103,7 +108,8 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
               if (!isUnmounted) { setTokeninVariant(res) }
             }),
             api.query.exchange.exchangeRate.multi(tokens, (res) => {
-              res.map((v) => { console.log('所有资产汇率assetID', v.toJSON()[0]) })
+              res.map((v) => { console.log('所有资产汇率assetID', v.toJSON()) })
+              // res.map((v) => { console.log('所有资产汇率assetID', v.toJSON()[0]) })
               console.log('所有汇率数组', res)
               if (!isUnmounted) { setAllExchangeRate(res) }
             }),
@@ -160,7 +166,7 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
         try {
           let sevenDayHash = []
           for (let v of sevenDayBlock) {
-            console.log('v', v)
+            console.log('七块高', v)
             let res = await api.rpc.chain.getBlockHash(parseInt(v))
             sevenDayHash.push(res.toString())
 
@@ -230,7 +236,8 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
       let arr = []
       for (let [index, elem] of new Map(sevenDayHashBlock.map((item, i) => [i, item]))) {
         const exchange = await api.query.exchange.exchangeRate.at(elem, i);
-        arr.push(exchange.toJSON()[0])
+        arr.push(exchange.toJSON())
+        // arr.push(exchange.toJSON()[0])
       }
       console.log('k线汇率', arr)
       return arr

@@ -32,7 +32,8 @@ const UserAssets = ({ state, type, accountAssets, vTokenBalance, exchangeRate, v
           income={vTokenBalance === '' || vTokenBalance.length === 0 ? 0 :
             vTokenBalance[accountAssets.indexOf(i)].income.toString()}
           exchangeRate={exchangeRate === '' || exchangeRate.length === 0 ? 0 :
-            exchangeRate[accountAssets.indexOf(i)].toJSON()[0]}
+            exchangeRate[accountAssets.indexOf(i)].toJSON()}
+            // exchangeRate[accountAssets.indexOf(i)].toJSON()[0]}
         />)
       })}
     </>)
@@ -45,7 +46,8 @@ const UserAssets = ({ state, type, accountAssets, vTokenBalance, exchangeRate, v
         return (<MenuItem screen={screen} abbr={MappingFile.ID[i]} key={index} type={type} assetID={i}
           vTokens={vTokens === '' || vTokens.length === 0 ? 0 : vTokens[i].vtoken.totalSupply.toString()}
           TokeninVariant={TokeninVariant === '' || TokeninVariant.length === 0 ? 0 : TokeninVariant[i].toJSON()[0]}
-          exAllChangeRate={exAllChangeRate === '' || exAllChangeRate.length === 0 ? 0 : exAllChangeRate[i].toJSON()[0]}
+          exAllChangeRate={exAllChangeRate === '' || exAllChangeRate.length === 0 ? 0 : exAllChangeRate[i].toJSON()}
+          // exAllChangeRate={exAllChangeRate === '' || exAllChangeRate.length === 0 ? 0 : exAllChangeRate[i].toJSON()[0]}
           AnnualizedRate={AnnualizedRate.length===0 ||  AnnualizedRate === '' ?0: AnnualizedRate[i] }
         />)
       })}
@@ -56,7 +58,8 @@ const UserAssets = ({ state, type, accountAssets, vTokenBalance, exchangeRate, v
       return (<MenuItem screen={screen} abbr={MappingFile.ID[selectionAbbr]} type={type} assetID={selectionAbbr}
         vTokens={vTokens === '' || vTokens.length === 0 ? 0 : vTokens[selectionAbbr].vtoken.totalSupply.toString()}
         TokeninVariant={TokeninVariant === '' || TokeninVariant.length === 0 ? 0 : TokeninVariant[selectionAbbr].toJSON()[0]}
-        exAllChangeRate={exAllChangeRate === '' || exAllChangeRate.length === 0 ? 0 : exAllChangeRate[selectionAbbr].toJSON()[0]}
+        exAllChangeRate={exAllChangeRate === '' || exAllChangeRate.length === 0 ? 0 : exAllChangeRate[selectionAbbr].toJSON()}
+        // exAllChangeRate={exAllChangeRate === '' || exAllChangeRate.length === 0 ? 0 : exAllChangeRate[selectionAbbr].toJSON()[0]}
         AnnualizedRate={AnnualizedRate === '' || AnnualizedRate.length === 0 ? 0 : AnnualizedRate[selectionAbbr]}
       />)
     }
@@ -74,7 +77,9 @@ const UserAssets = ({ state, type, accountAssets, vTokenBalance, exchangeRate, v
         income={vTokenBalance === '' || vTokenBalance.length === 0 ? 0 :
           vTokenBalance[accountAssets.indexOf(vtokenSelectionAbbr)].income.toString()}
         exchangeRate={exchangeRate === '' || exchangeRate.length === 0 ? 0 :
-          exchangeRate[accountAssets.indexOf(vtokenSelectionAbbr)].toJSON()[0]}
+          exchangeRate[accountAssets.indexOf(vtokenSelectionAbbr)].toJSON()}
+          // exchangeRate[accountAssets.indexOf(vtokenSelectionAbbr)].toJSON()[0]}
+        
       />)
     }
     else {

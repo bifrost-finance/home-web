@@ -40,7 +40,8 @@ const App = () => {
   const [accountStatus, setAccountStatus] = useState(true)
   // 准备api
   async function main() {
-    const wsProvider = new WsProvider('ws://129.204.206.165:19944/');
+    //  const wsProvider = new WsProvider('ws://129.204.206.165:19944/');
+    const wsProvider = new WsProvider('ws://172.16.200.159:9944/');
     const polkadotApi = await ApiPromise.create({ provider: wsProvider, types: parameter })
     setApi(polkadotApi)
   }
@@ -80,10 +81,10 @@ const App = () => {
     console.log('自适应', screen)
   }, [screen]);
   useEffect(() => {
-    if (!purseStatus || !accountStatus) {
+    if (!accountStatus) {
       setPolkadotAccount('5GjJNWYS6f2UQ9aiLexuB8qgjG8fRs2Ax4nHin1z1engpnNt')
     }
-  }, [purseStatus, accountStatus])
+  }, [accountStatus])
   useEffect(() => {
     if (purseStatus === false) {
       setAccountStatus(false)
@@ -91,6 +92,7 @@ const App = () => {
   }, [purseStatus])
   useEffect(() => {
     if (polkadotAccount !== '' && api !== null) {
+      console.log('登陆得地址',polkadotAccount)
       QueryAssets()
     }
   }, [polkadotAccount, api])
@@ -115,8 +117,8 @@ const App = () => {
             return { address: i.address, name: i.meta.name }
           }
         })
-        console.log('地址', AddressArr)
-        setPolkadotAccount(AddressArr[4].address)
+        console.log('地址', AddressArr[2].address)
+        setPolkadotAccount(AddressArr[2].address)
       }
     }
   }
@@ -167,8 +169,8 @@ const App = () => {
       ])
       setAccountAssets(accountAssets.toJSON())
       setNextAssetId(res.toString())
-      // console.log('总资产', accountAssets.toJSON())
-      // console.log('下一个要创建的asset id', res.toString())
+      console.log('总资产', accountAssets.toJSON())
+      console.log('下一个要创建的asset id', res.toString())
     }
     catch (error) { console.log('错误', error) }
   }

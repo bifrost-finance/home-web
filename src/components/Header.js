@@ -30,30 +30,31 @@ const Header = ({ account, polkadotAccount, ToggleUnitValue, state, unitState, S
         }
     }, [api, polkadotAccount, accountAssets])
     async function FindVToken() {
-        console.log('头部', accountAssets)
-        // let exchangeRateParameter = []
-        // let vbalancesParameter = []
-        // accountAssets.map((v) => {
-        //     exchangeRateParameter.push([v])
-        //     vbalancesParameter.push([v, 'vToken', polkadotAccount])
-        // })
-        // try {
-        //     await Promise.all([
-        //         api.query.assets.accountAssets.multi(vbalancesParameter, (res) => {
-        //             console.log('Vtoken 余额数组', res)
-        //             setvTokenBalance(res)
-        //         }),
-        //         api.query.exchange.exchangeRate.multi(exchangeRateParameter, (res) => {
-        //             res.map((v) => { console.log('汇率assetID', v.toJSON()[0]) })
-        //             console.log('汇率数组', res)
-        //             setExchangeRate(res)
-        //         }),
-        //     ])
+        let exchangeRateParameter = []
+        let vbalancesParameter = []
+        accountAssets.map((v) => {
+            exchangeRateParameter.push([v])
+            vbalancesParameter.push([v, 'vToken', polkadotAccount])
+        })
+        try {
+            await Promise.all([
+                api.query.assets.accountAssets.multi(vbalancesParameter, (res) => {
+                    res.map((v) => { console.log('Vtoken 余额', v.toJSON()) })
+                    console.log('Vtoken 余额数组', res)
+                    setvTokenBalance(res)
+                }),
+                api.query.exchange.exchangeRate.multi(exchangeRateParameter, (res) => {
+                    // res.map((v) => { console.log('汇率assetID', v.toJSON()[0]) })
+                    res.map((v) => { console.log('汇率assetID', v.toJSON()) })
+                    console.log('汇率数组', res)
+                    setExchangeRate(res)
+                }),
+            ])
 
-        // }
-        // catch (error) {
-        //     console.log(error);
-        // }
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
     const AddressLogin = () => {
         return (
@@ -65,9 +66,10 @@ const Header = ({ account, polkadotAccount, ToggleUnitValue, state, unitState, S
     }
     const Profit = () => {
         let ProfitValue = []
-        vTokenBalance.map((v, index) => {
+        vTokenBalance.map((v, index) => {  
             ProfitValue.push(
-                Format.Profit(v.toJSON().cost, v.toJSON().income, v.toJSON().balance, exchangeRate[index].toJSON()[0]))
+                Format.Profit(v.toJSON().cost, v.toJSON().income, v.toJSON().balance, exchangeRate[index].toJSON()))
+                // Format.Profit(v.toJSON().cost, v.toJSON().income, v.toJSON().balance, exchangeRate[index].toJSON()[0]))
         })
         return (<>
             ${Format.format(ProfitValue.reduce((n, m) => Format.Plus(n, m)))}

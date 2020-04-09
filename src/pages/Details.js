@@ -46,9 +46,12 @@ const Details = (props) => {
                         }),
                         props.api.query.exchange.exchangeRate(MappingFile.TOKEN[props.abbr], (res) => {
                             if (!isUnmounted) {
-                                let $exchangeRate = res.toJSON()[0]
+                                // let $exchangeRate = res.toJSON()[0]
+                                // setExChangeRate($exchangeRate)
+                                // console.log('单个汇率', res.toJSON()[0])
+                                let $exchangeRate = res.toJSON()
                                 setExChangeRate($exchangeRate)
-                                console.log('单个汇率', res.toJSON()[0])
+                                console.log('单个汇率', res.toJSON())
                             }
                         }),
                         props.api.query.swap.inVariant(MappingFile.TOKEN[props.abbr], (res) => {
@@ -164,7 +167,8 @@ const Details = (props) => {
                         const exchange = await props.api.query.exchange.exchangeRate.at(elem, MappingFile.TOKEN[props.abbr]);
                         arr.push({
                             'date': day.getFullYear() + "-" + (day.getMonth() + 1) + "-" + day.getDate(),
-                            'value': exchange.toJSON()[0]
+                            'value': exchange.toJSON()
+                            // 'value': exchange.toJSON()[0]
                         })
                     }
                     console.log('k线汇率', arr)
