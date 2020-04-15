@@ -482,11 +482,16 @@ export const Hidden = styled(View)`
 `;
 // 以下是本项目
 export const Content = styled.div`
+
 ${mobile`
     width:${p =>
             p.w && (typeof p.w === "number" ? p.w + "em" : p.w[0] && p.w[0] + "em")};
     margin-top:${p =>
             p.mt && (typeof p.mt === "number" ? p.mt + "em" : p.mt[0] && p.mt[0] + "em")};
+    padding-top:${p =>
+            p.pt && (typeof p.pt === "number" ? p.pt + "em" : p.pt[0] && p.pt[0] + "em")};
+    padding-bottom:${p =>
+            p.pb && (typeof p.pb === "number" ? p.pb + "em" : p.pb[0] && p.pb[0] + "em")};
     margin-bottom:${p =>
             p.mb && (typeof p.mb === "number" ? p.mb + "em" : p.mb[0] && p.mb[0] + "em")};
   `}
@@ -496,6 +501,10 @@ ${mobile`
             p.w && (typeof p.w === "number" ? p.w + "em" : p.w[1] && p.w[1] + "em")};
     margin-top:${p =>
             p.mt && (typeof p.mt === "number" ? p.mt + "em" : p.mt[1] && p.mt[1] + "em")};
+    padding-top:${p =>
+            p.pt && (typeof p.pt === "number" ? p.pt + "em" : p.pt[1] && p.pt[1] + "em")};
+    padding-bottom:${p =>
+            p.pb && (typeof p.pb=== "number" ? p.pb + "em" : p.pb[1] && p.pb[1] + "em")};
     margin-bottom:${p =>
             p.mb && (typeof p.mb === "number" ? p.mb + "em" : p.mb[1] && p.mb[1] + "em")};
   `}
@@ -504,6 +513,10 @@ ${mobile`
             p.w && (typeof p.w === "number" ? p.w + "em" : p.w[2] && p.w[2] + "em")};
     margin-top:${p =>
             p.mt && (typeof p.mt === "number" ? p.mt + "em" : p.mt[2] && p.mt[2] + "em")};
+    padding-top:${p =>
+            p.pt && (typeof p.pt === "number" ? p.pt + "em" : p.pt[2] && p.pt[2] + "em")};
+    padding-bottom:${p =>
+            p.pb && (typeof p.pt === "number" ? p.pb + "em" : p.pb[2] && p.pb[2] + "em")};
     margin-bottom:${p =>
             p.mb && (typeof p.mb === "number" ? p.mb + "em" : p.mb[2] && p.mb[2] + "em")};
   `}
@@ -514,6 +527,7 @@ flex-direction:${p => p.fd ? p.fd : "row"};
 justify-content:space-between;
 align-items:center;
 margin:0 auto;
+box-sizing:border-box;r 
 `;
 export const CardFlex = styled(Flex)`
     box-sizing: border-box;

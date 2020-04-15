@@ -233,7 +233,7 @@ const Details = (props) => {
         )
     }
     return (
-        <Content mt={[1.5, 3, 3]} mb={4.875} w={[20.5, 75, 42]}>
+        <Content pt={[1.5, 3, 3]} pb={4.875} w={[20.5, 75, 42]}>
             <Flex jcsb w={[20.5, 75, 42]}>
                 <Flex column>
                     <CurvePage

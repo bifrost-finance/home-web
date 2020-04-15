@@ -124,7 +124,7 @@ const Header = ({ account, polkadotAccount, ToggleUnitValue, state, unitState, S
         )
     }
     return (
-        <Content mt={[2.5, 4.5, 4.5]} w={[20.5, 75, 42]}>
+        <Content pt={[2.5, 4.5, 4.5]} w={[20.5, 75, 42]}>
             <Flex column >
                 <Flex jcsb={screen === 'mobile' ? false : true} jcc={screen !== 'mobile' ? false : true}
                     w={[20.5, 75, 42]}>
