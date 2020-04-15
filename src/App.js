@@ -41,7 +41,7 @@ const App = () => {
   // 准备api
   async function main() {
     //  const wsProvider = new WsProvider('ws://129.204.206.165:19944/');
-    const wsProvider = new WsProvider('ws://172.16.200.159:9944/');
+    const wsProvider = new WsProvider('wss://n3.testnet.liebi.com');
     const polkadotApi = await ApiPromise.create({ provider: wsProvider, types: parameter })
     setApi(polkadotApi)
   }
