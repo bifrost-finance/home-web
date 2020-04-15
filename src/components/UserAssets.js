@@ -4,7 +4,7 @@ import MenuItem from './MenuItem'
 import MappingFile from '../pages/MappingFile.json'
 import TokenLogo from './TokenLogo'
 const UserAssets = ({ state, type, accountAssets, vTokenBalance, exchangeRate, vTokens, totalAssets, exAllChangeRate,
-  TokeninVariant, screen ,AnnualizedRate}) => {
+  TokeninVariant, screen, AnnualizedRate }) => {
   // vtoken 选中的
   const [vtokenSelectionAbbr, setVtokenSelectionAbbr] = useState('')
   // market 选中的
@@ -130,7 +130,7 @@ const UserAssets = ({ state, type, accountAssets, vTokenBalance, exchangeRate, v
 
   return (
     <>
-      <Content fd="column" w={[20.5, 75, 42]} mb={type === 'Market' ? 9 : 2}>
+      <Content fd="column" w={[20.5, 75, 42]} pb={type === 'Market' ? 9 : 2}>
         <CardFlex column w={[20.5, 75, 42]}>
           <Flex h={[6, 8, 8]} aic pl={[1, 4, 4]}>
             <Text scale={2.25} bold paragraph={3} ff="Product Sans"  >{type}</Text>
@@ -143,14 +143,14 @@ const UserAssets = ({ state, type, accountAssets, vTokenBalance, exchangeRate, v
             {type === 'Market' ?
               <MobileMarket /> :
               <MobileVtoken />
-              
+
             }
           </Hidden>
           <Hidden mobile><Menu />
             {type === 'Market' ?
               <Market /> :
               <Vtoken />
-              
+
             }
           </Hidden>
 
@@ -159,4 +159,19 @@ const UserAssets = ({ state, type, accountAssets, vTokenBalance, exchangeRate, v
     </>
   )
 };
-export default React.memo(UserAssets)
+
+export default React.memo(UserAssets, (prevProps, nextProps) => {
+  if (nextProps.type === "Market") {
+    if (prevProps.api === nextProps.api &&
+      prevProps.polkadotAccount === nextProps.polkadotAccount &&
+      prevProps.totalAssets === nextProps.totalAssets &&
+      prevProps.vTokens === nextProps.vTokens &&
+      prevProps.state === nextProps.state &&
+      prevProps.TokeninVariant === nextProps.TokeninVariant &&
+      prevProps.exAllChangeRate === nextProps.exAllChangeRate &&
+      prevProps.screen === nextProps.screen &&
+      prevProps.AnnualizedRate === nextProps.AnnualizedRate) { return true }
+    else { return false }
+
+  }
+})

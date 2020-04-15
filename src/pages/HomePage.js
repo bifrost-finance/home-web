@@ -254,7 +254,7 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
           vTokenBalance={vTokenBalance}
           polkadotAccount={polkadotAccount}
           exchangeRate={exchangeRate}
-          state={state}
+          // state={state}
           type='vToken'
           accountAssets={accountAssets}
           api={api}
@@ -265,7 +265,7 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
         : <UserAssets
           api={api}
           polkadotAccount={polkadotAccount}
-          state={state}
+          // state={state}
           type='Market'
           totalAssets={totalAssets}
           vTokens={vTokens}
@@ -278,4 +278,13 @@ const HomePage = ({ state, polkadotAccount, api, screen, accountAssets, nextAsse
     </>
   )
 };
-export default React.memo(HomePage)
+export default React.memo(HomePage, (prevProps, nextProps) => {
+  if (prevProps.polkadotAccount === nextProps.polkadotAccount &&
+    prevProps.accountAssets === nextProps.accountAssets &&
+    // prevProps.state === nextProps.state &&
+    prevProps.nextAssetId === nextProps.nextAssetId &&
+    prevProps.screen === nextProps.screen) { return true }
+  else { return false }
+
+}
+)

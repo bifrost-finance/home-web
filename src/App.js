@@ -2,6 +2,7 @@
 import React, { lazy, Suspense, useState, useEffect, useMemo } from "react";
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
+import { View } from "./components/Styles"
 // import "./i18n/i18n";
 import { useTranslation } from "react-i18next";
 import { encodeAddress, setSS58Format } from '@polkadot/util-crypto';
@@ -177,7 +178,7 @@ const App = () => {
   // useEffect(() => { console.log('assets长度', accountAssets.length) }, [accountAssets])
   // 改变单位,关闭下拉框
   const ToggleUnitValue = (e) => {
-    setState(e.target.value)
+    // setState(e.target.value)
     console.log('e.target', e.target.value)
   }
 
@@ -239,6 +240,11 @@ const App = () => {
   return (
     <Router>
       <Suspense fallback="">
+        <View w={[10.25, 37.5, 21]} z={-1} style={{ position: "absolute", height: '100%', right: '0', overflow: 'hidden' }}>
+          <View w={[10.25, 37.5, 21]} z={-1} bg='#F8F8FA' style={{ position: "absolute", height: '200%', bottom: '0', transformOrigin: 'bottom left', transform: 'rotate(5deg)', }}> */}
+          </View>
+        </View>
+
         <Header
           api={api}
           screen={screen}
@@ -248,6 +254,7 @@ const App = () => {
           ToggleUnitValue={ToggleUnitValue}
           state={state} />
         <Link />
+
       </Suspense>
 
     </Router>
