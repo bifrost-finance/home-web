@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom'
 import Format from './Format'
 import * as logo from "../images/13-5.png"
 import styled from "styled-components";
-const Header = ({ account, polkadotAccount, ToggleUnitValue, state, unitState, SwitchingUnit, accountAssets, screen, api }) => {
+const Header = ({ account, polkadotAccount, ToggleUnitValue, accountAssets, screen, api }) => {
     const { t, i18n } = useTranslation();
     // 用户资产vToken余额
     const [vTokenBalance, setvTokenBalance] = useState('')
@@ -17,14 +17,11 @@ const Header = ({ account, polkadotAccount, ToggleUnitValue, state, unitState, S
     // 获取当前路由
     const location = useLocation()
     let link = location.pathname
-    useEffect(() => {
+    useMemo(() => {
         setPath(link)
         window.scrollTo(0, 0)
-       
-    }
-
-        , [link])
-    useEffect(() => {
+    }, [link])
+    useMemo(() => {
         if (api !== null && polkadotAccount !== '' && accountAssets !== []) {
             FindVToken()
         }
@@ -66,10 +63,10 @@ const Header = ({ account, polkadotAccount, ToggleUnitValue, state, unitState, S
     }
     const Profit = () => {
         let ProfitValue = []
-        vTokenBalance.map((v, index) => {  
+        vTokenBalance.map((v, index) => {
             ProfitValue.push(
                 Format.Profit(v.toJSON().cost, v.toJSON().income, v.toJSON().balance, exchangeRate[index].toJSON()))
-                // Format.Profit(v.toJSON().cost, v.toJSON().income, v.toJSON().balance, exchangeRate[index].toJSON()[0]))
+            // Format.Profit(v.toJSON().cost, v.toJSON().income, v.toJSON().balance, exchangeRate[index].toJSON()[0]))
         })
         return (<>
             ${Format.format(ProfitValue.reduce((n, m) => Format.Plus(n, m)))}

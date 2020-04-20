@@ -1,10 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ApolloProvider } from "react-apollo";
+import ApolloClient from "apollo-boost";
 
 import App from "./App"
 import * as serviceWorker from './serviceWorker';
-
-ReactDOM.render(<App style={{margin:0,padding:0}}/>, document.getElementById('root'));
+const client = new ApolloClient({
+    uri: "https://pool.liebi.com/bifrost-graphql",
+});
+ReactDOM.render(
+    <ApolloProvider client={client}>
+        <App style={{ margin: 0, padding: 0 }} />
+    </ApolloProvider>
+    , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

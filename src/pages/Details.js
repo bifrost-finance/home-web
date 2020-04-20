@@ -252,14 +252,14 @@ const Details = (props) => {
                     />
                     <Hidden mobile tablet>
                         <DetailPage
-                            abbr={props.abbr}
+                            polkadotAccount={'5GjJNWYS6f2UQ9aiLexuB8qgjG8fRs2Ax4nHin1z1engpnNt'}
                             screen={props.screen} />
                     </Hidden>
                     <Hidden desktop><Transaction />
                     </Hidden>
                     <Hidden desktop>
                         <DetailPage
-                            abbr={props.abbr}
+                            polkadotAccount={'5GjJNWYS6f2UQ9aiLexuB8qgjG8fRs2Ax4nHin1z1engpnNt'}
                             screen={props.screen} />
                     </Hidden>
                 </Flex>

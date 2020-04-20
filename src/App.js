@@ -93,7 +93,7 @@ const App = () => {
   }, [purseStatus])
   useEffect(() => {
     if (polkadotAccount !== '' && api !== null) {
-      console.log('登陆得地址',polkadotAccount)
+      console.log('登陆得地址', polkadotAccount)
       QueryAssets()
     }
   }, [polkadotAccount, api])
@@ -164,21 +164,23 @@ const App = () => {
   async function QueryAssets() {
     console.log('正在查询', polkadotAccount)
     try {
-      const [accountAssets, res] = await Promise.all([
+      const [accountAssets, res, BNC] = await Promise.all([
         api.query.assets.accountAssetIds(polkadotAccount),
-        api.query.assets.nextAssetId()
+        api.query.assets.nextAssetId(),
+        api.query.voucher.balancesVoucher(polkadotAccount)
       ])
       setAccountAssets(accountAssets.toJSON())
       setNextAssetId(res.toString())
       console.log('总资产', accountAssets.toJSON())
       console.log('下一个要创建的asset id', res.toString())
+      console.log('BNC', BNC.toJSON())
     }
     catch (error) { console.log('错误', error) }
   }
   // useEffect(() => { console.log('assets长度', accountAssets.length) }, [accountAssets])
   // 改变单位,关闭下拉框
   const ToggleUnitValue = (e) => {
-    // setState(e.target.value)
+    setState(e.target.value)
     console.log('e.target', e.target.value)
   }
 
