@@ -7,7 +7,7 @@ const Header = ({ screen }) => {
     const { t, i18n } = useTranslation();
     return (
         <Content  w={[28.0625, 68.25, 42]}>
-           
+           头部
         </Content>
 
     )

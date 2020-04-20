@@ -586,6 +586,7 @@ align-items:center;
 margin:0 auto;
 box-sizing:border-box;
 background-color:#ff0;
+color:#fff;
 `;
 export const CardFlex = styled(Flex)`
     box-sizing: border-box;
