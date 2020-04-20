@@ -6,10 +6,6 @@ import { View } from "./components/Styles"
 // import "./i18n/i18n";
 import { useTranslation } from "react-i18next";
 import { encodeAddress, setSS58Format } from '@polkadot/util-crypto';
-import {
-  BrowserRouter as Router,
-  Route, withRouter, Switch
-} from "react-router-dom";
 import parameter from './components/parameter'
 const Details = lazy(() => import('./pages/Details'))
 const HomePage = lazy(() => import('./pages/HomePage'))
