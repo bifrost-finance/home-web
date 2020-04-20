@@ -18,7 +18,7 @@ export const tablet = (...args) => css`
 `;
 
 export const desktop = (...args) => css`
-  @media screen and (min-width: 1199px) {
+  @media screen and (min-width: 1091px) {
     ${css(...args)}
   }
 `;
@@ -398,8 +398,14 @@ export const Text = styled(View)`
 `;
 
 export const Flex = styled(View)`
-  display: ${p => (p.inline ? "inline-flex" : "flex")};
-  flex-direction: ${p =>
+    display: ${p => (p.inline ? "inline-box" : "box")};/* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: ${p => (p.inline ? "-webkit-inline-box" : "-webkit-box")};/* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+    display: ${p => (p.inline ? "-moz-inline-box" : " -moz-box")};/* Firefox 17- */
+    display: ${p => (p.inline ? "-moz-inline-flex" : "-moz-flex")};/* Firefox 18+ */
+    display: ${p => (p.inline ? "-ms-inline-flexbox" : "-ms-flexbox")};/* IE 10 */
+    display: ${p => (p.inline ? "-webkit-inline-flex" : "-webkit-flex")};/* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+    display: ${p => (p.inline ? "inline-flex" : "flex")};/* Chrome 29+, Firefox 22+, IE 11+, Opera 12.1/17/18, Android 4.4+ */
+    -webkit-flex-direction:${p =>
         p.column
             ? p.reverse
                 ? "column-reverse"
@@ -407,12 +413,63 @@ export const Flex = styled(View)`
             : p.reverse
                 ? "row-reverse"
                 : "row"};
-  align-items: ${p =>
+    -moz-flex-direction: ${p =>
+        p.column
+            ? p.reverse
+                ? "column-reverse"
+                : "column"
+            : p.reverse
+                ? "row-reverse"
+                : "row"};
+    -ms-flex-direction: ${p =>
+        p.column
+            ? p.reverse
+                ? "column-reverse"
+                : "column"
+            : p.reverse
+                ? "row-reverse"
+                : "row"};
+    -o-flex-direction: ${p =>
+        p.column
+            ? p.reverse
+                ? "column-reverse"
+                : "column"
+            : p.reverse
+                ? "row-reverse"
+                : "row"};
+    flex-direction: ${p =>
+        p.column
+            ? p.reverse
+                ? "column-reverse"
+                : "column"
+            : p.reverse
+                ? "row-reverse"
+                : "row"};
+    -webkit-align-items: ${p =>
         p.center || p.aic ? "center" : p.aifs ? "flex-start" : p.aife ? "flex-end" : "stretch"};
-
-  justify-content: ${p =>
+    -moz-align-items: ${p =>
+        p.center || p.aic ? "center" : p.aifs ? "flex-start" : p.aife ? "flex-end" : "stretch"};
+    -ms-align-items: ${p =>
+        p.center || p.aic ? "center" : p.aifs ? "flex-start" : p.aife ? "flex-end" : "stretch"};
+    -o-align-items: ${p =>
+        p.center || p.aic ? "center" : p.aifs ? "flex-start" : p.aife ? "flex-end" : "stretch"};
+    align-items: ${p =>
+        p.center || p.aic ? "center" : p.aifs ? "flex-start" : p.aife ? "flex-end" : "stretch"};
+    -webkit-justify-content: ${p =>
         p.center || p.jcc ? "center" : p.jcsb ? "space-between" : p.jcfe ? 'flex-end' : p.jcsa ? 'space-around' : 'flex-start'};
-  flex-wrap: ${p => p.wrap && " wrap"};
+    -moz-justify-content: ${p =>
+        p.center || p.jcc ? "center" : p.jcsb ? "space-between" : p.jcfe ? 'flex-end' : p.jcsa ? 'space-around' : 'flex-start'};
+    -ms-justify-content: ${p =>
+        p.center || p.jcc ? "center" : p.jcsb ? "space-between" : p.jcfe ? 'flex-end' : p.jcsa ? 'space-around' : 'flex-start'};
+    -o-justify-content: ${p =>
+        p.center || p.jcc ? "center" : p.jcsb ? "space-between" : p.jcfe ? 'flex-end' : p.jcsa ? 'space-around' : 'flex-start'};
+    justify-content: ${p =>
+        p.center || p.jcc ? "center" : p.jcsb ? "space-between" : p.jcfe ? 'flex-end' : p.jcsa ? 'space-around' : 'flex-start'};
+    -webkit-flex-wrap: ${p => p.wrap && " wrap"};
+    -moz-flex-wrap:  ${p => p.wrap && " wrap"};
+    -ms-flex-wrap: ${p => p.wrap && " wrap"};
+    -o-flex-wrap:  ${p => p.wrap && " wrap"};
+    flex-wrap: ${p => p.wrap && " wrap"};
   > * {
     flex: ${p => p.child};
   }
@@ -504,7 +561,7 @@ ${mobile`
     padding-top:${p =>
             p.pt && (typeof p.pt === "number" ? p.pt + "em" : p.pt[1] && p.pt[1] + "em")};
     padding-bottom:${p =>
-            p.pb && (typeof p.pb=== "number" ? p.pb + "em" : p.pb[1] && p.pb[1] + "em")};
+            p.pb && (typeof p.pb === "number" ? p.pb + "em" : p.pb[1] && p.pb[1] + "em")};
     margin-bottom:${p =>
             p.mb && (typeof p.mb === "number" ? p.mb + "em" : p.mb[1] && p.mb[1] + "em")};
   `}
@@ -527,7 +584,8 @@ flex-direction:${p => p.fd ? p.fd : "row"};
 justify-content:space-between;
 align-items:center;
 margin:0 auto;
-box-sizing:border-box;r 
+box-sizing:border-box;
+background-color:#ff0;
 `;
 export const CardFlex = styled(Flex)`
     box-sizing: border-box;
@@ -537,6 +595,7 @@ export const CardFlex = styled(Flex)`
     `;
 export const ScrollPage = styled(Flex)`
 box-sizing: border-box;
+-ms-overflow-y:auto
 overflow-y:auto;
 `;
 export const TextTypesetting = styled(Text)`
