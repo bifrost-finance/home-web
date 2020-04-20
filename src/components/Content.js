@@ -1,119 +1,8 @@
 import React, { useState, useEffect, useImperativeHandle } from "react";
 import { Flex, Button, color, Text, Hidden, SVG, radius, CoinIcon, Input, TextTypesetting } from "./Styles"
-import { ReactComponent as IconV } from "../images/V-39.svg";
-import Modal from "./Modal"
-import Format from './Format'
-import Children from './Children'
-const InputBox = ({ type, abbr, tradeSwitch, exChangeRate, TokenBalance, vTokenBalance,
-    cRef, api, polkadotAccount, InVariantPool, TokeninVariant, vTokeninVariant, screen }) => {
-    // 输入框切换
-    const [inputSwitching, setInputSwitching] = useState(true)
-    //  输入框值
-    const [inputValue, setInputValue] = useState("")
-    //    输出框值
-    const [transformation, setTransformation] = useState("")
-    // 模态框
-    const [showModal, setShowModal] = useState(false)
-    const [redeemDate, setRedeemDate] = useState('')
-    // 获取输入框值
-    const FocusEvents = (e) => {
-        setInputValue(e.target.value.replace(/\-/g, ""))
-
-    }
-    useEffect(() => {
-        console.log('输出', transformation)
-    }, [transformation])
-    useImperativeHandle(cRef, () => ({
-        ClearingValue: () => {
-            setTransformation('')
-            setInputValue('')
-            setInputSwitching(true)
-            console.log('调用子组件方法')
-        }
-    }))
-    useEffect(() => {
-        console.log('dot', TokenBalance)
-    }, [TokenBalance])
-    const ExchangeAssignment = () => {
-        if (type === 'Exchange') {
-            setTransformation(Format.ride(inputValue, exChangeRate))
-        }
-        else if (type === 'Trade') {
-            if (TokeninVariant === 0) {
-                setTransformation(0)
-            }
-            else {
-                let new_token_pool = Format.Plus(Format.except(TokeninVariant), inputValue)
-                console.log('新的token交易池', new_token_pool)
-                let new_vtoken_pool = Format.Divide(Format._except(InVariantPool), new_token_pool)
-                console.log('新的vtoken交易池', new_vtoken_pool)
-                console.log('新的vtoken交易池', Format._except(InVariantPool))
-                setTransformation(Format.minus(Format.except(vTokeninVariant), new_vtoken_pool))
-            }
-        }
-    }
-    const TradeAssignment = () => {
-        if (type === 'Exchange') {
-            if (exChangeRate === 0) {
-                setTransformation(0)
-            }
-            else {
-                setTransformation(Format.ride(inputValue, Format.backwards(exChangeRate)))
-            }
-        }
-        else if (type === 'Trade') {
-            if (TokeninVariant === 0) {
-                setTransformation(0)
-            }
-            else {
-                let new_vtoken_pool = Format.Plus(Format.except(vTokeninVariant), inputValue)
-                console.log('新的vtoken交易池', new_vtoken_pool)
-                let new_token_pool = Format.Divide(Format._except(InVariantPool), new_vtoken_pool)
-                console.log('新的vtoken交易池', new_token_pool)
-                console.log('新的vtoken交易池', Format._except(InVariantPool))
-                setTransformation(Format.minus(Format.except(vTokeninVariant), new_token_pool))
-            }
-
-        }
-    }
-    // 转换后的值
-    useEffect(() => {
-        console.log('input', inputValue)
-        if (inputValue !== '') {
-            if ((inputSwitching && tradeSwitch) || (tradeSwitch === false && inputSwitching === false)) {
-                ExchangeAssignment()
-            }
-            else if ((inputSwitching === false && tradeSwitch) || (tradeSwitch === false && inputSwitching)) {
-                TradeAssignment()
-            }
-        }
-        else if (inputValue === '') {
-            setTransformation("")
-        }
-
-    }, [inputValue])
-    const ModalBoxEvents = () => {
-        setShowModal(true)
-        let Date1 = new Date();
-        let now = new Date(Date1.getTime() + 24 * 7 * 60 * 60 * 1000)
-        let Minutes = now.getMinutes()
-        let Seconds = now.getSeconds()
-        if (Minutes < 10) {
-            Minutes = `0${Minutes}`
-        }
-        if (Seconds < 10) {
-            Seconds = `0${Seconds}`
-        }
-        setRedeemDate(`${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()} ${now.getHours()}:${Minutes}:${Seconds}`)
-    }
-    const InputSwitching = () => {
-        setInputSwitching(!inputSwitching)
-        setTransformation("")
-        setInputValue('')
-
-    }
-
-    return (<>
+const Content = ({screen }) => {
+  
+return (<>
         <Flex w={[14.5, 27, 33]} jcsb mt={[0.2, 1, 1]} mx={[3, 4.5, 4.5]}>
             <Flex>
                 <Text scale={0.09} ff="Noto Sans SC" ls={0.06} mr={0.5}>
@@ -198,15 +87,7 @@ const InputBox = ({ type, abbr, tradeSwitch, exChangeRate, TokenBalance, vTokenB
                 text={type === 'Exchange' ? tradeSwitch ? "兑换" : '赎回' : "交易"}
             />
         </Flex>
-        <Modal
-            show={showModal}
-            close={() => setShowModal(false)}
-            title={type === 'Exchange' ? tradeSwitch ? "兑换" : '赎回' : "交易"}
-        >
-            <Children screen={screen} type={type} tradeSwitch={tradeSwitch} inputValue={inputValue} api={api} polkadotAccount={polkadotAccount}
-                transformation={transformation} abbr={abbr} exChangeRate={exChangeRate} redeemDate={redeemDate} />
 
-        </Modal>
     </>)
 };
-export default React.memo(InputBox) 
+export default React.memo(Content) 

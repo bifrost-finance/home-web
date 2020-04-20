@@ -18,7 +18,7 @@ export const tablet = (...args) => css`
 `;
 
 export const desktop = (...args) => css`
-  @media screen and (min-width: 1199px) {
+  @media screen and (min-width: 1091px) {
     ${css(...args)}
   }
 `;
@@ -584,7 +584,8 @@ flex-direction:${p => p.fd ? p.fd : "row"};
 justify-content:space-between;
 align-items:center;
 margin:0 auto;
-box-sizing:border-box;r 
+box-sizing:border-box;
+background-color:#ff0;
 `;
 export const CardFlex = styled(Flex)`
     box-sizing: border-box;
