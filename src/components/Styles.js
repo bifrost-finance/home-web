@@ -12,13 +12,13 @@ export const mobile = (...args) => css`
   }
 `;
 export const tablet = (...args) => css`
-@media screen and (min-width: 720px) and (max-width: 1198px)  {
+@media screen and (min-width: 720px) and (max-width: 1179px)  {
     ${css(...args)}
   }
 `;
 
 export const desktop = (...args) => css`
-  @media screen and (min-width: 1091px) {
+  @media screen and (min-width: 1280px) {
     ${css(...args)}
   }
 `;
@@ -393,7 +393,7 @@ export const Text = styled(View)`
   text-transform: ${p =>
         p.uppercase ? "uppercase" : p.lowercase && "uppercase"};;
   word-break: ${p => p.break && " break-all"};
-  font-family:${p => p.ff ? p.ff : "Product Sans"};
+  font-family:${p => p.ff ? p.ff : 'SF Pro Display'};
   letter-spacing:${p => p.ls ? p.ls + "em" : "0em"}
 `;
 
@@ -538,11 +538,13 @@ export const Hidden = styled(View)`
   `}
 `;
 // 以下是本项目
-export const Content = styled.div`
+export const ContentPage = styled.div`
 
 ${mobile`
     width:${p =>
             p.w && (typeof p.w === "number" ? p.w + "em" : p.w[0] && p.w[0] + "em")};
+    height:${p =>
+            p.h && (typeof p.h === "number" ? p.h + "em" : p.h[0] && p.h[0] + "em")};
     margin-top:${p =>
             p.mt && (typeof p.mt === "number" ? p.mt + "em" : p.mt[0] && p.mt[0] + "em")};
     padding-top:${p =>
@@ -556,6 +558,8 @@ ${mobile`
   ${desktop`
     width: ${p =>
             p.w && (typeof p.w === "number" ? p.w + "em" : p.w[1] && p.w[1] + "em")};
+    height:${p =>
+                p.h && (typeof p.h === "number" ? p.h + "em" : p.h[1] && p.h[1] + "em")};        
     margin-top:${p =>
             p.mt && (typeof p.mt === "number" ? p.mt + "em" : p.mt[1] && p.mt[1] + "em")};
     padding-top:${p =>
@@ -568,6 +572,8 @@ ${mobile`
   ${tablet`
     width: ${p =>
             p.w && (typeof p.w === "number" ? p.w + "em" : p.w[2] && p.w[2] + "em")};
+    height:${p =>
+                p.h && (typeof p.h === "number" ? p.h + "em" : p.h[2] && p.h[2] + "em")};        
     margin-top:${p =>
             p.mt && (typeof p.mt === "number" ? p.mt + "em" : p.mt[2] && p.mt[2] + "em")};
     padding-top:${p =>
@@ -577,16 +583,13 @@ ${mobile`
     margin-bottom:${p =>
             p.mb && (typeof p.mb === "number" ? p.mb + "em" : p.mb[2] && p.mb[2] + "em")};
   `}
-
-height:${p => p.h ? p.h + "em" : ""};
-display: flex;
-flex-direction:${p => p.fd ? p.fd : "row"};
-justify-content:space-between;
-align-items:center;
 margin:0 auto;
-box-sizing:border-box;
 background-color:#ff0;
 color:#fff;
+`;
+export const OfficialWebsiteText = styled(Text)`
+font-style: normal;
+font-weight: bold;
 `;
 export const CardFlex = styled(Flex)`
     box-sizing: border-box;
@@ -670,10 +673,10 @@ font-family:Noto Sans SC;
 `;
 export const Button = props => (
     <Flex
-        w={props.w} h={props.h} mx={props.mx} ml={props.ml} aic jcc r={radius.xsm} bg={color.blue}
+        w={props.w} h={props.h} mx={props.mx} ml={props.ml} aic jcc r={props.radius} bg={props.bg}
         onClick={props.Event}
         style={{ cursor: 'pointer' }}>
-        <Text ff="Noto Sans SC" scale={1.5} paragraph={2} ls={0.0416} color={color.white}>
+        <Text ff="SF Pro Display" scale={props.scale}   color={props.color}>
             {props.text}</Text>
     </Flex>
 

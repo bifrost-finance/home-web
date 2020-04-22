@@ -1,11 +1,22 @@
-import React, { useState, useEffect, useImperativeHandle } from "react";
-import { Flex, Button, color, Text, Hidden, SVG, radius, CoinIcon, Input, TextTypesetting } from "./Styles"
+import React, { useEffect, useState, useMemo } from "react";
+import { Flex, ContentPage, color, Text, CardFlex, TextTypesetting, Arrow, Hidden, OfficialWebsiteText } from "./Styles"
+import Hero from './Hero'
+import Problem from './Problem'
+import Roadmap from './Roadmap'
+import Parner from './Parner'
+import Contact from './Contact'
+import { useTranslation } from "react-i18next";
+import styled from "styled-components";
 const Content = ({ screen }) => {
-
+    const { t, i18n } = useTranslation();
     return (<>
-        <Content w={[28.0625, 68.25, 42]}>
-            内容
-        </Content>
+        <Flex column>
+            <Hero />
+            <Problem />
+            <Roadmap screen={screen} />
+            <Parner />
+            <Contact />
+        </Flex>
     </>)
 };
-export default React.memo(Content) 
+export default React.memo(Content)

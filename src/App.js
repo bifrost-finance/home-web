@@ -1,7 +1,11 @@
 // 主组件
 import React, { lazy, Suspense, useState, useEffect, useMemo } from "react";
-import { View } from "./components/Styles"
-// import "./i18n/i18n";
+import {
+  BrowserRouter as Router,
+  Route, withRouter, Switch
+} from "react-router-dom";
+import { View,color,Text } from "./components/Styles"
+import "./i18n/i18n";
 import { useTranslation } from "react-i18next";
 import Header from './components/Header'
 import Content from './components/Content'
@@ -19,11 +23,11 @@ const App = () => {
     }
     else if ((document.documentElement.clientWidth > 720
       || document.documentElement.clientWidth === 720)
-      && document.documentElement.clientWidth < 1092) {
+      && document.documentElement.clientWidth < 1280) {
       setScreen("Tablet");
     }
-    else if (document.documentElement.clientWidth > 1092
-      || document.documentElement.clientWidth === 1092) {
+    else if (document.documentElement.clientWidth > 1280
+      || document.documentElement.clientWidth === 1280) {
       setScreen("laptop");
     }
     console.log('自适应', screen)
@@ -33,7 +37,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <Content />
+      <Content screen={screen}/>
       <Footer />
     </>
   )

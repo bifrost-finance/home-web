@@ -5,13 +5,8 @@ import ApolloClient from "apollo-boost";
 
 import App from "./App"
 import * as serviceWorker from './serviceWorker';
-const client = new ApolloClient({
-    uri: "https://pool.liebi.com/bifrost-graphql",
-});
 ReactDOM.render(
-    <ApolloProvider client={client}>
-        <App style={{ margin: 0, padding: 0 }} />
-    </ApolloProvider>
+    <App />
     , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
