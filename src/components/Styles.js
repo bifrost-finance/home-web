@@ -559,7 +559,7 @@ ${mobile`
     width: ${p =>
             p.w && (typeof p.w === "number" ? p.w + "em" : p.w[1] && p.w[1] + "em")};
     height:${p =>
-                p.h && (typeof p.h === "number" ? p.h + "em" : p.h[1] && p.h[1] + "em")};        
+            p.h && (typeof p.h === "number" ? p.h + "em" : p.h[1] && p.h[1] + "em")};        
     margin-top:${p =>
             p.mt && (typeof p.mt === "number" ? p.mt + "em" : p.mt[1] && p.mt[1] + "em")};
     padding-top:${p =>
@@ -573,7 +573,7 @@ ${mobile`
     width: ${p =>
             p.w && (typeof p.w === "number" ? p.w + "em" : p.w[2] && p.w[2] + "em")};
     height:${p =>
-                p.h && (typeof p.h === "number" ? p.h + "em" : p.h[2] && p.h[2] + "em")};        
+            p.h && (typeof p.h === "number" ? p.h + "em" : p.h[2] && p.h[2] + "em")};        
     margin-top:${p =>
             p.mt && (typeof p.mt === "number" ? p.mt + "em" : p.mt[2] && p.mt[2] + "em")};
     padding-top:${p =>
@@ -584,7 +584,7 @@ ${mobile`
             p.mb && (typeof p.mb === "number" ? p.mb + "em" : p.mb[2] && p.mb[2] + "em")};
   `}
 margin:0 auto;
-background-color:#ff0;
+background-color:#000;
 color:#fff;
 `;
 export const OfficialWebsiteText = styled(Text)`
@@ -621,47 +621,44 @@ transform: rotate(-45deg);
 export const Input = styled.input`
 ${mobile`
     width:${p =>
-            p.w && (typeof p.w === "number" ? p.w + "em" : p.w[0] && p.w[0] + "em")};
-    margin:${p =>
-            p.m && (typeof p.m === "number" ? p.m + "em" : p.m[0] && p.m[0] + "em")};
-    font-size: ${p =>
-            (p.scale || p.scale === 0) &&
-            (typeof p.scale === "number"
-                ? Math.pow(1.1, p.scale) + "rem"
-                : (p.scale[0] || p.scale[0] === 0) &&
-                Math.pow(1.1, p.scale[0]) + "rem")};
+            p.w && (typeof p.w === "number" ? p.w / 1.25 + "em" : p.w[0] && p.w[0] / 1.25 + "em")};
+    height:${p =>
+            p.h && (typeof p.h === "number" ? p.h / 1.25 + "em" : p.h[0] && p.h[0] / 1.25 + "em")};
   `}
 
   ${desktop`
     width: ${p =>
-            p.w && (typeof p.w === "number" ? p.w + "em" : p.w[1] && p.w[1] + "em")};
-    margin:${p =>
-            p.m && (typeof p.m === "number" ? p.m + "em" : p.m[1] && p.m[1] + "em")};
-    font-size: ${p =>
-            (p.scale || p.scale === 0) &&
-            (typeof p.scale === "number"
-                ? Math.pow(1.15, p.scale) + "rem"
-                : (p.scale[1] || p.scale[1] === 0) &&
-                Math.pow(1.15, p.scale[1]) + "rem")};
+            p.w && (typeof p.w === "number" ? p.w / 1.25 + "em" : p.w[1] && p.w[1] / 1.25 + "em")};
+            height:${p =>
+            p.h && (typeof p.h === "number" ? p.h / 1.25 + "em" : p.h[1] && p.h[1] / 1.25 + "em")};
   `}
   ${tablet`
     width: ${p =>
-            p.w && (typeof p.w === "number" ? p.w + "em" : p.w[2] && p.w[2] + "em")};
-    margin:${p =>
-            p.m && (typeof p.m === "number" ? p.m + "em" : p.m[2] && p.m[2] + "em")};
-    font-size: ${p =>
-            (p.scale || p.scale === 0) &&
-            (typeof p.scale === "number"
-                ? Math.pow(1.15, p.scale) + "rem"
-                : (p.scale[2] || p.scale[2] === 0) &&
-                Math.pow(1.15, p.scale[2]) + "rem")};
+            p.w && (typeof p.w === "number" ? p.w / 1.25 + "em" : p.w[2] && p.w[2] / 1.25 + "em")};
+            height:${p =>
+            p.h && (typeof p.h === "number" ? p.h / 1.25 + "em" : p.h[2] && p.h[2] / 1.25 + "em")};
   `}
 border: 0;
 outline: none; 
-background-color:#F7F7F9;
-font-family: Product Sans;
+background-color:#F4F4F4;
+font-family: SF Pro Text;
+padding:0px;
 font-weight: bold;
-
+color:#BDBDBD;
+font-size:1.25em;
+border-radius:8px;
+::-webkit-input-placeholder {
+    color:#BDBDBD; /*WebKit browsers*/
+    };
+::-moz-placeholder {
+        color:#BDBDBD; /*Mozilla Firefox 4 to 18 */
+        };
+::-moz-placeholder {
+            color:#BDBDBD; /*Mozilla Firefox 19+ */
+            };    
+::-ms-input-placeholder {
+        color: :#BDBDBD;/*Internet Explorer 10+*/
+        }
 `;
 export const ScrollView = styled(View)`
 overflow-y: auto;
@@ -676,7 +673,7 @@ export const Button = props => (
         w={props.w} h={props.h} mx={props.mx} ml={props.ml} aic jcc r={props.radius} bg={props.bg}
         onClick={props.Event}
         style={{ cursor: 'pointer' }}>
-        <Text ff="SF Pro Display" scale={props.scale}   color={props.color}>
+        <Text ff="SF Pro Display" scale={props.scale} color={props.color} bold >
             {props.text}</Text>
     </Flex>
 

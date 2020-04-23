@@ -9,7 +9,7 @@ const Hero = ({ screen }) => {
             <Flex column mt={8} w={[28.0625, 68.75, 42]}  h={50} mx={5.625}>
                 <View style={{ wordWrap: 'normal',wordBreak: 'break-all',  width: '40.875em' }}>
                     <OfficialWebsiteText scale={10.7618} color={color.white}
-                    >A parachain designed for stakinSSSSSSSSSSSSSg's liquidity </OfficialWebsiteText>
+                    >A parachain designed for staking's liquidity </OfficialWebsiteText>
                 </View>
                 <Flex mt={2}>
                     <Button
@@ -22,7 +22,6 @@ const Hero = ({ screen }) => {
                         radius={'4px'}
 
                     />
-                    <Button />
                     <Button
                         ml={0.75}
                         w={9.9375}
@@ -33,7 +32,6 @@ const Hero = ({ screen }) => {
                         scale={0.843}
                         radius={'4px'}
                     />
-                    <Button />
                 </Flex>
             </Flex>
 

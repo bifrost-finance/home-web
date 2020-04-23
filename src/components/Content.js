@@ -7,13 +7,13 @@ import Parner from './Parner'
 import Contact from './Contact'
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-const Content = ({ screen }) => {
+const Content = ({ screen,fontSize }) => {
     const { t, i18n } = useTranslation();
     return (<>
         <Flex column>
             <Hero />
             <Problem />
-            <Roadmap screen={screen} />
+            <Roadmap screen={screen} fontSize={fontSize} />
             <Parner />
             <Contact />
         </Flex>

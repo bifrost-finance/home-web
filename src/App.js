@@ -13,8 +13,13 @@ import Footer from './components/Footer'
 const App = () => {
   // 当前屏幕尺寸
   const [screen, setScreen] = useState("")
+  const [fontSize, setFontSize] = useState("")
   // 翻译文件
   const { t } = useTranslation()
+  useEffect(()=>{
+    let css = window.getComputedStyle(document.getElementById('root')).fontSize;
+    setFontSize(css)
+  },[])
   // 获取浏览器当前宽度
   useEffect(() => {
     console.log('宽度', document.documentElement.clientWidth)
@@ -37,7 +42,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <Content screen={screen}/>
+      <Content screen={screen} fontSize={fontSize} />
       <Footer />
     </>
   )
