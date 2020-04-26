@@ -20,7 +20,7 @@ const Parner = ({ screen }) => {
                     <Flex jcc aic
                         w={[17.728, 11, 37.24]}
                         h={[8, 5, 8]}
-                        bg='#F0F0F0'
+                        bg={color.gray}
                         r='8px'
                         key={index}
                         mb={1, 4, 1}

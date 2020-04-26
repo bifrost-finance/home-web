@@ -20,7 +20,7 @@ const Contact = ({ screen }) => {
         return (
             arr.map((i, index) => {
                 return (
-                    <Flex jcc aic w={4} h={4} bg='#F0F0F0' r={radius.rounded} key={index} mr={2} mt={1}></Flex>
+                    <Flex jcc aic w={4} h={4} bg='#F0F0F0' r={radius.rounded} key={index} mr={[1.136,2,2.381]} mt={1}></Flex>
                 )
             })
         )
@@ -28,15 +28,16 @@ const Contact = ({ screen }) => {
     return (<>
         <ContentPage
             w={[20.5, 80, 42]}
-            h={50}>
+            h={[,50,]}>
             <Flex
                 w={[17.728, 68.75, 37.24]}
                 mx={[1.136, 5.625, 2.38]}
+                mb={[7.3,0,15]}
                 column bg={color.black} mt={5}  >
                 <View mb={4} >
                     <OfficialWebsiteText scale={4.5} color={color.white} ls={-0.042} >contact</OfficialWebsiteText>
                 </View>
-                <OfficialWebsiteText color={color.lightGray} ls={-0.042} scale={1.5}>The point of using Lorem Ipsum is</OfficialWebsiteText>
+                <OfficialWebsiteText color={color.fontBlack} ls={-0.042} scale={1.5}>The point of using Lorem Ipsum is</OfficialWebsiteText>
                 <Flex mt={1} mb={4} column={screen === 'laptop' ? false : true}>
                     <Input w={[17.728, 30, 37.24]} h={4}
                         placeholder='Email'
@@ -54,8 +55,8 @@ const Contact = ({ screen }) => {
                         radius={'8px'}
                     />
                 </Flex>
-                <OfficialWebsiteText color={color.lightGray} ls={-0.042} scale={1.5}>or connect with us</OfficialWebsiteText>
-                <Flex w={[17.728, 68.75, 37.24]} wrap='wrap'>
+                <OfficialWebsiteText color={color.fontBlack} ls={-0.042} scale={1.5}>or connect with us</OfficialWebsiteText>
+                <Flex w={[17.728, 68.75, 37.24]} wrap='wrap'  >
                     <Connect />
                 </Flex>
             </Flex>
