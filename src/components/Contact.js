@@ -5,48 +5,57 @@ import styled from "styled-components";
 const Contact = ({ screen }) => {
     const { t, i18n } = useTranslation();
     let arr = [
-        {name:'iost',img:''},
-        {name:'iost',img:''},
-        {name:'iost',img:''},
-        {name:'iost',img:''},
-        {name:'iost',img:''},
-        {name:'iost',img:''},
+        { name: 'iost', img: '' },
+        { name: 'iost', img: '' },
+        { name: 'iost', img: '' },
+        { name: 'iost', img: '' },
+        { name: 'iost', img: '' },
+        { name: 'iost', img: '' },
+        { name: 'iost', img: '' },
+        { name: 'iost', img: '' },
+        { name: 'iost', img: '' },
 
     ]
-    const Connect = ()=>{
-        return(
-            arr.map((i,index)=>{
-                return(
+    const Connect = () => {
+        return (
+            arr.map((i, index) => {
+                return (
                     <Flex jcc aic w={4} h={4} bg='#F0F0F0' r={radius.rounded} key={index} mr={2} mt={1}></Flex>
                 )
             })
         )
     }
     return (<>
-        <ContentPage w={[28.0625, 80, 42]} h={50}>
-            <Flex w={68.75} column bg='#000' mt={4} mx={5.625} >
+        <ContentPage
+            w={[20.5, 80, 42]}
+            h={50}>
+            <Flex
+                w={[17.728, 68.75, 37.24]}
+                mx={[1.136, 5.625, 2.38]}
+                column bg={color.black} mt={5}  >
                 <View mb={4} >
-                    <OfficialWebsiteText scale={10.7618} color={color.white}>contact</OfficialWebsiteText>
+                    <OfficialWebsiteText scale={4.5} color={color.white} ls={-0.042} >contact</OfficialWebsiteText>
                 </View>
-                <OfficialWebsiteText color='rgba(f, f, f, 0.63)' scale={2.902}>The point of using Lorem Ipsum is</OfficialWebsiteText>
-                <Flex mt={1} mb={4}>
-                    <Input w={30} h={4}
-                    placeholder='Email'
-                    style={{paddingLeft:'1em'}}
+                <OfficialWebsiteText color={color.lightGray} ls={-0.042} scale={1.5}>The point of using Lorem Ipsum is</OfficialWebsiteText>
+                <Flex mt={1} mb={4} column={screen === 'laptop' ? false : true}>
+                    <Input w={[17.728, 30, 37.24]} h={4}
+                        placeholder='Email'
+                        style={{ paddingLeft: '1em', boxSizing: 'border-box' }}
                     />
                     <Button
-                        ml={0.5}
-                        w={10.4375}
+                        mt={[1, 0, 1]}
+                        ml={[0, 0.5, 0]}
+                        w={[17.728, 10.4375,  37.24]}
                         h={4}
-                        color={'#000'}
+                        color={color.black}
                         bg={color.white}
                         text={'Subscribe'}
-                        scale={2.902}
+                        scale={1.5}
                         radius={'8px'}
                     />
                 </Flex>
-                <OfficialWebsiteText color='rgba(f, f, f, 0.63)' scale={2.902}>or connect with us</OfficialWebsiteText>
-                <Flex w={68.75}  wrap >
+                <OfficialWebsiteText color={color.lightGray} ls={-0.042} scale={1.5}>or connect with us</OfficialWebsiteText>
+                <Flex w={[17.728, 68.75, 37.24]} wrap='wrap'>
                     <Connect />
                 </Flex>
             </Flex>

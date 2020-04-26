@@ -11,11 +11,11 @@ const Content = ({ screen,fontSize }) => {
     const { t, i18n } = useTranslation();
     return (<>
         <Flex column>
-            <Hero />
-            <Problem />
+            <Hero screen={screen} />
+            <Problem screen={screen}/>
             <Roadmap screen={screen} fontSize={fontSize} />
-            <Parner />
-            <Contact />
+            <Parner screen={screen}/>
+            <Contact screen={screen}/>
         </Flex>
     </>)
 };

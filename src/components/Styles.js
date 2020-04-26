@@ -3,9 +3,6 @@ import { useTranslation } from "react-i18next";
 import styled, { css, createGlobalStyle } from "styled-components";
 // import Formatter from "../utils/Formatter";
 import { lighten, darken, rgba } from "polished";
-import { ReactComponent as IconEos } from "../images/eos-19.svg";
-import { ReactComponent as IconDot } from "../images/dot-15.svg";
-import { ReactComponent as IconKsm } from "../images/ksm-17.svg";
 export const mobile = (...args) => css`
   @media screen and (max-width: 719px) {
     ${css(...args)}
@@ -25,11 +22,11 @@ export const desktop = (...args) => css`
 
 export const color = {
     transparent: "transparent",
-    black: "hsl(243, 10%, 10%)",
+    black: "#000000",
     white: "white",
-    darkGray: "#EFEEF5",
+    darkGray: "#2C2C2C",
     gray: "#8E8E95",
-    lightGray: " #F6F5FF",
+    lightGray: "rgba(255, 255, 255, 0.63)",
     fontGray: '#DBDBE8',
     washedGray: "#F7F7F9",
     washedRed: "#ffdfdf",
@@ -344,46 +341,46 @@ const StyledSVG = styled(View).attrs({
       transform: ${p => (p.flipX ? "scaleX(-1)" : p.flipY && "scaleY(-1)")};
     }
   `;
-export const CoinIcon = props => (
-    <Flex w={props.w1} h={props.h1} aic jcc>
-        <Flex w={props.w2} h={props.h2} aic jcc r={radius.rounded} bg={props.bg} >
-            <SVG height={props.h}
-                svg={
-                    props.abbr === "EOS"
-                        ? IconEos
-                        : props.abbr === "DOT"
-                            ? IconDot
-                            : IconKsm
+// export const CoinIcon = props => (
+//     <Flex w={props.w1} h={props.h1} aic jcc>
+//         <Flex w={props.w2} h={props.h2} aic jcc r={radius.rounded} bg={props.bg} >
+//             <SVG height={props.h}
+//                 svg={
+//                     props.abbr === "EOS"
+//                         ? IconEos
+//                         : props.abbr === "DOT"
+//                             ? IconDot
+//                             : IconKsm
 
-                } />
-        </Flex>
-    </Flex>
-);
+//                 } />
+//         </Flex>
+//     </Flex>
+// );
 export const Text = styled(View)`
   ${mobile`
     font-size: ${p =>
             (p.scale || p.scale === 0) &&
             (typeof p.scale === "number"
-                ? Math.pow(1.1, p.scale) + "rem"
+                ? 0.8 * (p.scale) + "rem"
                 : (p.scale[0] || p.scale[0] === 0) &&
-                Math.pow(1.1, p.scale[0]) + "rem")};
+                (p.scale[0]) + "rem")};
   `}
 
   ${desktop`
     font-size: ${p =>
             (p.scale || p.scale === 0) &&
             (typeof p.scale === "number"
-                ? Math.pow(1.15, p.scale) + "rem"
+                ? (p.scale) + "rem"
                 : (p.scale[1] || p.scale[1] === 0) &&
-                Math.pow(1.15, p.scale[1]) + "rem")};
+                (p.scale[1]) + "rem")};
   `}
   ${tablet`
     font-size: ${p =>
             (p.scale || p.scale === 0) &&
             (typeof p.scale === "number"
-                ? Math.pow(1.15, p.scale) + "rem"
-                : (p.scale[2] || p.scale[2] === 0) &&
-                Math.pow(1.15, p.scale[2]) + "rem")};
+                ? 0.9 * (p.scale) + "rem"
+                : (p.scale[2] || p.scale[0] === 0) &&
+                (p.scale[2]) + "rem")};
   `}
   font-weight: ${p =>
         p.fw ? p.fw : p.bold ? "bold" : p.lighter ? "lighter" : p.normal && "normal"};
@@ -591,6 +588,11 @@ export const OfficialWebsiteText = styled(Text)`
 font-style: normal;
 font-weight: bold;
 `;
+export const BgView = styled(Flex)`
+box-sizing: border-box;
+:active{
+    background-color:#2C2C2C;
+}`;
 export const CardFlex = styled(Flex)`
     box-sizing: border-box;
     border-radius: 8px;
@@ -670,7 +672,7 @@ font-family:Noto Sans SC;
 `;
 export const Button = props => (
     <Flex
-        w={props.w} h={props.h} mx={props.mx} ml={props.ml} aic jcc r={props.radius} bg={props.bg}
+        w={props.w} h={props.h} mx={props.mx} ml={props.ml} mt={props.mt} aic jcc r={props.radius} bg={props.bg}
         onClick={props.Event}
         style={{ cursor: 'pointer' }}>
         <Text ff="SF Pro Display" scale={props.scale} color={props.color} bold >
