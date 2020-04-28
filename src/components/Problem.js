@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Flex, ContentPage, color, Text, View, TextTypesetting, Arrow, Hidden, OfficialWebsiteText } from "./Styles"
+import { Flex, ContentPage, color, Text, View, TextTypesetting, Arrow, Hidden, SubjectText } from "./Styles"
 import { useTranslation } from "react-i18next";
 const Problem = ({ screen }) => {
     const { t, i18n } = useTranslation();
@@ -17,23 +17,34 @@ const Problem = ({ screen }) => {
                 r='8px'
                 w={[17.728, 20, 37.24]}
                 h={[11.364, 20, 23.81]}
-                bg={color.white} >我是图片</View>
+                bg={color.lightColor} >我是图片</View>
         </>)
     }
     const TEXT_Content = ({ }) => {
         return (
             <>
-                <Flex column >
-                    <View mt={2, 0, 2}>
-                        <OfficialWebsiteText scale={2.625} color={color.white} >
+                <Flex
+                    column
+                >
+                    <View
+                        mt={2, 0, 2}
+                    >
+                        <SubjectText
+                            scale={2.625}
+                            bold
+                        >
                             Lorem Ipsum
-                    </OfficialWebsiteText></View>
+                    </SubjectText>
+                    </View>
                     <View
                         w={[17.728, 36.75, 37.24]}
-                        mt={1.25}>
-                        <Text scale={1.5} color={color.white}>
+                        mt={1.25}
+                    >
+                        <SubjectText
+                            scale={1.5}
+                        >
                             Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-                    </Text>
+                    </SubjectText>
                     </View>
                 </Flex>
 
@@ -54,14 +65,14 @@ const Problem = ({ screen }) => {
                             : { wordWrap: 'normal', wordBreak: 'break-all', width: '54.6875em' }}
                     mb={[3.871, 4, 8.11]}
                 >
-                    <OfficialWebsiteText scale={2.625} color={color.white} ls={-0.042} >
+                    <SubjectText scale={2.625} color={color.white} ls={-0.042} >
                         It is a long established fact that a reader will
                         be distracted by the readable content of a page when looking at its layout.
-                    </OfficialWebsiteText>
+                    </SubjectText>
                 </View>
-                <OfficialWebsiteText scale={4.5} color={color.white} ls={-0.042} >
+                <SubjectText bold scale={4.5} color={color.white} ls={-0.042} >
                     Bifrost is here.
-                </OfficialWebsiteText>
+                </SubjectText>
                 <ProblemItem leftContent={<IMG_Content />} rightContent={<TEXT_Content />} />
                 <ProblemItem leftContent={screen === 'laptop' ? <TEXT_Content /> : <IMG_Content />}
                     rightContent={screen === 'laptop' ? <IMG_Content /> : <TEXT_Content />} ml />

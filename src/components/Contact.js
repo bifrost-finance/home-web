@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Flex, ContentPage, color, Text, radius, Input, View, Button, OfficialWebsiteText } from "./Styles"
+import { Flex, ContentPage, color, Text, radius, Input, View, Button, SubjectText ,ContactSubjectText ,ThemeFlex} from "./Styles"
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 const Contact = ({ screen }) => {
@@ -29,15 +29,15 @@ const Contact = ({ screen }) => {
         <ContentPage
             w={[20.5, 80, 42]}
             h={[,50,]}>
-            <Flex
+            <ThemeFlex
                 w={[17.728, 68.75, 37.24]}
                 mx={[1.136, 5.625, 2.38]}
                 mb={[7.3,0,15]}
-                column bg={color.black} mt={5}  >
+                column  mt={5}  >
                 <View mb={4} >
-                    <OfficialWebsiteText scale={4.5} color={color.white} ls={-0.042} >contact</OfficialWebsiteText>
+                    <SubjectText scale={4.5} color={color.white} ls={-0.042} >contact</SubjectText>
                 </View>
-                <OfficialWebsiteText color={color.fontBlack} ls={-0.042} scale={1.5}>The point of using Lorem Ipsum is</OfficialWebsiteText>
+                <ContactSubjectText color={color.fontBlack} ls={-0.042} scale={1.5}>The point of using Lorem Ipsum is</ContactSubjectText>
                 <Flex mt={1} mb={4} column={screen === 'laptop' ? false : true}>
                     <Input w={[17.728, 30, 37.24]} h={4}
                         placeholder='Email'
@@ -48,18 +48,20 @@ const Contact = ({ screen }) => {
                         ml={[0, 0.5, 0]}
                         w={[17.728, 10.4375,  37.24]}
                         h={4}
-                        color={color.black}
-                        bg={color.white}
+                        lightColor={color.black}
+                        darkColor={color.white}
+                        FontlightColor={color.white}
+                        FontdarkColor={color.black}
                         text={'Subscribe'}
                         scale={1.5}
                         radius={'8px'}
                     />
                 </Flex>
-                <OfficialWebsiteText color={color.fontBlack} ls={-0.042} scale={1.5}>or connect with us</OfficialWebsiteText>
+                <ContactSubjectText color={color.fontBlack} ls={-0.042} scale={1.5}>or connect with us</ContactSubjectText>
                 <Flex w={[17.728, 68.75, 37.24]} wrap='wrap'  >
                     <Connect />
                 </Flex>
-            </Flex>
+            </ThemeFlex>
         </ContentPage>
     </>)
 };

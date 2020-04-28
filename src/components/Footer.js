@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useState, useEffect } from "react";
-import { Text, ContentPage, Flex, color } from "./Styles"
+import { Text, ContentPage, Flex, FooterSubjectText } from "./Styles"
 const Footer = () => {
   return (
     <>
@@ -8,7 +8,7 @@ const Footer = () => {
           h={[5.3125, 7.875, 5.3125]} aic
           w={[17.728, 68.75, 37.24]}
           mx={[1.136, 5.625, 2.38]}>
-          <Text ff='SF Pro Text' color={color.white}>Bifrost Network © 2019</Text></Flex>
+          <FooterSubjectText ff='SF Pro Text' >Bifrost Network © 2019</FooterSubjectText></Flex>
       </ContentPage>
     </>
   )

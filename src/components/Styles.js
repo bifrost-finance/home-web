@@ -19,7 +19,11 @@ export const desktop = (...args) => css`
     ${css(...args)}
   }
 `;
-
+export const light = (...args) => css` 
+@media (prefers-color-scheme: light) {
+    ${css(...args)}
+};
+`;
 export const color = {
     transparent: "transparent",
     black: "#000000",
@@ -27,8 +31,12 @@ export const color = {
     darkGray: "#2C2C2C",
     gray: "#F0F0F0",
     lightGray: "rgba(255, 255, 255, 0.63)",
+    borderGray: "rgba(255, 255, 255, 0.34)",
     fontGray: '#DBDBE8',
-    fontBlack: 'rgba(0, 0, 0, 0.34)',
+    fontBlack: 'rgba(0, 0, 0, 0.63)',
+    borderBlack: 'rgba(0, 0, 0, 0.34)',
+    lightColor: '#F4F4F4',
+    darkColor: '#2C2C2C',
     // washedGray: "#BDBDBD;",
 
     border: {
@@ -305,27 +313,17 @@ const StyledSVG = styled(View).attrs({
     margin-right: ${p => p.withText && "0.35em"};
     svg {
       display: block;
-      fill: ${p => p.fill};
       height: ${p => (p.height ? p.height : 1) + "em"};
       width: auto;
       transform: ${p => (p.flipX ? "scaleX(-1)" : p.flipY && "scaleY(-1)")};
+      stroke:white;
+      fill:white;
+     ${light`
+      stroke:black;
+      fill:black;
+     `}
     }
   `;
-// export const CoinIcon = props => (
-//     <Flex w={props.w1} h={props.h1} aic jcc>
-//         <Flex w={props.w2} h={props.h2} aic jcc r={radius.rounded} bg={props.bg} >
-//             <SVG height={props.h}
-//                 svg={
-//                     props.abbr === "EOS"
-//                         ? IconEos
-//                         : props.abbr === "DOT"
-//                             ? IconDot
-//                             : IconKsm
-
-//                 } />
-//         </Flex>
-//     </Flex>
-// );
 export const Text = styled(View)`
   ${mobile`
     font-size: ${p =>
@@ -334,6 +332,7 @@ export const Text = styled(View)`
                 ? 0.8 * (p.scale) + "rem"
                 : (p.scale[0] || p.scale[0] === 0) &&
                 (p.scale[0]) + "rem")};
+    line-height:${p => p.paragraph && (typeof p.paragraph === "number" ? p.paragraph + "em" : p.paragraph[0] && p.paragraph[0] + "em")};
   `}
 
   ${desktop`
@@ -343,6 +342,7 @@ export const Text = styled(View)`
                 ? (p.scale) + "rem"
                 : (p.scale[1] || p.scale[1] === 0) &&
                 (p.scale[1]) + "rem")};
+    line-height: ${p => p.paragraph && (typeof p.paragraph === "number" ? p.paragraph + "em" : p.paragraph[1] && p.paragraph[1] + "em")};
   `}
   ${tablet`
     font-size: ${p =>
@@ -351,11 +351,11 @@ export const Text = styled(View)`
                 ? 0.9 * (p.scale) + "rem"
                 : (p.scale[2] || p.scale[0] === 0) &&
                 (p.scale[2]) + "rem")};
+    line-height: ${p => p.paragraph && (typeof p.paragraph === "number" ? p.paragraph + "em" : p.paragraph[2] && p.paragraph[2] + "em")};
   `}
   font-weight: ${p =>
         p.fw ? p.fw : p.bold ? "bold" : p.lighter ? "lighter" : p.normal && "normal"};
   font-style:${p => p.fs ? p.fs : 'normal'} ;
-  line-height: ${p => p.paragraph ? p.paragraph + "em" : "1.35em"};
   color: ${p => p.color};
   text-transform: ${p =>
         p.uppercase ? "uppercase" : p.lowercase && "uppercase"};;
@@ -365,45 +365,7 @@ export const Text = styled(View)`
 `;
 
 export const Flex = styled(View)`
-    display: ${p => (p.inline ? "inline-box" : "box")};/* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
-    display: ${p => (p.inline ? "-webkit-inline-box" : "-webkit-box")};/* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
-    display: ${p => (p.inline ? "-moz-inline-box" : " -moz-box")};/* Firefox 17- */
-    display: ${p => (p.inline ? "-moz-inline-flex" : "-moz-flex")};/* Firefox 18+ */
-    display: ${p => (p.inline ? "-ms-inline-flexbox" : "-ms-flexbox")};/* IE 10 */
-    display: ${p => (p.inline ? "-webkit-inline-flex" : "-webkit-flex")};/* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
     display: ${p => (p.inline ? "inline-flex" : "flex")};/* Chrome 29+, Firefox 22+, IE 11+, Opera 12.1/17/18, Android 4.4+ */
-    -webkit-flex-direction:${p =>
-        p.column
-            ? p.reverse
-                ? "column-reverse"
-                : "column"
-            : p.reverse
-                ? "row-reverse"
-                : "row"};
-    -moz-flex-direction: ${p =>
-        p.column
-            ? p.reverse
-                ? "column-reverse"
-                : "column"
-            : p.reverse
-                ? "row-reverse"
-                : "row"};
-    -ms-flex-direction: ${p =>
-        p.column
-            ? p.reverse
-                ? "column-reverse"
-                : "column"
-            : p.reverse
-                ? "row-reverse"
-                : "row"};
-    -o-flex-direction: ${p =>
-        p.column
-            ? p.reverse
-                ? "column-reverse"
-                : "column"
-            : p.reverse
-                ? "row-reverse"
-                : "row"};
     flex-direction: ${p =>
         p.column
             ? p.reverse
@@ -412,30 +374,10 @@ export const Flex = styled(View)`
             : p.reverse
                 ? "row-reverse"
                 : "row"};
-    -webkit-align-items: ${p =>
-        p.center || p.aic ? "center" : p.aifs ? "flex-start" : p.aife ? "flex-end" : "stretch"};
-    -moz-align-items: ${p =>
-        p.center || p.aic ? "center" : p.aifs ? "flex-start" : p.aife ? "flex-end" : "stretch"};
-    -ms-align-items: ${p =>
-        p.center || p.aic ? "center" : p.aifs ? "flex-start" : p.aife ? "flex-end" : "stretch"};
-    -o-align-items: ${p =>
-        p.center || p.aic ? "center" : p.aifs ? "flex-start" : p.aife ? "flex-end" : "stretch"};
     align-items: ${p =>
         p.center || p.aic ? "center" : p.aifs ? "flex-start" : p.aife ? "flex-end" : "stretch"};
-    -webkit-justify-content: ${p =>
-        p.center || p.jcc ? "center" : p.jcsb ? "space-between" : p.jcfe ? 'flex-end' : p.jcsa ? 'space-around' : 'flex-start'};
-    -moz-justify-content: ${p =>
-        p.center || p.jcc ? "center" : p.jcsb ? "space-between" : p.jcfe ? 'flex-end' : p.jcsa ? 'space-around' : 'flex-start'};
-    -ms-justify-content: ${p =>
-        p.center || p.jcc ? "center" : p.jcsb ? "space-between" : p.jcfe ? 'flex-end' : p.jcsa ? 'space-around' : 'flex-start'};
-    -o-justify-content: ${p =>
-        p.center || p.jcc ? "center" : p.jcsb ? "space-between" : p.jcfe ? 'flex-end' : p.jcsa ? 'space-around' : 'flex-start'};
     justify-content: ${p =>
         p.center || p.jcc ? "center" : p.jcsb ? "space-between" : p.jcfe ? 'flex-end' : p.jcsa ? 'space-around' : 'flex-start'};
-    -webkit-flex-wrap: ${p => p.wrap && " wrap"};
-    -moz-flex-wrap:  ${p => p.wrap && " wrap"};
-    -ms-flex-wrap: ${p => p.wrap && " wrap"};
-    -o-flex-wrap:  ${p => p.wrap && " wrap"};
     flex-wrap: ${p => p.wrap && " wrap"};
   > * {
     flex: ${p => p.child};
@@ -551,17 +493,100 @@ ${mobile`
             p.mb && (typeof p.mb === "number" ? p.mb + "em" : p.mb[2] && p.mb[2] + "em")};
   `}
 margin:0 auto;
-background-color:#000;
-color:#fff;
+background-color: black;
+color: white;
+${light`
+background-color:white;
+color: black;
+ `}
+
 `;
-export const OfficialWebsiteText = styled(Text)`
+export const SubjectText = styled(Text)`
+font-style: normal;
+font-weight: ${p => p.bold ? 'bold' : 'normal'};
+background-color: black;
+color:${p => p.c ? '#ED6661' : 'white'} ;
+${light`
+background-color:white;
+color:${p => p.c ? '#ED6661' : 'black'} ;
+ `}
+`;
+export const MobileSubjectText = styled(Text)`
+font-style: normal;
+font-weight: ${p => p.bold ? 'bold' : 'normal'};
+`;
+export const ButtonSubjectText = styled(Text)`
+font-style: normal;
+font-weight: ${p => p.bold ? 'bold' : 'normal'};
+color:${p => p.FontdarkColor};
+${light`
+color:${p => p.FontlightColor};
+ `}
+`;
+export const ContactSubjectText = styled(Text)`
+font-style: normal;
+font-weight: ${p => p.bold ? 'bold' : 'normal'};
+background-color: black;
+color:rgba(255, 255, 255, 0.63) ;
+${light`
+background-color:white;
+    color:rgba(0, 0, 0, 0.63) ;
+ `}
+`;
+export const FooterSubjectText = styled(Text)`
+font-family: SF Pro Text;
+background-color: black;
+color:rgba(255, 255, 255, 0.34)  ;
+${light`
+background-color:white;
+color:rgba(0, 0, 0, 0.34) ;
+ `}
+`;
+export const CircleView = styled(View)`
+background-color:${p => p.c ? '#ED6661' : 'white'} ;
+
+${light`
+background-color:${p => p.c ? '#ED6661' : 'black'} ;
+ `}
+`;
+export const MobileCircleView = styled(View)`
+background-color:${p => p.c ? '#ED6661' : 'white'} ;
+
+${light`
+background-color:${p => p.c ? '#ED6661' : 'black'} ;
+ `}
+ :hover,
+ :active,
+ :focus{
+    background-color: #ED6661;
+ }
+`;
+export const ThemeView = styled(View)`
+background-color:black ;
+${light`
+background-color:white;
+ `}
+
+`;
+export const ThemeFlex = styled(Flex)`
+background-color: black;
+border-top: ${p => p.bt ? '1px solid rgba(255, 255, 255, 0.34)' : null};
+${light`
+background-color:white;
+border-top: ${p => p.bt ? '1px solid rgba(0, 0, 0, 0.34)' : null};
+ `}
+`;
+export const MobileThemeMenu = styled(Text)`
 font-style: normal;
 font-weight: bold;
-`;
-export const BgView = styled(Flex)`
 box-sizing: border-box;
 :active{
     background-color:#2C2C2C;
+    color: white;
+    ${light`
+    background-color:#F4F4F4;
+    color: black;
+ `}
 }`;
 export const CardFlex = styled(Flex)`
     box-sizing: border-box;
@@ -573,22 +598,6 @@ export const ScrollPage = styled(Flex)`
 box-sizing: border-box;
 -ms-overflow-y:auto
 overflow-y:auto;
-`;
-export const TextTypesetting = styled(Text)`
-width:${p => p.mw + "em"};
-overflow: hidden;
-white-space: nowrap;
-text-overflow: ellipsis;
-`;
-export const Arrow = styled.div`
-width: 0.375em;
-height: 0.375em;
-border-top: ${p => p.bt ? '0.125em solid #8E8E95' : 0};
-border-right: ${p => p.br ? '0.125em solid #8E8E95' : 0};
-border-bottom: ${p => p.bb ? '0.125em solid #8E8E95' : 0};
-border-left: ${p => p.bl ? '0.125em solid #8E8E95' : 0};
-transform: rotate(-45deg);
-
 `;
 export const Input = styled.input`
 ${mobile`
@@ -640,14 +649,20 @@ export const DetailText = styled(Text)`
 font-weight:500;
 font-family:Noto Sans SC;
 `;
+export const ButtonFlex = styled(Flex)`
+background-color:${p => p.darkColor};
+${light`
+background-color:${p => p.lightColor};
+`}
+`;
 export const Button = props => (
-    <Flex
-        w={props.w} h={props.h} mx={props.mx} ml={props.ml} mt={props.mt} aic jcc r={props.radius} bg={props.bg}
+    <ButtonFlex
+        w={props.w} h={props.h} mx={props.mx} ml={props.ml} mt={props.mt} aic jcc r={props.radius} lightColor={props.lightColor} darkColor={props.darkColor}
         onClick={props.Event}
         style={{ cursor: 'pointer' }}>
-        <Text ff="SF Pro Display" scale={props.scale} color={props.color} bold >
-            {props.text}</Text>
-    </Flex>
+        <ButtonSubjectText scale={props.scale} bold FontlightColor={props.FontlightColor} FontdarkColor={props.FontdarkColor} >
+            {props.text}</ButtonSubjectText>
+    </ButtonFlex>
 
 )
 

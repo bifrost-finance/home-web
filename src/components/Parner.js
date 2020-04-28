@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Flex, ContentPage, color, Text, CardFlex, TextTypesetting, View, Hidden, OfficialWebsiteText } from "./Styles"
+import { Flex, ContentPage, color, Text, ThemeFlex, TextTypesetting, View, Hidden, SubjectText } from "./Styles"
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 const Parner = ({ screen }) => {
@@ -31,19 +31,20 @@ const Parner = ({ screen }) => {
     }
     return (<>
         <ContentPage w={[20.5, 80, 42]} >
-            <Flex
+            <ThemeFlex
                 h={[, 50,]}
                 mb={[0.625, 0, 0.625]}
                 w={[17.728, 68.75, 37.24]}
                 mx={[1.136, 5.625, 2.38]}
-                column bg={color.black} mt={5}  >
+                column 
+                mt={5}  >
                 <View mb={[1.705, 8, 3.571]} >
-                    <OfficialWebsiteText scale={4.5} color={color.white} ls={-0.042} >partner</OfficialWebsiteText>
+                    <SubjectText scale={4.5} color={color.white} ls={-0.042} >partner</SubjectText>
                 </View>
                 <Flex w={[17.728, 68.75, 37.24]} wrap='wrap'>
                     <Partner />
                 </Flex>
-            </Flex>
+            </ThemeFlex>
 
         </ContentPage>
     </>)

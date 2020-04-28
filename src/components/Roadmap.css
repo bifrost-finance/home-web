@@ -1,0 +1,67 @@
+#root{
+    background-color: black;
+}
+.CircleView {
+    position: absolute;
+    top: -4.5px;
+    width: 0.5em;
+    height: 0.5em;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 999px;
+}
+.View {
+    position: absolute;
+    top: -8px;
+    width: 1em;
+    height: 1em;
+    background-color:#ED6661;
+    cursor: pointer;
+    border-radius: 999px;
+}
+.SubjectText {
+    background-color: black;
+    color: white;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1.5em;
+    font-family: "SF Pro Display";
+}
+.ClickSubjectText {
+    background-color: black;
+    color:#ED6661;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1.5em;
+    font-family: "SF Pro Display";
+}
+@media (prefers-color-scheme: light) {
+    #root{
+        background-color: white;
+    }
+    .CircleView {
+        position: absolute;
+        top: -4.5px;
+        width: 0.5em;
+        height: 0.5em;
+        background-color: #000;
+        cursor: pointer;
+        border-radius: "999px";
+    }
+    .SubjectText {
+        background-color: white;
+        color: black;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 1.5em;
+        font-family: "SF Pro Display";
+        }
+    .ClickSubjectText {
+        background-color: white;
+        color: #ED6661;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 1.5em;
+        font-family: "SF Pro Display";
+        }
+}

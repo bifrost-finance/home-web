@@ -1,8 +1,7 @@
 // 头部组件
-import React, { useEffect, useState, useMemo } from "react";
-import { Flex, ContentPage, color, OfficialWebsiteText, BgView, View, Hidden, SVG } from "./Styles"
+import React, { useState } from "react";
+import { Flex, ContentPage, color, SubjectText, MobileThemeMenu, View, Hidden, SVG, Text } from "./Styles"
 import { useTranslation } from "react-i18next";
-import styled from "styled-components";
 import { ReactComponent as Down } from "../images/down.svg";
 import { ReactComponent as Display } from "../images/display.svg";
 import { ReactComponent as IconClose } from "../images/IconClose.svg";
@@ -16,34 +15,63 @@ const Header = ({ screen }) => {
     }
     const NavigationItem = ({ Text }) => {
         return (
-            <View> <OfficialWebsiteText color={color.white} scale={1.125}>{t(`${Text}`)}</OfficialWebsiteText></View>
+            <View> <SubjectText bold scale={1.125}>{t(`${Text}`)}</SubjectText></View>
         )
     }
     const MobileNavigationItem = ({ Text, k }) => {
         return (
-            <BgView w={[20, 0, 42]} pl={[2.8, 0, 4.985]} h={3.5} aic>
-                <OfficialWebsiteText key={k} className='Item' color={color.white} bg={color.black} scale={1.25}
-                >{t(`${Text}`)}</OfficialWebsiteText></BgView>
+            <MobileThemeMenu
+                w={[22.223, 0, 41.482]}
+                pl={[2.8, 0, 4.985]}
+                h={[3.89, 0, 3.46]}
+                key={k}
+                scale={1.125}
+                paragraph={[3.89, 0, 3.46]}
+            >
+                {t(`${Text}`)}
+            </MobileThemeMenu>
         )
     }
     return (<>
-        {/* [17.3, 68.75, 36.345] */}
         <ContentPage w={[20, 80, 42]} >
-            <Flex column>
-                <Flex jcsb w={[20, 80, 42]} aic h={5.625} >
-                    <Flex jcsb w={[0, 28.75, 0]} aic
+            <Flex column >
+                <Flex
+                    jcsb
+                    aic
+                    w={[20, 80, 42]}
+                    h={5.625}
+                >
+                    <Flex
+                        jcsb
+                        aic
+                        w={[0, 28.75, 0]}
                         ml={[0.603, 5.625, 1.265]}
                         onClick={screen === 'laptop' ? null : () => { setDisplay(!display) }}
                     >
                         <Hidden desktop >
-                            <View mr={display ? [1.35, 0, 2.75] : [1.27841, 0, 2.6786]} ml={display ? [0.1, 0, 0.1] : null} >
+                            <View
+                                mr={display ? [1.35, 0, 2.75] : [1.27841, 0, 2.6786]}
+                                ml={display ? [0.1, 0, 0.1] : null}
+                            >
                                 {display ? <SVG svg={IconClose} height={0.62} />
                                     : <SVG svg={Display} height={0.4} />}
                             </View>
                         </Hidden>
-                        <OfficialWebsiteText color={color.white} scale={1.375} ls={-0.042}  >Bifrost</OfficialWebsiteText>
-                        <Hidden mobile tablet>
-                            <Flex w={20} jcsb aic>
+                        <SubjectText
+                            bold
+                            scale={1.375}
+                            ls={-0.042}
+                        >
+                            Bifrost
+                            </SubjectText>
+                        <Hidden
+                            mobile
+                            tablet
+                        >
+                            <Flex
+                                w={20}
+                                jcsb
+                                aic>
                                 <NavigationItem Text='关于' />
                                 <NavigationItem Text='Ever' />
                                 <NavigationItem Text='You Want' />
@@ -59,10 +87,17 @@ const Header = ({ screen }) => {
                         aic
                         mr={[2.952, 5.625, 4.39]}
                     >
-                        <OfficialWebsiteText color={color.white} scale={1.125} mr={0.5}>
+                        <SubjectText
+                            bold
+                            scale={1.125}
+                            mr={0.5}
+                        >
                             {i18n.language === "zh" ? "EN" : "中文"}
-                        </OfficialWebsiteText>
-                        <SVG svg={Down} height={0.8} />
+                        </SubjectText>
+                        <SVG
+                            svg={Down}
+                            height={0.8}
+                        />
                     </Flex>
                 </Flex>
 

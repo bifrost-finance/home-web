@@ -6,17 +6,20 @@ import { useTranslation } from "react-i18next";
 import Header from './components/Header'
 import Content from './components/Content'
 import Footer from './components/Footer'
-import OSnow  from './components/OSnow.js'
 const App = () => {
   // 当前屏幕尺寸
   const [screen, setScreen] = useState("")
   const [fontSize, setFontSize] = useState("")
+  const [theme, setTheme] = useState("dark")
   // 翻译文件
   const { t } = useTranslation()
   useEffect(() => {
     let css = window.getComputedStyle(document.getElementById('root')).fontSize;
     setFontSize(css)
-    OSnow()
+    if(window.matchMedia('(prefers-color-scheme: light)').matches){
+      setTheme('light')
+    }
+    // alert('浏览器',UserAgent())
   }, [])
   // 获取浏览器当前宽度
   useEffect(() => {
@@ -40,7 +43,7 @@ const App = () => {
   return (
     <>
       <Header screen={screen} />
-      <Content screen={screen} fontSize={fontSize} />
+      <Content screen={screen} fontSize={fontSize} theme={theme} />
       <Footer />
     </>
   )
