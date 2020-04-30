@@ -568,6 +568,23 @@ background-color:white;
  `}
 
 `;
+export const HiddenThemeView = styled(ThemeView)`
+overflow: hidden;
+position: relative;
+
+`;
+export const ColumnFlex= styled(Flex)`
+${mobile`
+flex-direction:column;
+ `}
+ ${desktop`
+
+`}
+${tablet`
+flex-direction:column;
+`}
+
+`;
 export const ThemeFlex = styled(Flex)`
 background-color: black;
 border-top: ${p => p.bt ? '1px solid rgba(255, 255, 255, 0.34)' : null};
@@ -575,6 +592,10 @@ ${light`
 background-color:white;
 border-top: ${p => p.bt ? '1px solid rgba(0, 0, 0, 0.34)' : null};
  `}
+`;
+export const AdaptiveWidth = styled(ThemeFlex)`
+position: relative ;
+display: inline-block;
 `;
 export const MobileThemeMenu = styled(Text)`
 font-style: normal;
@@ -644,6 +665,9 @@ border-radius:8px;
 export const ScrollView = styled(View)`
 overflow-y: auto;
 scrollbar-width: none
+`;
+export const AdaptiveFlex = styled(Flex)`
+ word-wrap: normal ;
 `;
 export const DetailText = styled(Text)`
 font-weight:500;

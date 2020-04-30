@@ -1,0 +1,20 @@
+//enter是入场前的刹那（点击按钮），appear指页面第一次加载前的一刹那（自动）
+//enter-active指入场后到入场结束的过程，appear-active则是页面第一次加载自动执行
+.hero-enter , .hero-appear {
+    opacity: 0;
+    transform: translate(0,50px);
+}
+.hero-enter-active , .hero-appear-active {
+    opacity: 1;
+    transition: all .8s ;
+    transform: translate(0,0) ;
+}
+.problem-enter , .problem-appear {
+    opacity: 0;
+    transform: translate(0,5px);
+}
+.problem-enter-active , .problem-appear-active {
+    opacity: 1;
+    transition: all .8s ;
+    transform: translate(0,0) ;
+}

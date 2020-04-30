@@ -1,18 +1,32 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Flex, ContentPage, color, Text, radius, Hidden, SubjectText, View, CircleView, ThemeView, ThemeFlex, ContactSubjectText, MobileSubjectText, MobileCircleView } from "./Styles"
+import {
+    Flex, ContentPage, color, Text, radius, Hidden, SubjectText, View, CircleView, ThemeView, HiddenThemeView,
+    ThemeFlex, ContactSubjectText, MobileSubjectText, MobileCircleView, AdaptiveFlex, AdaptiveWidth
+} from "./Styles"
 import { useTranslation } from "react-i18next";
-import './Roadmap.css'
+import { CSSTransition } from 'react-transition-group';
+import './BottomToTop.scss';
 const Roadmap = ({ screen, fontSize, theme }) => {
     const [isDrop, setIsDrop] = useState(false)
+    const [inProp, setInProp] = useState(false)
     const [mouseLeft, setMouseLeft] = useState(null)
     const [ElementLeft, setElementLeft] = useState(null)
     const [Variablewidth, setVariableWidth] = useState(null)
     const [ChangeFont, setChangeFont] = useState(null)
     const [ColorArray, setColorArray] = useState(Array.from({ length: 7 }, (v, k) => false))
     const { t, i18n } = useTranslation();
+    const [showButton, setShowButton] = useState(false);
+    const handleLoad = () => {
+        setInProp(true);
+    };
     useEffect(() => {
-        let element = document.getElementsByClassName('QuarterlyContribution')
-        let widthSum = parseFloat(element[0].style.width) * QuarterlyContribution.length
+        window.addEventListener('load', handleLoad);
+        return () => {
+            window.removeEventListener('load', handleLoad);
+        };
+    }, []);
+    useEffect(() => {
+        let widthSum = parseFloat(17.1875) * QuarterlyContribution.length
         switch (screen) {
             case '':
                 break;
@@ -116,15 +130,12 @@ const Roadmap = ({ screen, fontSize, theme }) => {
             QuarterlyContribution.map((i, index) => {
                 return (
                     <>
-                        <ThemeFlex
+                        <AdaptiveWidth
                             className='QuarterlyContribution'
                             column
                             key={i.id}
                             id={index}
-                            style={screen === 'mobile'
-                                ? { width: '8.558em', position: "relative", display: 'inline-block' }
-                                : screen === 'Tablet' ? { width: '17.932em', position: "relative", display: 'inline-block' }
-                                    : { width: '17.1875em', position: "relative", display: 'inline-block' }}
+                            w={[8.558, 17.1875, 17.932]}
                             onMouseDown={screen === 'laptop' ? ChangeColor : null}
                             onClickCapture={screen === 'laptop' ? null : MobileChangeColor}
                         >
@@ -158,66 +169,70 @@ const Roadmap = ({ screen, fontSize, theme }) => {
                                     </SubjectText>
                                 </View>
                             </Hidden>
-                            <Flex
+                            <AdaptiveFlex
                                 mt={1}
                                 column
-                                style={screen === 'mobile'
-                                    ? { width: '8.558em', wordWrap: 'normal', wordBreak: 'break-all' }
-                                    : screen === 'Tablet' ? { width: '17.932em', wordWrap: 'normal', wordBreak: 'break-all' }
-                                        : { width: '17.1875em', wordWrap: 'normal', wordBreak: 'break-all' }} >
+                                w={[8.558, 17.1875, 17.932]}
+                            >
                                 {i.Contribution.map((v, index) => {
                                     return (<ContactSubjectText scale={1.125} key={index}>{v}</ContactSubjectText>)
                                 })}
-                            </Flex>
-                        </ThemeFlex></>
+                            </AdaptiveFlex>
+                        </AdaptiveWidth></>
                 )
             })
         )
     }
     return (<>
         <ContentPage w={[20, 80, 42]} >
-            <Flex
-                column
-                mt={5}
-                w={[20, 80, 42]}   >
-                <View
-                    w={[17.728, 68.75, 37.24]}
-                    mx={[1.136, 5.625, 2.38]}
-                >
-                    <SubjectText
-                        scale={4.5}
-                        bold
-                        ls={-0.042}  >
-                        Roadmap
-                        </SubjectText>
-                </View>
-                <Hidden mobile tablet>
-                    <ThemeView
-                        mt={7}
-                        h={31.5}
-                        style={screen === 'mobile'
-                            ? { overflow: 'hidden', position: 'relative', width: '20em' }
-                            : screen === 'Tablet' ? { overflow: 'hidden', position: 'relative', width: '42em' }
-                                : { overflow: 'hidden', position: 'relative', width: '80em' }}
-                        onMouseLeave={screen === 'laptop' ? StopMoving : null}
+            <CSSTransition
+                in={inProp}
+                timeout={5000}
+                classNames='problem'
+                onEnter={() => setShowButton(true)}
+                onExited={() => setShowButton(false)}
+            >
+                <Flex
+                    column
+                    mt={5}
+                    w={[20, 80, 42]}   >
+                    <View
+                        w={[17.728, 68.75, 37.24]}
+                        mx={[1.136, 5.625, 2.38]}
                     >
-                        <ThemeFlex
-                            h={30.5}
-                            pl={[1.136, 5, 2.38]}
-                            mt={1}
-                            bt
-                            onMouseDown={screen === 'laptop' ? MousePosition : null}
-                            onMouseMove={screen === 'laptop' ? DragEvent : null}
-                            onMouseUp={screen === 'laptop' ? StopMoving : null}
-                            id='scroll'
-                            style={{ position: 'relative', whiteSpace: 'nowrap', display: 'inline-block' }}
+                        <SubjectText
+                            scale={4.5}
+                            bold
+                            ls={-0.042}  >
+                            {showButton && `Roadmap`}
+                        </SubjectText>
+                    </View>
+                    {showButton && (<Hidden mobile tablet>
+                        <HiddenThemeView
+                            mt={7}
+                            h={31.5}
+                            w={80}
+                            onMouseLeave={screen === 'laptop' ? StopMoving : null}
                         >
-                            <SlideContent />
-                        </ThemeFlex>
-                    </ThemeView>
-                </Hidden>
-                <MobileDevice />
-            </Flex>
+                            <ThemeFlex
+                                h={30.5}
+                                pl={[1.136, 5, 2.38]}
+                                mt={1}
+                                bt
+                                onMouseDown={screen === 'laptop' ? MousePosition : null}
+                                onMouseMove={screen === 'laptop' ? DragEvent : null}
+                                onMouseUp={screen === 'laptop' ? StopMoving : null}
+                                id='scroll'
+                                style={{ position: 'relative', whiteSpace: 'nowrap', display: 'inline-block' }}
+                            >
+                                <SlideContent />
+                            </ThemeFlex>
+                        </HiddenThemeView>
+                    </Hidden>)}
+
+                    {showButton && <MobileDevice />}
+                </Flex>
+            </CSSTransition>
         </ContentPage>
     </>)
 };

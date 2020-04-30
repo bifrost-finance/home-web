@@ -13,9 +13,10 @@ const Parner = ({ screen }) => {
         { name: 'iost', img: '' },
         { name: 'iost', img: '' }
     ]
+    let hidden = [1]
     const Partner = () => {
-        return (
-            arr.map((i, index) => {
+        return (<>
+            {arr.map((i, index) => {
                 return (
                     <Flex jcc aic
                         w={[17.728, 11, 37.24]}
@@ -23,11 +24,26 @@ const Parner = ({ screen }) => {
                         bg={color.gray}
                         r='8px'
                         key={index}
-                        mb={1, 4, 1}
-                        mr={[0, 4, 0]} ></Flex>
+                        mb={[1, 4, 1]}
+                        mr={[0, 2, 0]}
+                        ml={[0, 2, 0]}
+                    ></Flex>
                 )
-            })
-        )
+            })}
+            {hidden.map((v, index) => {
+                return (
+                    <Flex
+                        w={[17.728, 11, 37.24]}
+                        h={[8, 5, 8]}
+                        r='8px'
+                        key={index}
+                        mb={[1, 4, 1]}
+                        mr={[0, 2, 0]}
+                        ml={[0, 2, 0]}
+                    />
+                )
+            })}
+        </>)
     }
     return (<>
         <ContentPage w={[20.5, 80, 42]} >
@@ -36,12 +52,12 @@ const Parner = ({ screen }) => {
                 mb={[0.625, 0, 0.625]}
                 w={[17.728, 68.75, 37.24]}
                 mx={[1.136, 5.625, 2.38]}
-                column 
+                column
                 mt={5}  >
                 <View mb={[1.705, 8, 3.571]} >
                     <SubjectText scale={4.5} color={color.white} ls={-0.042} >partner</SubjectText>
                 </View>
-                <Flex w={[17.728, 68.75, 37.24]} wrap='wrap'>
+                <Flex jcsa w={[17.728, 68.75, 37.24]} wrap='wrap'>
                     <Partner />
                 </Flex>
             </ThemeFlex>
