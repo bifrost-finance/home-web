@@ -111,8 +111,8 @@ export default () => {
           i18n.language === "zh" ? alert('邮箱格式不正确') : alert('E-mail address is incorrect')
         }
         else {
-          i18n.language === "zh" ? alert('订阅失败，请联系 hello@bifrost.codes') :
-           alert('Subscription failed, please contact hello@bifrost.codes')
+          i18n.language === "zh" ? alert('订阅失败，请联系 hello@bifrost.finance') :
+           alert('Subscription failed, please contact hello@bifrost.finance')
         }
 
       })
@@ -134,9 +134,10 @@ export default () => {
               float: "right"
             }}
           >
-            {/*<TitleText text='开发者' ResponseEvent={() => { window.open("https://docs.bifrost.codes/developer") }} />*/}
-            <TitleText text='白皮书' ResponseEvent={() => { window.open("https://docs.bifrost.codes/whitepaper") }} />
-            <TitleText text='节点监控' ResponseEvent={() => { window.open("https://telemetry.polkadot.io/#/Bifrost%20Asgard%20CC1") }} />
+            {/*<TitleText text='开发者' ResponseEvent={() => { window.open("https://docs.bifrost.finance/developer") }} />*/}
+            <TitleText text='白皮书' ResponseEvent={() => { window.open("https://docs.bifrost.finance/whitepaper") }} />
+            <TitleText text='Asgard CC1' ResponseEvent={() => { window.open("https://telemetry.polkadot.io/#/Bifrost%20Asgard%20CC1") }} />
+            <TitleText text='Dashboard' ResponseEvent={() => { window.open("https://dashboard.bifrost.finance") }} />
             <Flex
               onClick={() => {
                 i18n.changeLanguage(i18n.language === "zh" ? "en" : "zh")
@@ -212,7 +213,7 @@ export default () => {
                     <View o={0.5}>v0.6.1</View>
                   </View>
 
-                  <a href="mailto:hello@bifrost.codes">
+                  <a href="mailto:hello@bifrost.finance">
                     <View
                       display={"inline-block"}
                       flex={"none"}
@@ -579,7 +580,7 @@ export default () => {
               {t("我们很高兴认识新的朋友")}
             </View>
             <View color={color.bifrostRed} paragraph>
-              hello@bifrost.codes
+              hello@bifrost.finance
             </View>
             <View display={"inline-block"} scale={1} py={0.5} mb={1.5}>
               <HoverStyle>
