@@ -586,7 +586,7 @@ export default () => {
               <HoverStyle>
                 <Flex gap={1.5}>
                   <a
-                    href="https://github.com/bifrost-codes"
+                    href="https://github.com/bifrost-finance"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
